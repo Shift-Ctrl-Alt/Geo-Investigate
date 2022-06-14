@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oymn.geoinvestigate.dao.mapper.LandDao">
+    <!--<insert id="addSubLandType">
+        insert into t_land_type(name_chs, name_en, parent_id, create_time, update_time) 
+        values(#{param2.nameChs}, #{param2.nameEn}, #{param1}, #{param2.createTime}, #{param2.updateTime})
+    </insert>-->
+    <insert id="addLandType">
+        insert into t_land_type(name_chs, name_en, parent_id, create_time, update_time)
+        values(#{nameChs}, #{nameEn}, #{parentId}, #{createTime}, #{updateTime})
+    </insert>
+    <insert id="addLandAttr" useGeneratedKeys="true" keyProperty="id">
+        insert into t_land_attribute(name_chs, name_en, unit, required, create_time, update_time)
+        values(#{nameChs}, #{nameEn}, #{unit}, #{required}, #{createTime}, #{updateTime})
+    </insert>
+    <insert id="addLandTypeAndAttr">
+        insert into t_land_type_attribute(land_type_id, land_attribute_id, create_time, update_time) 
+        VALUES (#{param1}, #{param2}, #{param3}, #{param4}) 
+    </insert>
+    <insert id="addLandAttrValues">
+        insert into t_land_attribute_value(type_attr_id, value_chs, value_en, create_time, update_time)
+        values 
+        <foreach collection="attributeValues" item="attrValue" separator=",">
+            (#{typeAttrId}, #{attrValue.valueChs},#{attrValue.valueEn}, NOW(), NOW())
+        </foreach>
+    </insert>
+
+    <select id="getSubLandTypeById" resultType="com.oymn.geoinvestigate.dao.pojo.LandType">
+        SELECT id, name_chs nameChs, name_en nameEn, parent_id parentId, create_time createTime, update_time updateTime
+        FROM t_land_type
+        WHERE parent_id = #{id}
+    </select>
+    
+    <select id="getFirstLandType" resultType="com.oymn.geoinvestigate.dao.pojo.LandType">
+        SELECT id, name_chs nameChs, name_en nameEn, parent_id parentId, create_time createTime, update_time updateTime
+        FROM t_land_type
+        WHERE parent_id IS NULL
+    </select>
+    
+    <select id="getAttrByLandTypeId" resultType="com.oymn.geoinvestigate.dao.pojo.LandAttribute">
+        SELECT attr.id, attr.name_chs nameChs, attr.name_en nameEn, attr.unit, attr.required, attr.create_time createtime, attr.update_time updateTime 
+        FROM t_land_type type JOIN t_land_attribute attr JOIN t_land_type_attribute type_attr
+        ON type.id = type_attr.land_type_id AND attr.id = type_attr.land_attribute_id
+        WHERE type.id = #{landTypeId}
+    </select>
+    <select id="getAttributeValue" resultType="com.oymn.geoinvestigate.dao.pojo.LandAttributeValue">
+        select attr_value.id, type_attr.land_type_id landTypeId, type_attr.land_attribute_id landAttributeId, attr_value.value_chs valueChs, attr_value.value_en valueEn
+        from t_land_type_attribute type_attr join t_land_attribute_value  attr_value
+        on type_attr.id = attr_value.type_attr_id
+        where type_attr.land_type_id = #{param1} and type_attr.land_attribute_id = #{param2}
+    </select>
+    <select id="getLandTypeById" resultType="com.oymn.geoinvestigate.dao.pojo.LandType">
+        SELECT id, name_chs nameChs, name_en nameEn, parent_id parentId, create_time createTime, update_time updateTime
+        FROM t_land_type
+        where id = #{landTypeId}
+    </select>
+    <select id="getLandTypeByName" resultType="com.oymn.geoinvestigate.dao.pojo.LandType">
+        SELECT id, name_chs nameChs, name_en nameEn, parent_id parentId, create_time createTime, update_time updateTime
+        FROM t_land_type
+        where name_chs = #{param1} and name_en = #{param2}
+    </select>
+    <select id="getAttrByNameAndLandType" resultType="com.oymn.geoinvestigate.dao.pojo.LandAttribute">
+        SELECT attr.id, attr.name_chs nameChs, attr.name_en nameEn, attr.unit, attr.required, attr.create_time createtime, attr.update_time updateTime
+        FROM t_land_type type JOIN t_land_attribute attr JOIN t_land_type_attribute type_attr
+        ON type.id = type_attr.land_type_id AND attr.id = type_attr.land_attribute_id
+        WHERE type.id = #{param1} and attr.name_chs = #{param2} and attr.name_en = #{param3}
+    </select>
+    <select id="getAttrByName" resultType="com.oymn.geoinvestigate.dao.pojo.LandAttribute">
+        select id, name_chs nameChs, name_en nameEn, unit, required, create_time createtime, update_time updateTime
+        from t_land_attribute
+        where name_chs = #{param1} and name_en = #{param2}
+    </select>
+    <select id="getTypeAndAttrId" resultType="java.lang.Integer">
+        select id from t_land_type_attribute
+        where land_type_id = #{param1} and land_attribute_id = #{param2}
+    </select>
+
+
+</mapper>
