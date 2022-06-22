@@ -7,9 +7,7 @@ import com.oymn.geoinvestigate.vo.LandAttributeValueVo;
 import com.oymn.geoinvestigate.vo.LandAttributeVo;
 import com.oymn.geoinvestigate.vo.LandTypeVo;
 import com.oymn.geoinvestigate.vo.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -35,13 +33,14 @@ public class LandController {
     }
 
     /**
-     * 获取土地属性
+     * 获取土地属性及属性值
      * @param landTypeId
      * @return
      */
     @ApiOperation("获取土地属性及属性值")
     @GetMapping("land-attribute")
-    public Result<List<LandAttributeValueVo>> getLandAttribute(@ApiParam("二级土地类型的id") Long landTypeId){
+    @ApiImplicitParams(@ApiImplicitParam(name = "landTypeId", value = "二级土地类型id",dataType = "Long", required = true))
+    public Result<List<LandAttributeValueVo>> getLandAttribute(Long landTypeId){
         List<LandAttributeValueVo> landAttributeList = landService.getLandAttribute(landTypeId);
         return Result.success(landAttributeList);
     }
