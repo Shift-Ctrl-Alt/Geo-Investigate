@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @Api("登录注册的接口")
-@RestController
+//@RestController
 @RequestMapping("/user")
 public class LoginController {
     

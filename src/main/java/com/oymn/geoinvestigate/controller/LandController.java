@@ -25,7 +25,7 @@ public class LandController {
      */
     @ApiOperation("获取土地类型")
     @GetMapping("land-type")
-    @PreAuthorize("@ex.hasAuthority('land:list')")
+    //@PreAuthorize("@ex.hasAuthority('land:list')")
     public Result<List<LandTypeVo>> getLandType(){
         List<LandTypeVo> landTypeList = landService.getLandType();
         return Result.success(landTypeList);

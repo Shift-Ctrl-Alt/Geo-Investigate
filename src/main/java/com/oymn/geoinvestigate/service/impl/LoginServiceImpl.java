@@ -23,7 +23,7 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 import java.util.Objects;
 
-@Service
+//@Service
 public class LoginServiceImpl implements LoginService {
     
     //用于对用户的认证
