@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.oymn.geoinvestigate.dao.mapper.RecordDao">
+
+    <insert id="addRecord">
+        insert into t_record(userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time) 
+        values (#{userId}, #{landMsg}, #{disasterMsg}, #{position}, #{startTime}, #{endTime}, #{latitude}, #{longitude}, #{note}, #{imgUrl}, #{createTime}, #{updateTime})
+    </insert>
+    <select id="getRecordCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(1)
+        from t_record
+        where userId = #{userId}
+        limit #{start}, #{size}
+    </select>
+    <select id="getRecords" parameterType="java.util.Map" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
+        select id, userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time
+        from t_record
+        where userId = #{userId}
+        limit #{start}, #{size}
+    </select>
+
+</mapper>

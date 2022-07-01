@@ -1,12 +1,11 @@
 package com.oymn.geoinvestigate.service.impl;
 
-import com.oymn.geoinvestigate.constant.StatusCode;
+import com.oymn.geoinvestigate.common.StatusCode;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.mapper.DisasterDao;
 import com.oymn.geoinvestigate.dao.pojo.DisasterAttribute;
 import com.oymn.geoinvestigate.dao.pojo.DisasterAttributeValue;
 import com.oymn.geoinvestigate.dao.pojo.DisasterType;
-import com.oymn.geoinvestigate.dao.pojo.LandAttribute;
 import com.oymn.geoinvestigate.service.DisasterService;
 import com.oymn.geoinvestigate.vo.DisasterAttributeValueVo;
 import com.oymn.geoinvestigate.vo.DisasterAttributeVo;
@@ -16,11 +15,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TreeSet;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toCollection;
 
 @Service
 public class DisasterServiceImpl implements DisasterService {

@@ -1,15 +1,12 @@
 package com.oymn.geoinvestigate.controller;
 
-import com.oymn.geoinvestigate.dao.auth.RoleLimitedAnnotation;
 import com.oymn.geoinvestigate.dao.pojo.DisasterAttributeValue;
 import com.oymn.geoinvestigate.dao.pojo.DisasterType;
 import com.oymn.geoinvestigate.service.DisasterService;
 import com.oymn.geoinvestigate.vo.DisasterAttributeValueVo;
 import com.oymn.geoinvestigate.vo.DisasterAttributeVo;
 import com.oymn.geoinvestigate.vo.Result;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -45,7 +42,10 @@ public class DisasterController {
      */
     @ApiOperation("获取灾害的属性及属性值")
     @GetMapping("disaster-attribute")
-    public Result<List<DisasterAttributeValueVo>> getDisasterAttribute(@ApiParam("灾害的id") Long disasterTypeId){
+    @ApiImplicitParams(
+            @ApiImplicitParam(name = "disasterTypeId", value = "灾害类型id",dataType = "Long", required = true)
+    )
+    public Result<List<DisasterAttributeValueVo>> getDisasterAttribute(Long disasterTypeId){
         List<DisasterAttributeValueVo> disasterAttrValueList = disasterService.getDisasterAttribute(disasterTypeId);
         return Result.success(disasterAttrValueList);
     }

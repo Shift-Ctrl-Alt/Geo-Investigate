@@ -6,6 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 
 public interface FileService {
 
-    void uploadFile(MultipartFile uploadImg, HttpServletRequest request);
+    String uploadFile(MultipartFile uploadFile, HttpServletRequest request);
     
 }

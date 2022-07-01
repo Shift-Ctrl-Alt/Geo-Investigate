@@ -12,13 +12,15 @@ public class Record {
     
     private String disasterMsg;
     
+    private String position;
+    
     private Date startTime;
     
     private Date endTime;
     
-    private String latitude;
+    private Double latitude;
     
-    private String longitude;
+    private Double longitude;
     
     private String note;
     
@@ -60,6 +62,14 @@ public class Record {
         this.disasterMsg = disasterMsg;
     }
 
+    public String getPosition() {
+        return position;
+    }
+
+    public void setPosition(String position) {
+        this.position = position;
+    }
+
     public Date getStartTime() {
         return startTime;
     }
@@ -76,19 +86,19 @@ public class Record {
         this.endTime = endTime;
     }
 
-    public String getLatitude() {
+    public Double getLatitude() {
         return latitude;
     }
 
-    public void setLatitude(String latitude) {
+    public void setLatitude(Double latitude) {
         this.latitude = latitude;
     }
 
-    public String getLongitude() {
+    public Double getLongitude() {
         return longitude;
     }
 
-    public void setLongitude(String longitude) {
+    public void setLongitude(Double longitude) {
         this.longitude = longitude;
     }
 
@@ -123,4 +133,5 @@ public class Record {
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
     }
+    
 }

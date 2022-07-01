@@ -5,24 +5,26 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.oymn.geoinvestigate.constant.StatusCode;
+import com.oymn.geoinvestigate.common.StatusCode;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
-import jdk.net.SocketFlow;
 
 
 import java.util.Calendar;
 import java.util.Date;
 
+/**
+ * token工具类
+ */
 public class TokenUtil {
     
-    private final static String ISSUER = "签发者";
+    private final static String ISSUER = "qianfazhe";
 
     public static String generateToken(Long userId) throws Exception {
         Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
         
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(new Date());
-        calendar.add(Calendar.HOUR, 1);
+        calendar.add(Calendar.MONTH, 1);   //过期时间：1个月
         
         return JWT.create()
                 .withKeyId(String.valueOf(userId))   //存放用户id

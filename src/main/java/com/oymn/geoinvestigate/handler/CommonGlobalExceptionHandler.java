@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 
+/**
+ * 统一异常处理
+ */
 @ControllerAdvice
 @Order(Ordered.HIGHEST_PRECEDENCE)   //优先级是最高的
 @Slf4j

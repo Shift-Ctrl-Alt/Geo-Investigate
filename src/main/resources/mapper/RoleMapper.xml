@@ -2,5 +2,26 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.RoleDao">
+    <insert id="setUserRole">
+        insert into t_user_role(user_id, role_id) 
+        VALUES (#{param1}, #{param2})
+    </insert>
 
+    <select id="getPermissionByUserId" resultType="java.lang.String">
+        select distinct tp.name
+        from t_user tu join t_user_role tur join t_role tr join t_permission tp join t_role_permission trp
+        on tu.id = tur.user_id and tur.role_id = tr.id and tr.id = trp.role_id and tp.id = trp.permission_id
+        where tu.id = #{userId}
+    </select>
+    
+    <select id="getPermissionByPath" resultType="org.springframework.security.access.ConfigAttribute">
+        select name
+        from t_permission
+        where url = #{url}
+    </select>
+    <select id="getRoleByName" resultType="com.oymn.geoinvestigate.dao.pojo.Role">
+        select id, name, description, create_time, update_time
+        from t_role
+        where name = #{roleName}
+    </select>
 </mapper>

@@ -1,6 +1,6 @@
 package com.oymn.geoinvestigate.vo;
 
-import com.oymn.geoinvestigate.constant.StatusCode;
+import com.oymn.geoinvestigate.common.StatusCode;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 

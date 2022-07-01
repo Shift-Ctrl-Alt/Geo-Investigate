@@ -1,6 +1,6 @@
 package com.oymn.geoinvestigate.service.impl;
 
-import com.oymn.geoinvestigate.constant.StatusCode;
+import com.oymn.geoinvestigate.common.StatusCode;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.mapper.LandDao;
 import com.oymn.geoinvestigate.dao.pojo.LandAttribute;
@@ -16,11 +16,8 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.TreeSet;
 
 import static java.util.Comparator.comparing;
-import static java.util.stream.Collectors.collectingAndThen;
-import static java.util.stream.Collectors.toCollection;
 
 @Service
 public class LandServiceImpl implements LandService {
