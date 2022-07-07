@@ -12,6 +12,9 @@ public class LandAttribute {
 
     @ApiModelProperty("主键id")
     private Long id;
+    
+    @ApiModelProperty("土地类型id")
+    private Long landTypeId;
 
     @ApiModelProperty("中文名称")
     private String nameChs;
@@ -34,7 +37,9 @@ public class LandAttribute {
     public LandAttribute() {
     }
 
-    public LandAttribute(String nameChs, String nameEn, String unit, Integer required, Date createTime, Date updateTime) {
+    public LandAttribute(Long id, Long landTypeId, String nameChs, String nameEn, String unit, Integer required, Date createTime, Date updateTime) {
+        this.id = id;
+        this.landTypeId = landTypeId;
         this.nameChs = nameChs;
         this.nameEn = nameEn;
         this.unit = unit;
@@ -49,6 +54,14 @@ public class LandAttribute {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getLandTypeId() {
+        return landTypeId;
+    }
+
+    public void setLandTypeId(Long landTypeId) {
+        this.landTypeId = landTypeId;
     }
 
     public String getNameChs() {

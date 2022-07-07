@@ -7,8 +7,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.List;
 
+
 @Component("ex")
-public class SGExpressionRoot {
+public class AuthorityExpressionRoot {
 
     public boolean hasAuthority(String authority){
         //获取当前用户的权限

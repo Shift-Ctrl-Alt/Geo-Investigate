@@ -17,6 +17,7 @@ import java.util.Iterator;
 
 /**
  * 判断用户是否有访问该路径的权限
+ * 该类暂时不需要使用
  */
 //@Component
 public class PathAccessDecisionManager implements AccessDecisionManager {

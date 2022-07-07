@@ -8,9 +8,10 @@ import com.oymn.geoinvestigate.dao.pojo.DisasterAttributeValue;
 import com.oymn.geoinvestigate.dao.pojo.DisasterType;
 import com.oymn.geoinvestigate.service.DisasterService;
 import com.oymn.geoinvestigate.vo.DisasterAttributeValueVo;
-import com.oymn.geoinvestigate.vo.DisasterAttributeVo;
+import jdk.net.SocketFlow;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -51,7 +52,7 @@ public class DisasterServiceImpl implements DisasterService {
         List<DisasterAttributeValueVo> disasterAttrValueVoList = new ArrayList<>();
         for (DisasterAttribute disasterAttribute : disasterAttributeList) {
             DisasterAttributeValueVo disasterAttrValueVo = new DisasterAttributeValueVo(disasterTypeId, disasterAttribute.getId(), disasterAttribute.getNameChs(), disasterAttribute.getNameEn(), disasterAttribute.getUnit(), disasterAttribute.getRequired());
-            List<DisasterAttributeValue> attributeValueList = disasterDao.getAttributeValue(disasterTypeId, disasterAttribute.getId());
+            List<DisasterAttributeValue> attributeValueList = disasterDao.getAttributeValue(disasterAttribute.getId());
             disasterAttrValueVo.setAttrValues(attributeValueList);
             disasterAttrValueVoList.add(disasterAttrValueVo);
         }
@@ -60,7 +61,7 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public void addDisasterType(DisasterType disasterType) {
+    public Integer addDisasterType(DisasterType disasterType) {
         DisasterType dbDisasterType = disasterDao.getDisasterTypeByName(disasterType.getNameChs(), disasterType.getNameEn());
         if (dbDisasterType != null) {
             throw new ConditionException("该灾害类型已存在");
@@ -68,40 +69,30 @@ public class DisasterServiceImpl implements DisasterService {
 
         disasterType.setCreateTime(new Date());
         disasterType.setUpdateTime(new Date());
-        disasterDao.addDisasterType(disasterType);
+        return disasterDao.addDisasterType(disasterType);
     }
 
     @Override
-    public void addDisasterAttr(DisasterAttributeVo disasterAttrVo) {
-        Long disasterTypeId = disasterAttrVo.getDisasterTypeId();
-        String nameChs = disasterAttrVo.getNameChs();
-        String nameEn = disasterAttrVo.getNameEn();
+    public Long addDisasterAttr(DisasterAttribute disasterAttr) {
+        Long disasterTypeId = disasterAttr.getDisasterTypeId();
+        String nameChs = disasterAttr.getNameChs();
+        String nameEn = disasterAttr.getNameEn();
 
         DisasterType dbDisasterType = disasterDao.getDisasterTypeById(disasterTypeId);
         if (dbDisasterType == null) {
             throw new ConditionException("灾害类型不存在");
         }
 
-        //判断灾害类型-属性表中是否存在该属性
+        //判断该类型是否已经存在该属性
         DisasterAttribute dbDisasterAttr = disasterDao.getAttrByNameAndTypeId(disasterTypeId, nameChs, nameEn);
         if (dbDisasterAttr != null) {
             throw new ConditionException("该属性已存在");
         }
-
-        //判断属性表中是否存在该属性
-        dbDisasterAttr = disasterDao.getAttrByName(nameChs, nameEn);
-        Long disasterAttrId;
-        if (dbDisasterAttr != null) {
-            disasterAttrId = dbDisasterAttr.getId();
-        } else {
-            disasterAttrVo.setCreateTime(new Date());
-            disasterAttrVo.setUpdateTime(new Date());
-            disasterDao.addDisasterAttr(disasterAttrVo);
-            disasterAttrId = disasterAttrVo.getId();
-        }
-
-        //添加灾害类型和属性的关联
-        disasterDao.addDisasterTypeAndAttr(disasterTypeId, disasterAttrId, disasterAttrVo.getCreateTime(), disasterAttrVo.getUpdateTime());
+        
+        disasterAttr.setCreateTime(new Date());
+        disasterAttr.setUpdateTime(new Date());
+        disasterDao.addDisasterAttr(disasterAttr);
+        return disasterAttr.getId();
     }
 
     @Override
@@ -115,11 +106,74 @@ public class DisasterServiceImpl implements DisasterService {
         }
         
         //判断该灾害是否拥有这个属性
-        Integer typeAttrId = disasterDao.getTypeAndAttrId(disasterTypeId, disasterAttrId);
-        if(typeAttrId == null){
+        DisasterAttribute disasterAttribute = disasterDao.getAttrById(disasterAttrId);
+        if(disasterAttribute == null){
             throw new ConditionException("该灾害属性不存在");
         }
+
+        List<DisasterAttributeValue> attributeValues = disasterAttrValue.getAttrValues();
+        disasterDao.addDisasterAttrValue(attributeValues);
+    }
+
+    @Override
+    public void updateDisasterType(DisasterType disasterType) {
+        if (disasterType == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
         
-        disasterDao.addDisasterAttrValue(typeAttrId, disasterAttrValue.getAttrValues());
+        disasterType.setUpdateTime(new Date());
+        disasterDao.updateDisasterType(disasterType);
+    }
+
+    @Override
+    public void updateDisasterAttribute(DisasterAttribute disasterAttribute) {
+        if (disasterAttribute == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }        
+        
+        disasterAttribute.setUpdateTime(new Date());
+        disasterDao.updateDisasterAttribute(disasterAttribute);
+    }
+
+    @Override
+    public void updateDisasterAttrValue(DisasterAttributeValue disasterAttributeValue) {
+
+        if (disasterAttributeValue == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        disasterAttributeValue.setUpdateTime(new Date());
+        disasterDao.updateDisasterAttrValue(disasterAttributeValue);
+    }
+
+    @Override
+    public void deleteDisasterType(Long disasterTypeId) {
+        if(disasterTypeId == null){
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        disasterDao.deleteDisasterType(disasterTypeId);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteDisasterAttribute(Long disasterAttributeId) {
+        if(disasterAttributeId == null){
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        //先删除属性
+        disasterDao.deleteDisasterAttribute(disasterAttributeId);
+        
+        //再删除该属性的属性值
+        disasterDao.deleteAttrValueByAttrId(disasterAttributeId);
+    }
+
+    @Override
+    public void deleteDisasterAttrValue(Long disasterAttrValueId) {
+        if(disasterAttrValueId == null){
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        disasterDao.deleteAttrValueByValueId(disasterAttrValueId);
     }
 }

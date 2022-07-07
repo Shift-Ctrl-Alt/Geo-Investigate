@@ -4,14 +4,13 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 
+import java.util.Date;
+
 @ApiModel("灾害属性值类 DisasterAttributeValue")
 public class DisasterAttributeValue {
     
     @ApiModelProperty("主键id")
     private Long id;
-    
-    @ApiModelProperty("灾害类型的id")
-    private Long disasterId;
     
     @ApiModelProperty("灾害属性的id")
     private Long disasterAttributeId;
@@ -22,20 +21,18 @@ public class DisasterAttributeValue {
     @ApiModelProperty("英文名称")
     private String valueEn;
 
+    @ApiModelProperty("创建时间")
+    private Date createTime;
+
+    @ApiModelProperty("更新时间")
+    private Date updateTime;
+
     public Long getId() {
         return id;
     }
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getDisasterId() {
-        return disasterId;
-    }
-
-    public void setDisasterId(Long disasterId) {
-        this.disasterId = disasterId;
     }
 
     public Long getDisasterAttributeId() {
@@ -60,5 +57,21 @@ public class DisasterAttributeValue {
 
     public void setValueEn(String valueEn) {
         this.valueEn = valueEn;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
     }
 }

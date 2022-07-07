@@ -7,7 +7,7 @@ import io.swagger.annotations.ApiModelProperty;
 import java.util.Date;
 import java.util.List;
 
-@ApiModel("对土地的属性的值进行封装 LandAttributeValueVo，用于和前端交互")
+@ApiModel("对土地的属性值进行封装 LandAttributeValueVo，用于和前端交互")
 public class LandAttributeValueVo {
 
     @ApiModelProperty("土地类型的id")

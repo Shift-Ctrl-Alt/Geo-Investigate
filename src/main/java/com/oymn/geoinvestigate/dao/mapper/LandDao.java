@@ -3,8 +3,6 @@ package com.oymn.geoinvestigate.dao.mapper;
 import com.oymn.geoinvestigate.dao.pojo.LandAttribute;
 import com.oymn.geoinvestigate.dao.pojo.LandAttributeValue;
 import com.oymn.geoinvestigate.dao.pojo.LandType;
-import com.oymn.geoinvestigate.vo.LandAttributeVo;
-import com.oymn.geoinvestigate.vo.LandTypeVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -20,25 +18,38 @@ public interface LandDao {
     
     List<LandAttribute> getAttrByLandTypeId(Long landTypeId);
 
-    List<LandAttributeValue> getAttributeValue(Long landTypeId, Long attributeId);
+    List<LandAttributeValue> getAttributeValue(Long attributeId);
 
-    void addLandType(LandType landType);
+    Long addLandType(LandType landType);
 
     LandType getLandTypeById(Long landTypeId);
 
     LandType getLandTypeByName(String nameChs, String nameEn);
 
-    LandAttribute getAttrByNameAndLandType(Long landTypeId, String nameChs, String nameEn);
+    LandAttribute getAttrByNameAndLandType(@Param("landTypeId") Long landTypeId, @Param("nameChs") String nameChs, @Param("nameEn") String nameEn);
 
     LandAttribute getAttrByName(String nameChs, String nameEn);
 
-    void addLandAttr(LandAttributeVo landAttribute);
+    Long addLandAttr(LandAttribute landAttribute);
 
-    void addLandTypeAndAttr(Long landTypeId, Long landAttrId, Date createTime, Date updateTime);
+    void addLandAttrValues(@Param("attributeValues") List<LandAttributeValue> attributeValues);
 
-    //获取土地类型和属性之间的关联id
-    Integer getTypeAndAttrId(Long landTypeId, Long landAttrId);
+    void updateLandType(LandType landType);
 
-    void addLandAttrValues(@Param("typeAttrId") Integer typeAttrId, @Param("attributeValues") List<LandAttributeValue> attributeValues);
+    void deleteLandType(Integer landTypeId);
+
+    void deleteLandTypeByParentId(Integer landTypeId);
+    
+    void updateLandAttr(LandAttribute landAttribute);
+
+    LandAttribute getAttrByAttrId(Long landAttrId);
+
+    void updateLandAttrValue(LandAttributeValue landAttributeValue);
+
+    void deleteLandAttribute(Long landAttrId);
+
+    void deleteLandAttrValue(Long landAttrValueId);
+
+    void deleteLandAttrValueByAttrId(Long landAttrId);
     
 }

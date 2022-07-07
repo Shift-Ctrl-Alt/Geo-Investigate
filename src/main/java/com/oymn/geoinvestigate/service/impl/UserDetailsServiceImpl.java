@@ -1,5 +1,6 @@
 package com.oymn.geoinvestigate.service.impl;
 
+import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.pojo.LoginUser;
 import com.oymn.geoinvestigate.dao.pojo.User;
 import com.oymn.geoinvestigate.service.RoleService;
@@ -34,8 +35,8 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         User user = userService.getUserByName(username);
         
         //如果没有查询到用户就抛出异常
-        if(Objects.isNull(user)){
-            throw new RuntimeException("用户名或者密码错误");
+        if(user == null){
+            throw new ConditionException("用户名或者密码错误");
         }
 
         //查询该用户拥有的所有权限

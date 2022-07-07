@@ -11,28 +11,11 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 14/06/2022 22:31:37
+ Date: 07/07/2022 17:01:52
 */
 
 SET NAMES utf8mb4;
 SET FOREIGN_KEY_CHECKS = 0;
-
--- ----------------------------
--- Table structure for t_authority
--- ----------------------------
-DROP TABLE IF EXISTS `t_authority`;
-CREATE TABLE `t_authority`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `code` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `create_time` datetime NULL DEFAULT NULL,
-  `update_time` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_authority
--- ----------------------------
 
 -- ----------------------------
 -- Table structure for t_disaster_attribute
@@ -40,6 +23,7 @@ CREATE TABLE `t_authority`  (
 DROP TABLE IF EXISTS `t_disaster_attribute`;
 CREATE TABLE `t_disaster_attribute`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `disaster_type_id` bigint(20) NULL DEFAULT NULL,
   `name_chs` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `name_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `unit` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
@@ -47,16 +31,21 @@ CREATE TABLE `t_disaster_attribute`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_disaster_attribute
 -- ----------------------------
-INSERT INTO `t_disaster_attribute` VALUES (1, '灾害发生地点', 'Disaster Place', '无', 1, NULL, NULL);
-INSERT INTO `t_disaster_attribute` VALUES (2, '农场面积', 'farm size', '无', 1, NULL, NULL);
-INSERT INTO `t_disaster_attribute` VALUES (3, '灾害发生面积', 'Disaster area', '无', 1, NULL, NULL);
-INSERT INTO `t_disaster_attribute` VALUES (4, '正常产量', 'normal volume', '无', 1, NULL, NULL);
-INSERT INTO `t_disaster_attribute` VALUES (8, '灾后产量', 'post-disaster', '无', 1, '2022-06-13 22:46:59', '2022-06-13 22:47:00');
+INSERT INTO `t_disaster_attribute` VALUES (1, 1, '灾害发生地点', 'Disaster Place', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (2, 1, '农场面积', 'farm size', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (3, 1, '灾害发生面积', 'Disaster area', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (4, 1, '正常产量', 'normal volume', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (8, 1, '灾后产量', 'post-disaster', '无', 1, '2022-06-13 22:46:59', '2022-06-13 22:47:00');
+INSERT INTO `t_disaster_attribute` VALUES (9, 2, '灾害发生地点', 'Disaster Place', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (10, 2, '农场面积', 'farm size', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (11, 2, '灾害发生面积', 'Disaster area', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (12, 2, '正常产量', 'normal volume', '无', 1, NULL, NULL);
+INSERT INTO `t_disaster_attribute` VALUES (13, 2, '灾后产量', 'post-disaster', '无', 1, '2022-06-13 22:46:59', '2022-06-13 22:47:00');
 
 -- ----------------------------
 -- Table structure for t_disaster_attribute_value
@@ -64,22 +53,21 @@ INSERT INTO `t_disaster_attribute` VALUES (8, '灾后产量', 'post-disaster', '
 DROP TABLE IF EXISTS `t_disaster_attribute_value`;
 CREATE TABLE `t_disaster_attribute_value`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `type_attr_id` bigint(20) NOT NULL,
+  `disaster_attr_id` bigint(20) NOT NULL,
   `value_chs` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `value_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_disaster_attribute_value
 -- ----------------------------
-INSERT INTO `t_disaster_attribute_value` VALUES (1, 8, '广东省', 'Guangdong Province', NULL, NULL);
-INSERT INTO `t_disaster_attribute_value` VALUES (2, 9, '100', '100', NULL, NULL);
-INSERT INTO `t_disaster_attribute_value` VALUES (3, 10, '40', '40', NULL, NULL);
-INSERT INTO `t_disaster_attribute_value` VALUES (4, 8, '山东省', 'Shandong Province', NULL, NULL);
-INSERT INTO `t_disaster_attribute_value` VALUES (5, 8, '福建省', 'FuJian Province', '2022-06-14 20:33:50', '2022-06-14 20:33:50');
+INSERT INTO `t_disaster_attribute_value` VALUES (6, 1, '广东深圳', 'shenzhen', NULL, NULL);
+INSERT INTO `t_disaster_attribute_value` VALUES (7, 2, '1000', '1000', NULL, NULL);
+INSERT INTO `t_disaster_attribute_value` VALUES (8, 4, '500', '500', NULL, NULL);
+INSERT INTO `t_disaster_attribute_value` VALUES (9, 8, '200', '200', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_disaster_type
@@ -92,7 +80,7 @@ CREATE TABLE `t_disaster_type`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_disaster_type
@@ -102,35 +90,15 @@ INSERT INTO `t_disaster_type` VALUES (2, '虫害', 'pestis', NULL, NULL);
 INSERT INTO `t_disaster_type` VALUES (3, '洪涝', 'flood', '2022-06-13 18:46:32', '2022-06-13 18:46:32');
 
 -- ----------------------------
--- Table structure for t_disaster_type_attribute
--- ----------------------------
-DROP TABLE IF EXISTS `t_disaster_type_attribute`;
-CREATE TABLE `t_disaster_type_attribute`  (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `disaster_id` bigint(20) NOT NULL,
-  `disaster_attribute_id` bigint(20) NOT NULL,
-  `create_time` datetime NULL DEFAULT NULL,
-  `update_time` datetime NULL DEFAULT NULL,
-  PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
-
--- ----------------------------
--- Records of t_disaster_type_attribute
--- ----------------------------
-INSERT INTO `t_disaster_type_attribute` VALUES (8, 1, 1, NULL, NULL);
-INSERT INTO `t_disaster_type_attribute` VALUES (9, 1, 2, NULL, NULL);
-INSERT INTO `t_disaster_type_attribute` VALUES (10, 1, 3, NULL, NULL);
-INSERT INTO `t_disaster_type_attribute` VALUES (12, 1, 8, '2022-06-13 22:46:59', '2022-06-13 22:47:00');
-
--- ----------------------------
 -- Table structure for t_land_attribute
 -- ----------------------------
 DROP TABLE IF EXISTS `t_land_attribute`;
 CREATE TABLE `t_land_attribute`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `land_type_id` bigint(20) NOT NULL,
   `name_chs` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `name_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `unit` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `unit` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `required` int(11) NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
@@ -140,10 +108,14 @@ CREATE TABLE `t_land_attribute`  (
 -- ----------------------------
 -- Records of t_land_attribute
 -- ----------------------------
-INSERT INTO `t_land_attribute` VALUES (1, '森林起源类型', 'origin of forest', '无', 0, NULL, NULL);
-INSERT INTO `t_land_attribute` VALUES (2, '森林用途', 'Forest use', '无', 1, NULL, NULL);
-INSERT INTO `t_land_attribute` VALUES (4, '植被高度', 'vegetation height', '无', 1, '2022-06-13 22:12:48', '2022-06-13 22:12:49');
-INSERT INTO `t_land_attribute` VALUES (5, '覆盖度', 'degree of coverage', '无', 1, '2022-06-13 22:22:05', '2022-06-13 22:22:05');
+INSERT INTO `t_land_attribute` VALUES (1, 2, '森林起源类型', 'origin of forest', '无', 0, NULL, NULL);
+INSERT INTO `t_land_attribute` VALUES (2, 2, '森林用途', 'Forest use', '无', 1, NULL, NULL);
+INSERT INTO `t_land_attribute` VALUES (4, 2, '植被高度', 'vegetation height', '无', 1, '2022-06-13 22:12:48', '2022-06-13 22:12:49');
+INSERT INTO `t_land_attribute` VALUES (5, 3, '覆盖度', 'degree of coverage', '无', 1, '2022-06-13 22:22:05', '2022-06-13 22:22:05');
+INSERT INTO `t_land_attribute` VALUES (6, 3, '植被层次性', NULL, '无', 1, NULL, NULL);
+INSERT INTO `t_land_attribute` VALUES (7, 3, '森林起源类型', 'origin of forest', '无', 0, NULL, NULL);
+INSERT INTO `t_land_attribute` VALUES (8, 3, '森林用途', 'Forest use', '无', 1, NULL, NULL);
+INSERT INTO `t_land_attribute` VALUES (9, 3, '植被高度', 'vegetation height', '无', 1, '2022-06-13 22:12:48', '2022-06-13 22:12:49');
 
 -- ----------------------------
 -- Table structure for t_land_attribute_value
@@ -151,7 +123,7 @@ INSERT INTO `t_land_attribute` VALUES (5, '覆盖度', 'degree of coverage', '�
 DROP TABLE IF EXISTS `t_land_attribute_value`;
 CREATE TABLE `t_land_attribute_value`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `type_attr_id` bigint(20) NOT NULL,
+  `land_attr_id` bigint(20) NOT NULL,
   `value_chs` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `value_en` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `create_time` datetime NULL DEFAULT NULL,
@@ -162,11 +134,14 @@ CREATE TABLE `t_land_attribute_value`  (
 -- ----------------------------
 -- Records of t_land_attribute_value
 -- ----------------------------
-INSERT INTO `t_land_attribute_value` VALUES (1, 6, '天然林', 'wildwood', NULL, NULL);
-INSERT INTO `t_land_attribute_value` VALUES (2, 6, '次生林', 'secondary forest', NULL, NULL);
-INSERT INTO `t_land_attribute_value` VALUES (5, 6, '人工林', 'artificial forest', NULL, NULL);
-INSERT INTO `t_land_attribute_value` VALUES (6, 7, '用材林', 'timber forest', NULL, NULL);
-INSERT INTO `t_land_attribute_value` VALUES (7, 8, '天然林', 'wildwood', '2022-06-13 17:23:50', '2022-06-13 17:23:50');
+INSERT INTO `t_land_attribute_value` VALUES (1, 1, '天然林', 'wildwood', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (2, 1, '次生林', 'secondary forest', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (5, 1, '人工林', 'artificial forest', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (6, 2, '用材林', 'timber forest', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (7, 7, '天然林', 'wildwood', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (8, 7, '次生林', 'secondary forest', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (9, 7, '人工林', 'artificial forest', NULL, NULL);
+INSERT INTO `t_land_attribute_value` VALUES (10, 2, '薪炭林', 'tallwood', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_land_type
@@ -190,28 +165,48 @@ INSERT INTO `t_land_type` VALUES (2, '常绿阔叶林', 'Evergreen Broadleaved F
 INSERT INTO `t_land_type` VALUES (3, '落叶阔叶林', 'Deciduous Broadleaved Forests', 1, NULL, NULL);
 INSERT INTO `t_land_type` VALUES (4, '草地', 'grassland', NULL, NULL, NULL);
 INSERT INTO `t_land_type` VALUES (5, '温性草甸草原', 'Warm meadow', 4, NULL, NULL);
-INSERT INTO `t_land_type` VALUES (6, '常绿针叶林', 'evergreen needle-leaved forest', NULL, '2022-06-13 10:54:48', '2022-06-13 10:54:48');
 
 -- ----------------------------
--- Table structure for t_land_type_attribute
+-- Table structure for t_permission
 -- ----------------------------
-DROP TABLE IF EXISTS `t_land_type_attribute`;
-CREATE TABLE `t_land_type_attribute`  (
+DROP TABLE IF EXISTS `t_permission`;
+CREATE TABLE `t_permission`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `land_type_id` bigint(20) NOT NULL,
-  `land_attribute_id` bigint(20) NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 16 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of t_land_type_attribute
+-- Records of t_permission
 -- ----------------------------
-INSERT INTO `t_land_type_attribute` VALUES (6, 2, 1, NULL, NULL);
-INSERT INTO `t_land_type_attribute` VALUES (7, 2, 2, NULL, NULL);
-INSERT INTO `t_land_type_attribute` VALUES (9, 2, 4, NULL, NULL);
-INSERT INTO `t_land_type_attribute` VALUES (10, 2, 5, '2022-06-13 22:22:05', '2022-06-13 22:22:05');
+INSERT INTO `t_permission` VALUES (1, 'getLandType', '获取土地类型', '', NULL, NULL);
+INSERT INTO `t_permission` VALUES (3, 'getLandAttribute', '获取土地属性及属性值', '', NULL, NULL);
+INSERT INTO `t_permission` VALUES (4, 'addLandType', '添加土地类型', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (5, 'addLandAttribute', '添加土地属性', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (6, 'addLandAttrValue', '添加土地属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (7, 'getDisasterType', '获取灾害类型', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (8, 'getDisasterAttribute', '获取灾害属性及属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (9, 'addDisasterAttribute', '添加灾害属性', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (10, 'addDisasterAttrValue', '添加灾害属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (11, 'uploadFile', '上传图片', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (12, 'addRecord', '添加记录', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (13, 'getRecords', '查询记录', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (14, 'updateLandType', '修改土地类型', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (15, 'deleteLandType', '删除土地类型', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (16, 'updateLandAttr', '修改土地属性', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (17, 'updateLandAttrValue', '修改土地属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (18, 'deleteLandAttr', '删除土地属性', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (19, 'deleteLandAttrValue', '删除土地属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (20, 'updateDisasterType', '修改灾害类型', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (21, 'updateDisasterAttribute', '修改灾害属性', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (22, 'updateDisasterAttrValue', '修改灾害属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (23, 'deleteDisasterType', '删除灾害类型', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (24, 'deleteDisasterAttribute', '删除灾害属性', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (25, 'deleteDisasterAttrValue', '删除灾害属性值', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_record
@@ -222,20 +217,23 @@ CREATE TABLE `t_record`  (
   `userId` bigint(20) NOT NULL,
   `land_msg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `disaster_msg` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `position` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `start_time` datetime NULL DEFAULT NULL,
   `end_time` datetime NULL DEFAULT NULL,
-  `latitude` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `longitude` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `latitude` decimal(10, 6) NULL DEFAULT NULL,
+  `longitude` decimal(10, 6) NULL DEFAULT NULL,
   `note` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `img_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_record
 -- ----------------------------
+INSERT INTO `t_record` VALUES (2, 1, 'This is landMsg', '{干旱}', '广东省深圳市', NULL, NULL, NULL, NULL, NULL, NULL, '2022-06-24 13:35:54', '2022-07-07 16:25:14');
+INSERT INTO `t_record` VALUES (3, 3, 'Test', '{\r\n    \"disasterTypeId\":\"4\",\r\n    \"disasterAttrId\":\"4\",\r\n    \"attrValues\":[\r\n        {\r\n            \"valueChs\":\"10\",\r\n            \"valueEn\":\"10\"\r\n        }\r\n    ]\r\n    \r\n}', '广东省深圳市', '2022-06-10 11:49:39', '2022-06-24 11:49:31', 37.023000, 89.785000, '调查干旱', NULL, NULL, '2022-07-07 16:27:59');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -244,34 +242,58 @@ DROP TABLE IF EXISTS `t_role`;
 CREATE TABLE `t_role`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
-  `code` varchar(45) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `description` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_role
 -- ----------------------------
-INSERT INTO `t_role` VALUES (1, '管理员', 'administrator', NULL, NULL);
+INSERT INTO `t_role` VALUES (1, 'administrator', '管理员', NULL, NULL);
+INSERT INTO `t_role` VALUES (2, 'user', '普通用户', NULL, NULL);
 
 -- ----------------------------
--- Table structure for t_role_authority
+-- Table structure for t_role_permission
 -- ----------------------------
-DROP TABLE IF EXISTS `t_role_authority`;
-CREATE TABLE `t_role_authority`  (
+DROP TABLE IF EXISTS `t_role_permission`;
+CREATE TABLE `t_role_permission`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `roleId` bigint(20) NOT NULL,
-  `authorityId` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL,
+  `permission_id` bigint(20) NOT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
--- Records of t_role_authority
+-- Records of t_role_permission
 -- ----------------------------
-INSERT INTO `t_role_authority` VALUES (1, 1, 1, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (1, 1, 1, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (3, 1, 3, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (4, 1, 4, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (5, 1, 5, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (6, 1, 6, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (7, 1, 7, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (8, 1, 8, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (9, 1, 9, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (10, 1, 10, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (11, 1, 11, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (12, 1, 12, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (13, 1, 13, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (14, 1, 14, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (15, 1, 15, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (16, 1, 16, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (17, 1, 17, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (18, 1, 18, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (19, 1, 19, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (20, 1, 20, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (21, 1, 21, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (22, 1, 22, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (23, 1, 23, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (24, 1, 24, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (25, 1, 25, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_user
@@ -279,19 +301,20 @@ INSERT INTO `t_role_authority` VALUES (1, 1, 1, NULL, NULL);
 DROP TABLE IF EXISTS `t_user`;
 CREATE TABLE `t_user`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
+  `username` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
+  `phone` varchar(50) CHARACTER SET utf8 COLLATE utf8_general_ci NOT NULL,
   `email` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `password` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
-  `salt` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
+INSERT INTO `t_user` VALUES (3, 'chenhongrong', '18144636372', 'chenhongrong@163.com', '$2a$10$6p6B3YUM3/t7JWdS3dRBSuLd3TkBVXxfaIN/xbPJK/BEXMHn0zeWG', '2022-06-30 16:26:01', '2022-06-30 16:26:01');
+INSERT INTO `t_user` VALUES (4, 'hongrong', '18144636372', 'chenhongrong@163.com', '$2a$10$ZpJStVV/Uy8MLFwRYXXu7eFi5ctMuwDxz7QvjCSG5KpLyyhJprVWO', '2022-07-06 10:12:20', '2022-07-06 10:12:20');
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -299,15 +322,17 @@ CREATE TABLE `t_user`  (
 DROP TABLE IF EXISTS `t_user_role`;
 CREATE TABLE `t_user_role`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
-  `userId` bigint(20) NOT NULL,
-  `roleId` bigint(20) NOT NULL,
+  `user_id` bigint(20) NOT NULL,
+  `role_id` bigint(20) NOT NULL,
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
+INSERT INTO `t_user_role` VALUES (1, 3, 1, NULL, NULL);
+INSERT INTO `t_user_role` VALUES (2, 4, 1, NULL, NULL);
 
 SET FOREIGN_KEY_CHECKS = 1;

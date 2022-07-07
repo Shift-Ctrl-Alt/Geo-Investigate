@@ -4,7 +4,7 @@
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.RoleDao">
     <insert id="setUserRole">
         insert into t_user_role(user_id, role_id) 
-        VALUES (#{param1}, #{param2})
+        VALUES (#{userId}, #{roleId}, NOW(), NOW())
     </insert>
 
     <select id="getPermissionByUserId" resultType="java.lang.String">

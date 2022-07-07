@@ -3,21 +3,60 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.RecordDao">
 
-    <insert id="addRecord">
+    <insert id="addRecord" useGeneratedKeys="true" keyProperty="id">
         insert into t_record(userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time) 
         values (#{userId}, #{landMsg}, #{disasterMsg}, #{position}, #{startTime}, #{endTime}, #{latitude}, #{longitude}, #{note}, #{imgUrl}, #{createTime}, #{updateTime})
     </insert>
+    <update id="updateRecord">
+        update t_record 
+        <set>
+            <if test="landMsg != null and landMsg != ''">
+                land_msg = #{landMsg},
+            </if>
+            <if test="disasterMsg != null and disasterMsg != ''">
+                disaster_msg = #{disasterMsg},
+            </if>
+            <if test="position != null and position != ''">
+                position = #{position},
+            </if>
+            <if test="latitude != null and latitude != ''">
+                latitude = #{latitude},
+            </if>
+            <if test="longitude != null and longitude != ''">
+                longitude = #{longitude},
+            </if>
+            <if test="note != null and note != ''">
+                note = #{note},
+            </if>
+            <if test="imgUrl != null and imgUrl != ''">
+                img_url = #{imgUrl},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <delete id="deleteRecord">
+        delete from t_record where id = #{recordId}
+    </delete>
+
     <select id="getRecordCount" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(1)
         from t_record
         where userId = #{userId}
-        limit #{start}, #{size}
+        limit #{start}, #{pageSize}
     </select>
     <select id="getRecords" parameterType="java.util.Map" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
         select id, userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time
         from t_record
         where userId = #{userId}
-        limit #{start}, #{size}
+        limit #{start}, #{pageSize}
+    </select>
+    <select id="getRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
+        select id, userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time
+        from t_record
+        where id = #{recordId}
     </select>
 
 </mapper>

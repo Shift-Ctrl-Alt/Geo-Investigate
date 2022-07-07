@@ -2,6 +2,8 @@ package com.oymn.geoinvestigate.service;
 
 import com.oymn.geoinvestigate.dao.pojo.User;
 
+import javax.servlet.http.HttpServletRequest;
+
 public interface LoginService {
 
     /**
@@ -17,5 +19,10 @@ public interface LoginService {
      * @param user
      */
     void register(User user);
+
+    /**
+     * 登出接口
+     */
+    void logout(HttpServletRequest request);
     
 }

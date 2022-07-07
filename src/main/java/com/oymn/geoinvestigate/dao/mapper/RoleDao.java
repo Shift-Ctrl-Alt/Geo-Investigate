@@ -2,6 +2,7 @@ package com.oymn.geoinvestigate.dao.mapper;
 
 import com.oymn.geoinvestigate.dao.pojo.Role;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.security.access.ConfigAttribute;
 
 import java.util.Collection;
@@ -16,5 +17,5 @@ public interface RoleDao {
 
     Role getRoleByName(String roleName);
 
-    void setUserRole(Long userId, Long roleId);
+    void setUserRole(@Param("userId") Long userId, @Param("roleId") Long roleId);
 }

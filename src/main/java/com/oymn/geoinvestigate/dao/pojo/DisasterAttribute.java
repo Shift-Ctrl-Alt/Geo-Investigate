@@ -12,6 +12,9 @@ public class DisasterAttribute {
     @ApiModelProperty("主键id")
     private Long id;
     
+    @ApiModelProperty("灾害类型id")
+    private Long disasterTypeId;
+    
     @ApiModelProperty("中文名称")
     private String nameChs;
     
@@ -36,6 +39,14 @@ public class DisasterAttribute {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Long getDisasterTypeId() {
+        return disasterTypeId;
+    }
+
+    public void setDisasterTypeId(Long disasterTypeId) {
+        this.disasterTypeId = disasterTypeId;
     }
 
     public String getNameChs() {

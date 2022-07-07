@@ -2,46 +2,97 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.DisasterDao">
-    <insert id="addDisasterType">
+    <insert id="addDisasterType" useGeneratedKeys="true" keyProperty="id">
         insert into t_disaster_type(name_chs, name_en, create_time, update_time)
         values (#{nameChs}, #{nameEn}, #{createTime}, #{updateTime})
     </insert>
     <insert id="addDisasterAttr" useGeneratedKeys="true" keyProperty="id">
-        insert into t_disaster_attribute(name_chs, name_en, unit, required, create_time, update_time) 
-        values (#{nameChs},#{nameEn},#{unit},#{required},#{createTime},#{updateTime})
-    </insert>
-    <insert id="addDisasterTypeAndAttr">
-        insert into t_disaster_type_attribute(disaster_id, disaster_attribute_id, create_time, update_time) 
-        values(#{param1},#{param2},#{param3},#{param4}) 
+        insert into t_disaster_attribute(disaster_type_id, name_chs, name_en, unit, required, create_time, update_time) 
+        values (#{disasterTypeId}, #{nameChs},#{nameEn},#{unit},#{required},#{createTime},#{updateTime})
     </insert>
     <insert id="addDisasterAttrValue">
-        insert into t_disaster_attribute_value(type_attr_id, value_chs, value_en, create_time, update_time)
+        insert into t_disaster_attribute_value(disaster_attr_id, value_chs, value_en, create_time, update_time)
         values
         <foreach collection="attrValues" item="attrValue" separator=",">
-            (#{typeAttrId}, #{attrValue.valueChs},#{attrValue.valueEn}, NOW(), NOW())
+            (#{attrValues.disasterAttributeId}, #{attrValue.valueChs},#{attrValue.valueEn}, NOW(), NOW())
         </foreach>
     </insert>
+    <update id="updateDisasterType">
+        update t_disaster_type
+        <set>
+            <if test="nameChs != null and nameChs != ''">
+                name_chs = #{nameChs},
+            </if>
+            <if test="nameEn != null and nameEn != ''">
+                name_en = #{nameEn},
+            </if>
+            update_time = #{updateTime}
+        </set> 
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updateDisasterAttribute">
+        update t_disaster_attribute
+        <set>
+            <if test="nameChs != null and nameChs != ''">
+                name_chs = #{nameChs},
+            </if>
+            <if test="nameEn != null and nameEn != ''">
+                name_en = #{nameEn},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updateDisasterAttrValue">
+        update t_disaster_attribute_value
+        <set>
+            <if test="valueChs != null and valueChs != ''">
+                value_chs = #{valueChs},
+            </if>
+            <if test="valueEn != null and valueEn != ''">
+                value_en = #{valueEn},
+            </if>
+            update_time = #{updateTime}
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <delete id="deleteDisasterType">
+        delete from t_disaster_type where id = #{disasterTypeId}
+    </delete>
+    <delete id="deleteDisasterAttribute">
+        delete from t_disaster_attribute where id = #{disasterAttributeId}
+    </delete>
+    <delete id="deleteAttrValueByAttrId">
+        delete from t_disaster_attribute_value where disaster_attr_id = #{disasterAttributeId}
+    </delete>
+    <delete id="deleteAttrValueByValueId">
+        delete from t_disaster_attribute_value where id = #{disasterAttrValueId}
+    </delete>
 
     <select id="getDisasterType" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterType">
         SELECT id, name_chs nameChs, name_en nameEn, create_time createTime, update_time updateTime
         FROM t_disaster_type
     </select>
     <select id="getDisasterAttribute" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        SELECT attr.id, attr.name_chs nameChs, attr.name_en nameEn, attr.unit, attr.required, attr.create_time createtime, attr.update_time updateTime
-        FROM t_disaster_type type JOIN t_disaster_attribute attr JOIN t_disaster_type_attribute type_attr
-        ON type.id = type_attr.disaster_id AND attr.id = type_attr.disaster_attribute_id
-        WHERE type.id = #{disasterTypeId}
+        select id, disaster_type_id, name_chs, name_en, unit, required, create_time, update_time
+        from t_disaster_attribute
+        where disaster_type_id = #{disasterTypeId}
     </select>
     <select id="getAttributeValue" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttributeValue">
-        SELECT type_attr.disaster_id disasterId, type_attr.disaster_attribute_id disasterAttributeId, attr_value.value_chs valueChs, attr_value.value_en valueEn
-        FROM t_disaster_type_attribute type_attr join t_disaster_attribute_value attr_value
-        on type_attr.id = attr_value.type_attr_id
-        where type_attr.disaster_id = #{param1} and type_attr.disaster_attribute_id = #{param2}
+        select id, disaster_attr_id, value_chs, value_en, create_time, update_time
+        from t_disaster_attribute_value
+        where disaster_attr_id = #{attributeId}
     </select>
     <select id="getDisasterTypeByName" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterType">
         SELECT id, name_chs nameChs, name_en nameEn, create_time createTime, update_time updateTime
         FROM t_disaster_type
-        where name_chs = #{param1} and name_en = #{param2}
+        where name_chs = #{nameChs} and name_en = #{nameEn}
     </select>
     <select id="getDisasterTypeById" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterType">
         SELECT id, name_chs nameChs, name_en nameEn, create_time createTime, update_time updateTime
@@ -49,10 +100,9 @@
         where id = #{disasterTypeId}
     </select>
     <select id="getAttrByNameAndTypeId" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        SELECT attr.id, attr.name_chs nameChs, attr.name_en nameEn, attr.unit, attr.required, attr.create_time createtime, attr.update_time updateTime
-        FROM t_disaster_type type JOIN t_disaster_attribute attr JOIN t_disaster_type_attribute type_attr
-        ON type.id = type_attr.disaster_id AND attr.id = type_attr.disaster_attribute_id
-        WHERE type.id = #{param1} and attr.name_chs = #{param2} and attr.name_en = #{param3}
+        select id, disaster_type_id, name_chs, name_en, unit, required, create_time, update_time
+        from t_disaster_attribute
+        where disaster_type_id = #{disasterTypeId} and name_chs = #{nameChs} and name_en = #{nameEn}
     </select>
     <select id="getAttrByName" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
         select id, name_chs, name_en, unit, required, create_time, update_time
@@ -60,14 +110,9 @@
         where name_chs = #{param1} and name_en = #{param2}
     </select>
     <select id="getAttrById" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        select id, name_chs, name_en, unit, required, create_time, update_time
+        select id, disaster_type_id, name_chs, name_en, unit, required, create_time, update_time
         from t_disaster_attribute
         where id = #{disasterAttrId}
-    </select>
-    <select id="getTypeAndAttrId" resultType="java.lang.Integer">
-        select id
-        from t_disaster_type_attribute
-        where disaster_id = #{param1} and disaster_attribute_id = #{param2}
     </select>
 
 </mapper>

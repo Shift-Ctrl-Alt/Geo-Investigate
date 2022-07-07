@@ -3,7 +3,6 @@ package com.oymn.geoinvestigate.dao.mapper;
 import com.oymn.geoinvestigate.dao.pojo.DisasterAttribute;
 import com.oymn.geoinvestigate.dao.pojo.DisasterAttributeValue;
 import com.oymn.geoinvestigate.dao.pojo.DisasterType;
-import com.oymn.geoinvestigate.vo.DisasterAttributeVo;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -17,25 +16,36 @@ public interface DisasterDao {
 
     List<DisasterAttribute> getDisasterAttribute(Long disasterTypeId);
 
-    List<DisasterAttributeValue> getAttributeValue(Long disasterTypeId, Long attributeId);
+    List<DisasterAttributeValue> getAttributeValue(Long attributeId);
 
-    DisasterType getDisasterTypeByName(String nameChs, String nameEn);
+    DisasterType getDisasterTypeByName(@Param("nameChs") String nameChs, @Param("nameEn") String nameEn);
 
-    void addDisasterType(DisasterType disasterType);
+    Integer addDisasterType(DisasterType disasterType);
 
     DisasterType getDisasterTypeById(Long disasterTypeId);
 
-    DisasterAttribute getAttrByNameAndTypeId(Long disasterTypeId, String nameChs, String nameEn);
+    DisasterAttribute getAttrByNameAndTypeId(@Param("disasterTypeId") Long disasterTypeId, @Param("nameChs") String nameChs, @Param("nameEn") String nameEn);
 
     DisasterAttribute getAttrByName(String nameChs, String nameEn);
 
-    void addDisasterAttr(DisasterAttributeVo disasterAttrVo);
-
-    void addDisasterTypeAndAttr(Long disasterTypeId, Long disasterAttrId, Date createTime, Date updateTime);
+    Long addDisasterAttr(DisasterAttribute disasterAttr);
 
     DisasterAttribute getAttrById(Long disasterAttrId);
+    
+    void addDisasterAttrValue(@Param("attrValues") List<DisasterAttributeValue> attrValues);
 
-    Integer getTypeAndAttrId(Long disasterTypeId, Long disasterAttrId);
+    void updateDisasterType(DisasterType disasterType);
 
-    void addDisasterAttrValue(@Param("typeAttrId") Integer typeAttrId, @Param("attrValues") List<DisasterAttributeValue> attrValues);
+    void updateDisasterAttribute(DisasterAttribute disasterAttribute);
+
+    void updateDisasterAttrValue(DisasterAttributeValue disasterAttributeValue);
+
+    void deleteDisasterType(Long disasterTypeId);
+
+    void deleteDisasterAttribute(Long disasterAttributeId);
+
+    void deleteAttrValueByAttrId(Long disasterAttributeId);
+
+    void deleteAttrValueByValueId(Long disasterAttrValueId);
+    
 }

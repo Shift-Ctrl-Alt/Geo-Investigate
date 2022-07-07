@@ -1,6 +1,7 @@
 package com.oymn.geoinvestigate.handler;
 
 import com.alibaba.fastjson.JSON;
+import com.oymn.geoinvestigate.common.StatusCode;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.pojo.LoginUser;
 import com.oymn.geoinvestigate.utils.TokenUtil;
@@ -33,6 +34,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //获取token
         String token = request.getHeader("token");
         
+        //没有携带token或者token值为空串
         if (!StringUtils.hasText(token)) {
             //放行
             filterChain.doFilter(request, response);
@@ -42,20 +44,20 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
         //解析token
         Long userId = TokenUtil.verifyToken(token);
         if(userId == null){
-            throw new RuntimeException("token错误");
+            throw new ConditionException(StatusCode.TOKEN_ERROR.getCode(), StatusCode.TOKEN_ERROR.getMsg());
         }
         
         //从redis中获取用户信息
         String redisKey = "TOKEN_" + token;
         String userJson = redisTemplate.opsForValue().get(redisKey);
         if(userJson == null || userJson.length() == 0){
-            throw new RuntimeException("token错误");
+            throw new ConditionException(StatusCode.USER_UNLOGIN.getCode(), StatusCode.USER_UNLOGIN.getMsg());
         }
 
         LoginUser loginUser = JSON.parseObject(userJson, LoginUser.class);
 
         if (Objects.isNull(loginUser)) {
-            throw new RuntimeException("用户未登录");
+            throw new ConditionException(StatusCode.USER_UNLOGIN.getCode(), StatusCode.USER_UNLOGIN.getMsg());
         }
 
         //存入SecurityContextHolder

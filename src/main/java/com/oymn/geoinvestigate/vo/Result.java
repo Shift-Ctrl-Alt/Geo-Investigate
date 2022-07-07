@@ -27,6 +27,12 @@ public class Result<T> {
         this.data = data;
     }
 
+    public Result(boolean success, int code, String msg) {
+        this.success = success;
+        this.code = code;
+        this.msg = msg;
+    }
+
     public static <T> Result<T> success(){
         return new Result<>(true, StatusCode.RESPONSE_SUCCESS.getCode(), StatusCode.RESPONSE_SUCCESS.getMsg(), null);
     }
@@ -38,6 +44,10 @@ public class Result<T> {
     public static Result fail(int code, String msg){
         return new Result(false, code, msg, null);
     }
+    
+    //public static Result fail(int code, String msg){
+    //    return new Result(false, code, msg);
+    //}
 
     public boolean isSuccess() {
         return success;

@@ -19,6 +19,12 @@ public class TokenUtil {
     
     private final static String ISSUER = "qianfazhe";
 
+    /**
+     * 生成Token
+     * @param userId
+     * @return
+     * @throws Exception
+     */
     public static String generateToken(Long userId) throws Exception {
         Algorithm algorithm = Algorithm.RSA256(RSAUtil.getPublicKey(), RSAUtil.getPrivateKey());
         
@@ -33,7 +39,12 @@ public class TokenUtil {
                 .sign(algorithm);
 
     }
-    
+
+    /**
+     * 解析Token
+     * @param token
+     * @return
+     */
     public static Long verifyToken(String token){
         
         try {
@@ -47,7 +58,7 @@ public class TokenUtil {
         } catch (TokenExpiredException e) {
             throw new ConditionException(StatusCode.TOKEN_EXPIRED.getCode(), StatusCode.TOKEN_EXPIRED.getMsg());
         }catch (Exception e){
-            throw new ConditionException("非法用户token!");
+            throw new ConditionException(StatusCode.TOKEN_ERROR.getCode(), StatusCode.TOKEN_ERROR.getMsg());
         }
         
     }

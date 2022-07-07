@@ -1,5 +1,4 @@
 package com.oymn.geoinvestigate.config;
-
 import com.oymn.geoinvestigate.handler.JwtAuthenticationTokenFilter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -18,7 +17,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)   //开启prePostEnabled注解的使用
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     //用于密码加密
@@ -27,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
     
-    //用于登录验证时对token的验证
+    //用于登录验证时对Token的验证
     @Autowired
     private JwtAuthenticationTokenFilter jwtAuthenticationTokenFilter;
     
@@ -49,14 +48,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .and()
                 //认证所有的请求
                 .authorizeRequests()
-                // 对于登录接口 允许匿名访问
+                // 对于登录和注册接口允许匿名访问
                 .antMatchers("/user/login", "/user/register").anonymous()
-                .antMatchers("/**").permitAll()
+                //.antMatchers("/**").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证成功
                 .anyRequest().authenticated();
 
         //添加过滤器
-        //http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
         //配置异常处理器
         http.exceptionHandling()

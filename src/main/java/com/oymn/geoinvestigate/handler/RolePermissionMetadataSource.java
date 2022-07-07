@@ -7,10 +7,12 @@ import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
 import org.springframework.security.web.access.intercept.FilterInvocationSecurityMetadataSource;
-import org.springframework.stereotype.Component;
-
 import java.util.*;
 
+/**
+ * 获取访问该类路径所需要的权限
+ * 该类暂时不需要用到
+ */
 //@Component
 public class RolePermissionMetadataSource implements FilterInvocationSecurityMetadataSource {
 

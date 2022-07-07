@@ -8,10 +8,10 @@ import com.oymn.geoinvestigate.dao.pojo.LandAttributeValue;
 import com.oymn.geoinvestigate.dao.pojo.LandType;
 import com.oymn.geoinvestigate.service.LandService;
 import com.oymn.geoinvestigate.vo.LandAttributeValueVo;
-import com.oymn.geoinvestigate.vo.LandAttributeVo;
 import com.oymn.geoinvestigate.vo.LandTypeVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -48,8 +48,7 @@ public class LandServiceImpl implements LandService {
     }
 
     /**
-     * 获取土地的属性
-     *
+     * 获取土地的属性和属性值
      * @param landTypeId
      * @return
      */
@@ -60,6 +59,7 @@ public class LandServiceImpl implements LandService {
             throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
         }
 
+        //获取该土地类型所具有的属性
         List<LandAttribute> landAttributeList = landDao.getAttrByLandTypeId(landTypeId);
         //去重
         //List<LandAttribute> landAttributeSet = landAttributeList.stream()
@@ -76,7 +76,7 @@ public class LandServiceImpl implements LandService {
         List<LandAttributeValueVo> landAttrValueVoList = new ArrayList<>();
         for (LandAttribute landAttribute : landAttributeList) {
             LandAttributeValueVo landAttrValueVo = new LandAttributeValueVo(landTypeId, landAttribute.getId(), landAttribute.getNameChs(), landAttribute.getNameEn(), landAttribute.getUnit(), landAttribute.getRequired());
-            List<LandAttributeValue> attributeValueList = landDao.getAttributeValue(landTypeId, landAttribute.getId());
+            List<LandAttributeValue> attributeValueList = landDao.getAttributeValue(landAttribute.getId());
             landAttrValueVo.setAttributeValues(attributeValueList);
             landAttrValueVoList.add(landAttrValueVo);
         }
@@ -85,7 +85,7 @@ public class LandServiceImpl implements LandService {
     }
 
     @Override
-    public void addLandType(LandType landType) {
+    public Long addLandType(LandType landType) {
         Long parentId = landType.getParentId();
         if (parentId != null) {
             LandType parentType = landDao.getLandTypeById(parentId);
@@ -101,12 +101,12 @@ public class LandServiceImpl implements LandService {
 
         landType.setCreateTime(new Date());
         landType.setUpdateTime(new Date());
-        landDao.addLandType(landType);
+        return landDao.addLandType(landType);
     }
 
     @Override
-    public void addLandAttribute(LandAttributeVo landAttribute) {
-        //判断土地类型-土地属性表是否存在该属性
+    public Long addLandAttribute(LandAttribute landAttribute) {
+        //判断该土地类型是否存在该属性
         Long landTypeId = landAttribute.getLandTypeId();
         String nameChs = landAttribute.getNameChs();
         String nameEn = landAttribute.getNameEn();
@@ -114,22 +114,11 @@ public class LandServiceImpl implements LandService {
         if (dbLandAttr != null) {
             throw new ConditionException("该土地属性已存在");
         }
-
-        //判断土地属性表是否存在该属性
-        dbLandAttr = landDao.getAttrByName(landAttribute.getNameChs(), landAttribute.getNameEn());
-        Long landAttrId;
-        if (dbLandAttr != null) {
-            landAttrId = dbLandAttr.getId();
-        } else {
-            landAttribute.setCreateTime(new Date());
-            landAttribute.setUpdateTime(new Date());
-            landDao.addLandAttr(landAttribute);
-            landAttrId = landAttribute.getId();
-        }
-
-        //添加土地类型和土地属性的关联
-        landDao.addLandTypeAndAttr(landTypeId, landAttrId, landAttribute.getCreateTime(), landAttribute.getUpdateTime());
-
+        
+        landAttribute.setCreateTime(new Date());
+        landAttribute.setUpdateTime(new Date());
+        landDao.addLandAttr(landAttribute);
+        return landAttribute.getId();
     }
 
     @Override
@@ -142,14 +131,84 @@ public class LandServiceImpl implements LandService {
             throw new ConditionException("该土地类型不存在");
         }
 
-        //判断是否存在该土地和属性的关联
-        Integer typeAttrId = landDao.getTypeAndAttrId(landTypeId, landAttrId);
-        if (typeAttrId == null) {
-            throw new ConditionException("该属性不存在");
+        //判断是否存在该属性
+        LandAttribute landAttribute = landDao.getAttrByAttrId(landAttrId);
+        if(landAttribute == null){
+            throw new ConditionException("该土地属性不存在");
         }
 
         List<LandAttributeValue> attributeValues = attrValues.getAttributeValues();
-        landDao.addLandAttrValues(typeAttrId, attributeValues);
+        landDao.addLandAttrValues(attributeValues);
+    }
+
+    @Override
+    public void updateLandType(LandType landType) {
+
+        if (landType == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        landType.setUpdateTime(new Date());
+        landDao.updateLandType(landType);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteLandType(Integer landTypeId) {
+
+        if (landTypeId == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        landDao.deleteLandType(landTypeId);
+        //子类型也一并删除
+        landDao.deleteLandTypeByParentId(landTypeId);
+    }
+
+    @Override
+    public void updateLandAttribute(LandAttribute landAttribute) {
+
+        if (landAttribute == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        landAttribute.setUpdateTime(new Date());
+        landDao.updateLandAttr(landAttribute);
+    }
+
+    @Override
+    public void updateLandAttrValue(LandAttributeValue landAttributeValue) {
+
+        if (landAttributeValue == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        landAttributeValue.setUpdateTime(new Date());
+        landDao.updateLandAttrValue(landAttributeValue);
+    }
+
+    @Override
+    @Transactional(rollbackFor = Exception.class)
+    public void deleteLandAttribute(Long landAttrId) {
+
+        if (landAttrId == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        //先删除土地属性
+        landDao.deleteLandAttribute(landAttrId);
+        //再删除土地属性值
+        landDao.deleteLandAttrValueByAttrId(landAttrId);
+    }
+
+    @Override
+    public void deleteLandAttrValue(Long landAttrValueId) {
+
+        if (landAttrValueId == null) {
+            throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+        
+        landDao.deleteLandAttrValue(landAttrValueId);
     }
 
 

@@ -9,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class RoleServiceImpl implements RoleService {
@@ -40,7 +38,6 @@ public class RoleServiceImpl implements RoleService {
         if(role == null){
             throw new ConditionException("该角色不存在");
         }
-        
         
         roleDao.setUserRole(userId, role.getId());
     }

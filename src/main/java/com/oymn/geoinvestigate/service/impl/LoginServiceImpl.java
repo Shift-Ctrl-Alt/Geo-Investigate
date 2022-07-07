@@ -17,13 +17,17 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 import java.util.Objects;
 
-//@Service
+@Service
 public class LoginServiceImpl implements LoginService {
     
     //用于对用户的认证
@@ -44,14 +48,15 @@ public class LoginServiceImpl implements LoginService {
     private RoleService roleService;
     
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public String login(User user) throws Exception {
         //使用 authenticationManager 来对用户进行认证
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(user.getUsername(), user.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authenticationToken);
         
         //如果认证没通过
-        if(Objects.isNull(authenticate)){
-            throw new ConditionException("登录失败");
+        if(authenticate == null){
+            throw new ConditionException("登录认证失败");
         }
         
         //认证通过，生成token，存入redis中，并返回给前端
@@ -68,14 +73,21 @@ public class LoginServiceImpl implements LoginService {
 
     
     @Override
+    @Transactional(rollbackFor = Exception.class)
     public void register(User user) {
 
         String username = user.getUsername();
         String password = user.getPassword();
         
         //用户名或密码为空
-        if(username == null || password == null){
+        if(!StringUtils.hasText(username) || !StringUtils.hasText(password)){
             throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+
+        //该用户名是否被占用了
+        User dbUser = userService.getUserByName(username);
+        if(dbUser != null){
+            throw new ConditionException("该用户名已经被注册了");
         }
 
         //TODO 前端如果有对密码进行加密，则需要进行解密
@@ -90,7 +102,7 @@ public class LoginServiceImpl implements LoginService {
 */
 
         //使用SpringSecurity的passwordEncoder进行加密
-        String newPwd = passwordEncoder.encode(user.getPassword());
+        String newPwd = passwordEncoder.encode(password);
         user.setPassword(newPwd);
         user.setCreateTime(new Date());
         user.setUpdateTime(new Date());
@@ -99,5 +111,11 @@ public class LoginServiceImpl implements LoginService {
         
         //todo: 添加用户默认角色
         roleService.setUserRole(user.getId(), RoleConstant.ORDINARY_USER);
+    }
+
+    @Override
+    public void logout(HttpServletRequest request) {
+        String token = request.getHeader("token");
+        redisTemplate.delete("TOKEN_" + token);
     }
 }
