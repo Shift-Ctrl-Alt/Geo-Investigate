@@ -9,7 +9,7 @@ import java.util.Date;
 import java.util.List;
 
 @Data
-@ApiModel("用于和前端交互的记录实体类对象  RecordVo")
+@ApiModel("用于和前端交互的记录实体类对象")
 public class RecordVo {
 
     @ApiModelProperty("主键id")
