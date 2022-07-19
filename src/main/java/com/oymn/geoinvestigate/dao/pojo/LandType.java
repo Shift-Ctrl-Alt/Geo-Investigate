@@ -27,6 +27,17 @@ public class LandType {
     @ApiModelProperty("最新的更新时间")
     private Date updateTime;
 
+    public LandType() {
+    }
+
+    public LandType(Long id, String nameChs, String nameEn, Long parentId, Date createTime, Date updateTime) {
+        this.id = id;
+        this.nameChs = nameChs;
+        this.nameEn = nameEn;
+        this.parentId = parentId;
+        this.createTime = createTime;
+        this.updateTime = updateTime;
+    }
 
     public Long getId() {
         return id;

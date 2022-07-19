@@ -2,61 +2,266 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.RecordDao">
-
-    <insert id="addRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_record(userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time) 
-        values (#{userId}, #{landMsg}, #{disasterMsg}, #{position}, #{startTime}, #{endTime}, #{latitude}, #{longitude}, #{note}, #{imgUrl}, #{createTime}, #{updateTime})
+    <insert id="addMainRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_record(user_id, latitude, longitude, survey_time, land_msg, crop_type, crop_variety, sp_canopy_img, note) 
+        VALUES(#{userId}, #{latitude}, #{longitude}, #{surveyTime}, #{landMsg}, #{cropType}, #{cropVariety}, #{spCanopyImg}, #{note})
     </insert>
-    <update id="updateRecord">
+    <insert id="addDiseaseSamCollRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_disease_sample_coll(record_id, disease_type, survey_leaves, diseased_leaves, quadrat_canopy_img, quadrat_leaves_img) 
+        VALUES(#{recordId}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves}, #{quadratCanopyImg}, #{quadratLeavesImg}) 
+    </insert>
+    <insert id="addDiseaseSysSurveyRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_disease_sys_survey(record_id, disease_type, survey_leaves, diseased_leaves, quadrat_canopy_img, quadrat_leaves_img) 
+        VALUES (#{recordId}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves}, #{quadratCanopyImg}, #{quadratLeavesImg})
+    </insert>
+    <insert id="addDiseaseDataCollUAVRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_disease_data_coll_nav(record_id, disease_type, survey_leaves, diseased_leaves, site_canopy_img) 
+        VALUES (#{recordId}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves}, #{siteCanopyImg})
+    </insert>
+    <insert id="addPestCollRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_pest_collection(record_id, pest_type, quadrat_canopy_img) 
+        VALUES (#{recordId}, #{pestType}, #{quadratCanopyImg}) 
+    </insert>
+    <insert id="addPestImgRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_pest_img(pest_coll_record_id, img) 
+        values (#{pestCollRecordId}, #{img})
+    </insert>
+    <insert id="addPestSurveyUAVRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_pest_survey_uav(record_id, pest_type, quadrat_canopy_img) 
+        values (#{recordId}, #{pestType}, #{quadratCanopyImg})
+    </insert>
+    <insert id="addPestUAVImgRecord" useGeneratedKeys="true" keyProperty="id">
+        insert into t_pest_uav_img(pest_survey_uav_record_id, img) 
+        VALUES(#{pestSurveyUAVRecordId}, #{img}) 
+    </insert>
+    <insert id="addEnvironmentFactor" useGeneratedKeys="true" keyProperty="id">
+        insert into t_environment_factor(record_id, soil_moisture, soil_temp, air_moisture, air_temp) 
+        VALUES(#{recordId}, #{soilMoisture}, #{soilTemp}, #{airMoisture}, #{airTemp}) 
+    </insert>
+
+    <update id="updateMainRecord">
         update t_record 
         <set>
-            <if test="landMsg != null and landMsg != ''">
-                land_msg = #{landMsg},
-            </if>
-            <if test="disasterMsg != null and disasterMsg != ''">
-                disaster_msg = #{disasterMsg},
-            </if>
-            <if test="position != null and position != ''">
-                position = #{position},
-            </if>
             <if test="latitude != null and latitude != ''">
                 latitude = #{latitude},
             </if>
             <if test="longitude != null and longitude != ''">
                 longitude = #{longitude},
             </if>
+            <if test="surveyTime != null and surveyTime != ''">
+                survey_time = #{surveyTime},
+            </if>
+            <if test="landMsg != null and landMsg != ''">
+                land_msg = #{landMsg},
+            </if>
+            <if test="cropType != null and cropType != ''">
+                crop_type = #{cropType},
+            </if>
+            <if test="cropVariety != null and cropVariety != ''">
+                crop_variety = #{cropVariety},
+            </if>
+            <if test="spCanopyImg != null and spCanopyImg != ''">
+                sp_canopy_img = #{spCanopyImg},
+            </if>
             <if test="note != null and note != ''">
                 note = #{note},
             </if>
-            <if test="imgUrl != null and imgUrl != ''">
-                img_url = #{imgUrl},
-            </if>
-            update_time = #{updateTime}
         </set>
         <where>
             id = #{id}
         </where>
     </update>
+    <update id="updateDiseaseSamCollRecord">
+        update t_disease_sample_coll
+        <set>
+            <if test="diseaseType != null and diseaseType != ''">
+                disease_type = #{diseaseType},
+            </if>
+            <if test="surveyLeaves != null and surveyLeaves != ''">
+                survey_leaves = #{surveyLeaves},
+            </if>
+            <if test="diseasedLeaves != null and diseasedLeaves != ''">
+                diseased_leaves = #{diseasedLeaves},
+            </if>
+            <if test="quadratCanopyImg != null and quadratCanopyImg != ''">
+                quadrat_canopy_img = #{quadratCanopyImg},
+            </if>
+            <if test="quadratLeavesImg != null and quadratLeavesImg != ''">
+                quadrat_leavesimg = #{quadratLeavesImg},
+            </if>
+        </set>
+        <where>
+              id = #{id}  
+        </where>
+    </update>
+    <update id="updateDiseaseSysSurveyRecord">
+        update t_disease_sys_survey
+        <set>
+            <if test="diseaseType != null and diseaseType != ''">
+                disease_type = #{diseaseType},
+            </if>
+            <if test="surveyLeaves != null and surveyLeaves != ''">
+                survey_leaves = #{surveyLeaves},
+            </if>
+            <if test="diseasedLeaves != null and diseasedLeaves != ''">
+                diseased_leaves = #{diseasedLeaves},
+            </if>
+            <if test="quadratCanopyImg != null and quadratCanopyImg != ''">
+                quadrat_canopy_img = #{quadratCanopyImg},
+            </if>
+            <if test="quadratLeavesImg != null and quadratLeavesImg != ''">
+                quadrat_leavesimg = #{quadratLeavesImg},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updateDiseaseDataCollUAVRecord">
+        update t_disease_data_coll_nav
+        <set>
+            <if test="diseaseType != null and diseaseType != ''">
+                disease_type = #{diseaseType},
+            </if>
+            <if test="surveyLeaves != null and surveyLeaves != ''">
+                survey_leaves = #{surveyLeaves},
+            </if>
+            <if test="diseasedLeaves != null and diseasedLeaves != ''">
+                diseased_leaves = #{diseasedLeaves},
+            </if>
+            <if test="siteCanopyImg != null and siteCanopyImg != ''">
+                site_canopy_img = #{siteCanopyImg},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updatePestCollRecord">
+        update t_pest_collection
+        <set>
+            <if test="pestType != null and pestType != ''">
+                pest_type = #{pestType},
+            </if>
+            <if test="quadratCanopyImg != null and quadratCanopyImg != ''">
+                quadrat_canopy_img = #{quadratCanopyImg},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updatePestSurveyUAVRecord">
+        update t_pest_survey_uav
+        <set>
+            <if test="pestType != null and pestType != ''">
+                pest_type = #{pestType},
+            </if>
+            <if test="quadratCanopyImg != null and quadratCanopyImg != ''">
+                quadrat_canopy_img = #{quadratCanopyImg},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+
     <delete id="deleteRecord">
         delete from t_record where id = #{recordId}
+    </delete>
+    <delete id="deletePestImgRecordById">
+        delete from t_pest_img where id = #{pestImgRecordId}
+    </delete>
+    <delete id="deletePestUAVImgRecordById">
+        delete from t_pest_uav_img where id = #{pestUAVImgId}
     </delete>
 
     <select id="getRecordCount" parameterType="java.util.Map" resultType="java.lang.Integer">
         select count(1)
         from t_record
-        where userId = #{userId}
+        where user_id = #{userId}
         limit #{start}, #{pageSize}
     </select>
     <select id="getRecords" parameterType="java.util.Map" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
-        select id, userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time
+        select id, user_id userId, latitude, longitude, survey_time surveyTime, land_msg landMsg, crop_type cropType, crop_variety cropVariety, sp_canopy_img spCanopyImg, note, create_time createTime, update_time updateTime
         from t_record
-        where userId = #{userId}
+        where user_id = #{userId}
         limit #{start}, #{pageSize}
     </select>
     <select id="getRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
-        select id, userId, land_msg, disaster_msg, position, start_time, end_time, latitude, longitude, note, img_url, create_time, update_time
+        select id, user_id userId, latitude, longitude, survey_time surveyTime, land_msg landMsg, crop_type cropType, crop_variety cropVariety, sp_canopy_img spCanopyImg, note, create_time createTime, update_time updateTime
         from t_record
         where id = #{recordId}
     </select>
+    <select id="getUserIdByPestImgRecordId" resultType="java.lang.Long">
+        select tr.user_id
+        from t_record tr  join t_pest_collection tpc join t_pest_img tpi
+        on tr.id = tpc.record_id and tpc.id = tpi.pest_coll_record_id
+        where tpi.id = #{pestImgRecordId}
+    </select>
+    <select id="getUserIdByPestUAVImgRecordId" resultType="java.lang.Long">
+        select tr.user_id
+        from t_record tr join t_pest_survey_uav tpsu join t_pest_uav_img tpui
+        on tr.id = tpsu.record_id and tpsu.id = tpui.pest_survey_uav_record_id 
+        where tpui.id = #{pestUAVImgRecordId}
+    </select>
+    <select id="getDiseaseSamCollRecordByRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSamCollRecord">
+        select id, record_id recordId, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratleavesImg, create_time createTime, update_time updateTime
+        from t_disease_sample_coll
+        where record_id = #{recordId}
+    </select>
+    <select id="getDiseaseSysSurveyRecordByRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSysSurveyRecord">
+        select id, record_id recordId, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratLeavesImg, create_time createTime, update_time updateTime
+        from t_disease_sys_survey
+        where record_id = #{recordId}
+    </select>
+    <select id="getDiseaseDataCollUAVRecordByRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseDataCollUAVRecord">
+        select id, record_id recordId, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, site_canopy_img siteCanopyImg, create_time createTime, update_time updateTime
+        from t_disease_data_coll_nav
+        where record_id = #{recordId}
+    </select>
+    <select id="getPestCollRecordByRecordId" resultType="com.oymn.geoinvestigate.dao.pojo.PestCollRecord">
+        select id, record_id recordId, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        from t_pest_collection
+        where record_id = #{recordId}
+    </select>
+    <select id="getPestLeavesImgsByPestCollRecordId" resultType="java.lang.String">
+        select img
+        from t_pest_img
+        where pest_coll_record_id = #{pestCollRecordId}
+    </select>
+    <select id="getPestSurveyUAVRecordByRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.PestSurveyUAVRecord">
+        select id, record_id recordId, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        from t_pest_survey_uav
+        where record_id = #{recordId}
+    </select>
+    <select id="getPestLeavesImgsUAVByPestSurveyRecordId" resultType="java.lang.String">
+        select img
+        from t_pest_uav_img
+        where pest_survey_uav_record_id = #{pestSurveyUAVRecordId}
+    </select>
+    <select id="getEnvirongmentFactorByRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.EnvironmentFactorRecord">
+        select id, record_id recordId, soil_moisture soilMoisture, soil_temp soilTemp, air_moisture airMoisture, air_temp airTemp, create_time createTime, update_time updateTime
+        from t_environment_factor
+        where record_id = #{recordId}
+    </select>
+    <select id="getSoilMoistureCollRecordsByRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.SoilMoistureCollRecord">
+        select id, record_id recordId, site_id siteId, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
+        from t_soil_moisture_coll
+        where record_id = #{recordId}
+    </select>
+    <select id="getWheatYieldCollRecordsbyRecordId"
+            resultType="com.oymn.geoinvestigate.dao.pojo.WheatYieldCollRecord">
+        select id, record_id recordId, site_id siteId, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
+        from t_wheat_yield_coll
+        where record_id = #{recordId}
+    </select>
+
 
 </mapper>

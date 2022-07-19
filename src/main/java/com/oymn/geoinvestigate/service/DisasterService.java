@@ -27,7 +27,7 @@ public interface DisasterService {
      * @param disasterType
      * @return 自增的id
      */
-    Integer addDisasterType(DisasterType disasterType);
+    Long addDisasterType(DisasterType disasterType);
 
     /**
      * 添加灾害属性

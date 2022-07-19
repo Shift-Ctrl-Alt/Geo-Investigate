@@ -1,137 +1,51 @@
 package com.oymn.geoinvestigate.dao.pojo;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
 import java.util.Date;
 
+@Data
 public class Record {
     
     private Long id;
     
     private Long userId;
+
+    private Double latitude;   //纬度
+
+    private Double longitude;  //经度
     
-    private String landMsg;
+    private Date surveyTime;   //调查时间
+     
+    private String landMsg;    //土地类型信息
     
-    private String disasterMsg;
+    private String cropType;   //作物类型
     
-    private String position;
+    private String cropVariety;  //作物品种
     
-    private Date startTime;
+    private String spCanopyImg;  //样地冠层图片
     
-    private Date endTime;
-    
-    private Double latitude;
-    
-    private Double longitude;
-    
-    private String note;
-    
-    private String imgUrl;
+    private String note;   //备注信息
     
     private Date createTime;
     
     private Date updateTime;
 
-    public Long getId() {
-        return id;
+    public Record() {
     }
 
-    public void setId(Long id) {
+    public Record(Long id, Long userId, Double latitude, Double longitude, Date surveyTime, String landMsg, String cropType, String cropVariety, String spCanopyImg, String note) {
         this.id = id;
-    }
-
-    public Long getUserId() {
-        return userId;
-    }
-
-    public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public String getLandMsg() {
-        return landMsg;
-    }
-
-    public void setLandMsg(String landMsg) {
-        this.landMsg = landMsg;
-    }
-
-    public String getDisasterMsg() {
-        return disasterMsg;
-    }
-
-    public void setDisasterMsg(String disasterMsg) {
-        this.disasterMsg = disasterMsg;
-    }
-
-    public String getPosition() {
-        return position;
-    }
-
-    public void setPosition(String position) {
-        this.position = position;
-    }
-
-    public Date getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Date startTime) {
-        this.startTime = startTime;
-    }
-
-    public Date getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Date endTime) {
-        this.endTime = endTime;
-    }
-
-    public Double getLatitude() {
-        return latitude;
-    }
-
-    public void setLatitude(Double latitude) {
         this.latitude = latitude;
-    }
-
-    public Double getLongitude() {
-        return longitude;
-    }
-
-    public void setLongitude(Double longitude) {
         this.longitude = longitude;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
+        this.surveyTime = surveyTime;
+        this.landMsg = landMsg;
+        this.cropType = cropType;
+        this.cropVariety = cropVariety;
+        this.spCanopyImg = spCanopyImg;
         this.note = note;
     }
-
-    public String getImgUrl() {
-        return imgUrl;
-    }
-
-    public void setImgUrl(String imgUrl) {
-        this.imgUrl = imgUrl;
-    }
-
-    public Date getCreateTime() {
-        return createTime;
-    }
-
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
-
-    public Date getUpdateTime() {
-        return updateTime;
-    }
-
-    public void setUpdateTime(Date updateTime) {
-        this.updateTime = updateTime;
-    }
-    
 }

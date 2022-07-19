@@ -56,8 +56,8 @@ public class DisasterController {
     @ApiOperation("添加灾害类型")
     @PostMapping("disaster-type")
     @PreAuthorize("@ex.hasAuthority('addDisasterType')")
-    public Result<Integer> addDisasterType(@ApiParam("灾害类型对象") @RequestBody DisasterType disasterType){
-        Integer id = disasterService.addDisasterType(disasterType);
+    public Result<Long> addDisasterType(@ApiParam("灾害类型对象") @RequestBody DisasterType disasterType){
+        Long id = disasterService.addDisasterType(disasterType);
         return Result.success(id);
     }
 

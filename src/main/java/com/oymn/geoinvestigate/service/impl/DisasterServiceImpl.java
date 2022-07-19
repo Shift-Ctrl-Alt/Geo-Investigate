@@ -1,5 +1,6 @@
 package com.oymn.geoinvestigate.service.impl;
 
+import com.alibaba.fastjson.JSONObject;
 import com.oymn.geoinvestigate.common.StatusCode;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.mapper.DisasterDao;
@@ -10,6 +11,7 @@ import com.oymn.geoinvestigate.service.DisasterService;
 import com.oymn.geoinvestigate.vo.DisasterAttributeValueVo;
 import jdk.net.SocketFlow;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,9 +27,28 @@ public class DisasterServiceImpl implements DisasterService {
     @Autowired
     private DisasterDao disasterDao;
 
+    @Autowired
+    private RedisTemplate<String, String> redisTemplate;
+
+    //保存灾害类型
+    private static final String DISASTER_TYPE_LIST = "DISASTER_TYPE_LIST";
+
+    //保存灾害属性和属性值
+    private static final String DISASTER_ATTRIBUTE_AND_VALUE = "DISASTER_ATTRIBUTE_AND_VALUE";
+
     @Override
     public List<DisasterType> getDisasterType() {
-        return disasterDao.getDisasterType();
+
+        String disasterTypesJson = redisTemplate.opsForValue().get(DISASTER_TYPE_LIST);
+        if(disasterTypesJson != null && disasterTypesJson != ""){
+            return JSONObject.parseArray(disasterTypesJson, DisasterType.class);
+        }
+
+        List<DisasterType> disasterTypeList = disasterDao.getDisasterType();
+        //存入redis中
+        redisTemplate.opsForValue().set(DISASTER_TYPE_LIST, JSONObject.toJSONString(disasterTypeList));
+        
+        return disasterTypeList;
     }
 
     @Override
@@ -35,6 +56,11 @@ public class DisasterServiceImpl implements DisasterService {
 
         if (disasterTypeId == null) {
             throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
+        }
+
+        String disasterAttrValuesJson = (String) redisTemplate.opsForHash().get(DISASTER_ATTRIBUTE_AND_VALUE, disasterTypeId.toString());
+        if(disasterAttrValuesJson != null && disasterAttrValuesJson != ""){
+            return JSONObject.parseArray(disasterAttrValuesJson, DisasterAttributeValueVo.class);
         }
 
         List<DisasterAttribute> disasterAttributeList = disasterDao.getDisasterAttribute(disasterTypeId);
@@ -61,7 +87,7 @@ public class DisasterServiceImpl implements DisasterService {
     }
 
     @Override
-    public Integer addDisasterType(DisasterType disasterType) {
+    public Long addDisasterType(DisasterType disasterType) {
         DisasterType dbDisasterType = disasterDao.getDisasterTypeByName(disasterType.getNameChs(), disasterType.getNameEn());
         if (dbDisasterType != null) {
             throw new ConditionException("该灾害类型已存在");
@@ -69,7 +95,11 @@ public class DisasterServiceImpl implements DisasterService {
 
         disasterType.setCreateTime(new Date());
         disasterType.setUpdateTime(new Date());
-        return disasterDao.addDisasterType(disasterType);
+        disasterDao.addDisasterType(disasterType);
+        
+        redisTemplate.delete(DISASTER_TYPE_LIST);
+        
+        return disasterType.getId();
     }
 
     @Override
@@ -92,6 +122,9 @@ public class DisasterServiceImpl implements DisasterService {
         disasterAttr.setCreateTime(new Date());
         disasterAttr.setUpdateTime(new Date());
         disasterDao.addDisasterAttr(disasterAttr);
+        
+        redisTemplate.delete(DISASTER_ATTRIBUTE_AND_VALUE);
+        
         return disasterAttr.getId();
     }
 
@@ -113,6 +146,8 @@ public class DisasterServiceImpl implements DisasterService {
 
         List<DisasterAttributeValue> attributeValues = disasterAttrValue.getAttrValues();
         disasterDao.addDisasterAttrValue(attributeValues);
+        
+        redisTemplate.delete(DISASTER_ATTRIBUTE_AND_VALUE);
     }
 
     @Override
@@ -123,6 +158,8 @@ public class DisasterServiceImpl implements DisasterService {
         
         disasterType.setUpdateTime(new Date());
         disasterDao.updateDisasterType(disasterType);
+        
+        redisTemplate.delete(DISASTER_TYPE_LIST);
     }
 
     @Override
@@ -133,6 +170,8 @@ public class DisasterServiceImpl implements DisasterService {
         
         disasterAttribute.setUpdateTime(new Date());
         disasterDao.updateDisasterAttribute(disasterAttribute);
+        
+        redisTemplate.delete(DISASTER_ATTRIBUTE_AND_VALUE);
     }
 
     @Override
@@ -144,6 +183,8 @@ public class DisasterServiceImpl implements DisasterService {
         
         disasterAttributeValue.setUpdateTime(new Date());
         disasterDao.updateDisasterAttrValue(disasterAttributeValue);
+        
+        redisTemplate.delete(DISASTER_ATTRIBUTE_AND_VALUE);
     }
 
     @Override
@@ -152,6 +193,8 @@ public class DisasterServiceImpl implements DisasterService {
             throw new ConditionException(StatusCode.PARAMS_ERROR.getCode(), StatusCode.PARAMS_ERROR.getMsg());
         }
         disasterDao.deleteDisasterType(disasterTypeId);
+        
+        redisTemplate.delete(DISASTER_TYPE_LIST);
     }
 
     @Override
@@ -166,6 +209,8 @@ public class DisasterServiceImpl implements DisasterService {
         
         //再删除该属性的属性值
         disasterDao.deleteAttrValueByAttrId(disasterAttributeId);
+        
+        redisTemplate.delete(DISASTER_ATTRIBUTE_AND_VALUE);
     }
 
     @Override
@@ -175,5 +220,7 @@ public class DisasterServiceImpl implements DisasterService {
         }
         
         disasterDao.deleteAttrValueByValueId(disasterAttrValueId);
+        
+        redisTemplate.delete(DISASTER_ATTRIBUTE_AND_VALUE);
     }
 }
