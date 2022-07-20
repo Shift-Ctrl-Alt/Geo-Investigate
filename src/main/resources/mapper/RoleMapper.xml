@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.RoleDao">
     <insert id="setUserRole">
-        insert into t_user_role(user_id, role_id) 
+        insert into t_user_role(user_id, role_id, create_time, update_time) 
         VALUES (#{userId}, #{roleId}, NOW(), NOW())
     </insert>
 
