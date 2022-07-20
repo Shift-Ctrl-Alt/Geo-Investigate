@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -49,8 +50,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 //认证所有的请求
                 .authorizeRequests()
                 // 对于登录和注册接口允许匿名访问
-                .antMatchers("/user/login", "/user/register").anonymous()
-                .antMatchers("/**").permitAll()
+                //.antMatchers("/user/login", "/user/register").anonymous()
+                .antMatchers("/user/login", "/user/register").permitAll()
                 // 除上面外的所有请求全部需要鉴权认证成功
                 .anyRequest().authenticated();
 
@@ -66,6 +67,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         //允许跨域
         http.cors();
+    }
+
+    @Override
+    public void configure(WebSecurity web) throws Exception {
+        //所需要用到的静态资源，允许访问
+        web.ignoring().antMatchers( "/swagger-ui.html",
+                "/swagger-ui/*",
+                "/swagger-resources/**",
+                "/v2/api-docs",
+                "/v3/api-docs",
+                "/webjars/**");
     }
 
     @Bean
