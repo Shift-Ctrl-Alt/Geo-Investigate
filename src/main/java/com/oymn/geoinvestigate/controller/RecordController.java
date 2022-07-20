@@ -43,8 +43,12 @@ public class RecordController {
      */
     @ApiOperation("上传图片的方法")
     @PostMapping("img")
-    public Result uploadFile(@ApiParam("图片文件") @RequestParam(value = "file", required = true) MultipartFile uploadImg,
-                             @ApiParam("目录：不同作用的图片放在不同的目录下") String dir,
+    @ApiImplicitParams({
+            @ApiImplicitParam(name = "uploadImg", paramType="form", value = "uploadImg", dataType="file", required = true),
+            @ApiImplicitParam(name="dir", value="dir", dataTypeClass = String.class, required = true)
+    })
+    public Result uploadFile(@RequestPart("file") @RequestParam(value = "file", required = true) MultipartFile uploadImg,
+                             String dir,
                              HttpServletRequest request) {
         String imgPath = fileService.uploadFile(uploadImg, dir, request);
         return Result.success(imgPath);
