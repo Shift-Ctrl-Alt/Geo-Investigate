@@ -87,7 +87,7 @@
                 quadrat_canopy_img = #{quadratCanopyImg},
             </if>
             <if test="quadratLeavesImg != null and quadratLeavesImg != ''">
-                quadrat_leavesimg = #{quadratLeavesImg},
+                quadrat_leaves_img = #{quadratLeavesImg},
             </if>
         </set>
         <where>
@@ -110,7 +110,7 @@
                 quadrat_canopy_img = #{quadratCanopyImg},
             </if>
             <if test="quadratLeavesImg != null and quadratLeavesImg != ''">
-                quadrat_leavesimg = #{quadratLeavesImg},
+                quadrat_leaves_img = #{quadratLeavesImg},
             </if>
         </set>
         <where>
@@ -159,6 +159,26 @@
             </if>
             <if test="quadratCanopyImg != null and quadratCanopyImg != ''">
                 quadrat_canopy_img = #{quadratCanopyImg},
+            </if>
+        </set>
+        <where>
+            id = #{id}
+        </where>
+    </update>
+    <update id="updateEnvironmentFactor">
+        update t_environment_factor
+        <set>
+            <if test="soilMoisture != null and soilMoisture != ''">
+                soil_moisture = #{soilMoisture},
+            </if>
+            <if test="soilTemp != null and soilTemp != ''">
+                soil_temp = #{soilTemp},
+            </if>
+            <if test="airMoisture != null and airMoisture != ''">
+                air_moisture = #{airMoisture},
+            </if>
+            <if test="airTemp != null and airTemp != ''">
+                air_temp = #{airTemp},
             </if>
         </set>
         <where>
@@ -261,6 +281,40 @@
         select id, record_id recordId, site_id siteId, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
         from t_wheat_yield_coll
         where record_id = #{recordId}
+    </select>
+    <select id="getDiseaseSamCollRecordById"
+            resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSamCollRecord">
+        select id, record_id recordId, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratleavesImg, create_time createTime, update_time updateTime
+        from t_disease_sample_coll
+        where id = #{id}
+    </select>
+    <select id="getDiseaseSysSurveyRecordById"
+            resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSysSurveyRecord">
+        select id, record_id recordId, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratLeavesImg, create_time createTime, update_time updateTime
+        from t_disease_sys_survey
+        where id = #{id}
+    </select>
+    <select id="getDiseaseDataCollUAVRecordById"
+            resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseDataCollUAVRecord">
+        select id, record_id recordId, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, site_canopy_img siteCanopyImg, create_time createTime, update_time updateTime
+        from t_disease_data_coll_nav
+        where id = #{id}
+    </select>
+    <select id="getPestCollRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.PestCollRecord">
+        select id, record_id recordId, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        from t_pest_collection
+        where id = #{id}
+    </select>
+    <select id="getPestSurveyUAVRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.PestSurveyUAVRecord">
+        select id, record_id recordId, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        from t_pest_survey_uav
+        where id = #{id}
+    </select>
+    <select id="getEnvironmentFactorRecordById"
+            resultType="com.oymn.geoinvestigate.dao.pojo.EnvironmentFactorRecord">
+        select id, record_id recordId, soil_moisture soilMoisture, soil_temp soilTemp, air_moisture airMoisture, air_temp airTemp, create_time createTime, update_time updateTime
+        from t_environment_factor
+        where id = #{id}
     </select>
 
 

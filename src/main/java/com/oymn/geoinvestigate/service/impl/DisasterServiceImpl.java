@@ -83,6 +83,10 @@ public class DisasterServiceImpl implements DisasterService {
             disasterAttrValueVoList.add(disasterAttrValueVo);
         }
 
+        //存入redis中
+        redisTemplate.opsForHash().put(DISASTER_ATTRIBUTE_AND_VALUE, disasterTypeId.toString(), JSONObject.toJSONString(disasterAttrValueVoList));
+
+
         return disasterAttrValueVoList;
     }
 

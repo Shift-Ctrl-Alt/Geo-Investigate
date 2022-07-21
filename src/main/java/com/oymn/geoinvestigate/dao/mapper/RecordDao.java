@@ -76,4 +76,18 @@ public interface RecordDao {
     List<SoilMoistureCollRecord> getSoilMoistureCollRecordsByRecordId(Long recordId);
 
     List<WheatYieldCollRecord> getWheatYieldCollRecordsbyRecordId(Long recordId);
+
+    DiseaseSamCollRecord getDiseaseSamCollRecordById(Long id);
+
+    DiseaseSysSurveyRecord getDiseaseSysSurveyRecordById(Long id);
+
+    DiseaseDataCollUAVRecord getDiseaseDataCollUAVRecordById(Long id);
+
+    PestCollRecord getPestCollRecordById(Long id);
+
+    PestSurveyUAVRecord getPestSurveyUAVRecordById(Long id);
+
+    void updateEnvironmentFactor(EnvironmentFactorRecord environmentFactorRecord);
+
+    EnvironmentFactorRecord getEnvironmentFactorRecordById(Long id);
 }

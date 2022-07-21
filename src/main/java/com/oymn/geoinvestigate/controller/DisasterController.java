@@ -39,11 +39,11 @@ public class DisasterController {
      */
     @ApiOperation("获取灾害的属性及属性值")
     @GetMapping("disaster-attribute")
-    @ApiImplicitParams(
-            @ApiImplicitParam(name = "disasterTypeId", value = "灾害类型id",dataType = "Long", required = true)
-    )
+    //@ApiImplicitParams(
+    //        @ApiImplicitParam(name = "disasterTypeId", value = "灾害类型id",dataType = "Long", required = true)
+    //)
     @PreAuthorize("@ex.hasAuthority('getDisasterAttribute')")
-    public Result<List<DisasterAttributeValueVo>> getDisasterAttribute(Long disasterTypeId){
+    public Result<List<DisasterAttributeValueVo>> getDisasterAttribute(@ApiParam("灾害类型id") @RequestParam Long disasterTypeId){
         List<DisasterAttributeValueVo> disasterAttrValueList = disasterService.getDisasterAttribute(disasterTypeId);
         return Result.success(disasterAttrValueList);
     }
@@ -134,7 +134,7 @@ public class DisasterController {
     @ApiOperation("删除灾害类型")
     @DeleteMapping("disaster-type")
     @PreAuthorize("@ex.hasAuthority('deleteDisasterType')")
-    public Result deleteDisasterType(@ApiParam("灾害类型id") Long disasterTypeId){
+    public Result deleteDisasterType(@ApiParam("灾害类型id") @RequestParam Long disasterTypeId){
         disasterService.deleteDisasterType(disasterTypeId);
         return Result.success();
     }
@@ -147,7 +147,7 @@ public class DisasterController {
     @ApiOperation("删除灾害属性")
     @DeleteMapping("disaster-attribute")
     @PreAuthorize("@ex.hasAuthority('deleteDisasterAttribute')")
-    public Result deleteDisasterAttribute(@ApiParam("灾害属性id") Long disasterAttributeId){
+    public Result deleteDisasterAttribute(@ApiParam("灾害属性id") @RequestParam Long disasterAttributeId){
         disasterService.deleteDisasterAttribute(disasterAttributeId);
         return Result.success();
     }
@@ -155,7 +155,7 @@ public class DisasterController {
     @ApiOperation("删除灾害属性值")
     @DeleteMapping("disaster-attribute-value")
     @PreAuthorize("@ex.hasAuthority('deleteDisasterAttrValue')")
-    public Result deleteDisasterAttrValue(@ApiParam("灾害属性值id") Long disasterAttrValueId){
+    public Result deleteDisasterAttrValue(@ApiParam("灾害属性值id") @RequestParam Long disasterAttrValueId){
         disasterService.deleteDisasterAttrValue(disasterAttrValueId);
         return Result.success();
     }

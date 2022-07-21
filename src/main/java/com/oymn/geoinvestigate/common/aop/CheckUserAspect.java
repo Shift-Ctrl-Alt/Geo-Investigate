@@ -1,6 +1,7 @@
 package com.oymn.geoinvestigate.common.aop;
 
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
+import com.oymn.geoinvestigate.dao.mapper.RecordDao;
 import com.oymn.geoinvestigate.dao.pojo.*;
 import com.oymn.geoinvestigate.handler.UserSupport;
 import com.oymn.geoinvestigate.service.RecordService;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Component;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 
+/**
+ * 更新记录时检查用户身份
+ */
 @Aspect
 @Component
 public class CheckUserAspect {
@@ -46,37 +50,55 @@ public class CheckUserAspect {
         //获取参数值
         Object[] args = joinPoint.getArgs();
 
-        for (int i = 0; i < args.length; i++) {
-            Object parameterValue = args[i];
+        Object parameterValue = args[0];
 
-            // TODO: 补充所有记录类型
-            if (parameterValue instanceof DiseaseSamCollRecord
-                    || parameterValue instanceof DiseaseSysSurveyRecord
-                    || parameterValue instanceof DiseaseDataCollUAVRecord
-                    || parameterValue instanceof PestCollRecord
-                    || parameterValue instanceof PestSurveyUAVRecord) {
-
-                //获取recordId这个属性
-                Field recordIdField = parameterValue.getClass().getDeclaredField("recordId");
-                recordIdField.setAccessible(true);
-                //获取recordId的值
-                Long recordId = (Long) recordIdField.get(parameterValue);
-                //通过recordId的值查询Record主记录
-                Record record = recordService.getRecordById(recordId);
-
-                Long userId = record.getUserId();
-                if (userId != currentUserId) {
-                    throw new ConditionException("记录所有者不是该登录用户");
-                }
-            } else if (parameterValue instanceof Record) {
-                Field userIdField = parameterValue.getClass().getDeclaredField("userId");
-                userIdField.setAccessible(true);
-                Long userId = (Long) userIdField.get(parameterValue);
-                if (userId != currentUserId) {
-                    throw new ConditionException("记录所有者不是该登录用户");
-                }
-            }
+        //获取id
+        Long id;
+        Field idField = null;
+        try {
+            idField = parameterValue.getClass().getDeclaredField("id");
+            idField.setAccessible(true);
+            id = (Long) idField.get(parameterValue);
+        } catch (Exception e) {
+            throw new ConditionException("参数有误");
         }
 
+        if (id == null) {
+            throw new ConditionException("参数有误");
+        }
+
+        Long recordId = null;
+        // TODO: 补充所有记录类型
+        if (parameterValue instanceof Record) {
+            recordId = id;
+        } else if (parameterValue instanceof DiseaseSamCollRecord) {
+            DiseaseSamCollRecord diseaseSamCollRecord = recordService.getDiseaseSamCollRecordById(id);
+            recordId = diseaseSamCollRecord.getRecordId();
+        } else if (parameterValue instanceof DiseaseSysSurveyRecord) {
+            DiseaseSysSurveyRecord diseaseSysSurveyRecord = recordService.getDiseaseSysSurveyRecordById(id);
+            recordId = diseaseSysSurveyRecord.getRecordId();
+        } else if (parameterValue instanceof DiseaseDataCollUAVRecord) {
+            DiseaseDataCollUAVRecord diseaseDataCollUAVRecord = recordService.getDiseaseDataCollUAVRecordById(id);
+            recordId = diseaseDataCollUAVRecord.getRecordId();
+        } else if (parameterValue instanceof PestCollRecord) {
+            PestCollRecord pestCollRecord = recordService.getPestCollRecordById(id);
+            recordId = pestCollRecord.getRecordId();
+        } else if (parameterValue instanceof PestSurveyUAVRecord) {
+            PestSurveyUAVRecord pestSurveyUAVRecord = recordService.getPestSurveyUAVRecordById(id);
+            recordId = pestSurveyUAVRecord.getRecordId();
+        } else if(parameterValue instanceof EnvironmentFactorRecord){
+            EnvironmentFactorRecord environmentFactorRecord = recordService.getEnvironmentFactorRecordById(id);
+            recordId = environmentFactorRecord.getRecordId();
+        }
+
+        if (recordId == null) {
+            throw new ConditionException("记录有误");
+        }
+
+        Record record = recordService.getRecordById(recordId);
+        Long userId = record.getUserId();
+        if (userId != currentUserId) {
+            throw new ConditionException("记录所有者不是该登录用户");
+        }
     }
 }

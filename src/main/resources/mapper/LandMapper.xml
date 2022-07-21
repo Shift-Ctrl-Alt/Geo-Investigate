@@ -121,7 +121,7 @@
         where name_chs = #{param1} and name_en = #{param2}
     </select>
     <select id="getAttrByNameAndLandType" resultType="com.oymn.geoinvestigate.dao.pojo.LandAttribute">
-        select id, land_type_id, name_chs, name_en, unit, required, create_time, update_time
+        select id, land_type_id landTypeId, name_chs nameChs, name_en nameEn, unit, required, create_time createTime, update_time updateTime
         FROM t_land_attribute
         WHERE land_type_id = #{landTypeId} and name_chs = #{nameChs} and name_en = #{nameEn}
     </select>

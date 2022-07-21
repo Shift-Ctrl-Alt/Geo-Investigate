@@ -152,4 +152,52 @@ public interface RecordService {
      * @return
      */
     RecordVo getRecordVoById(Long recordId);
+
+    /**
+     * 根据id获取灾害样本采集表记录
+     * @param id
+     * @return
+     */
+    DiseaseSamCollRecord getDiseaseSamCollRecordById(Long id);
+
+    /**
+     * 根据id获取灾害系统调查表记录
+     * @param id
+     * @return
+     */
+    DiseaseSysSurveyRecord getDiseaseSysSurveyRecordById(Long id);
+
+    /**
+     * 根据id获取机-地灾害数据采集表几楼
+     * @param id
+     * @return
+     */
+    DiseaseDataCollUAVRecord getDiseaseDataCollUAVRecordById(Long id);
+
+    /**
+     * 根据id获取虫害采集表记录
+     * @param id
+     * @return
+     */
+    PestCollRecord getPestCollRecordById(Long id);
+
+    /**
+     * 根据id获取机-地虫害调查表记录
+     * @param id
+     * @return
+     */
+    PestSurveyUAVRecord getPestSurveyUAVRecordById(Long id);
+
+    /**
+     * 更新环境要素实体类
+     * @param environmentFactorRecord
+     */
+    void updateEnvironmentFactor(EnvironmentFactorRecord environmentFactorRecord);
+
+    /**
+     * 根据id查询环境要素
+     * @param id
+     * @return
+     */
+    EnvironmentFactorRecord getEnvironmentFactorRecordById(Long id);
 }

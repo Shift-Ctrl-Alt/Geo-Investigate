@@ -1,6 +1,7 @@
 package com.oymn.geoinvestigate.controller;
 
 import com.oymn.geoinvestigate.common.annotation.CheckUser;
+import com.oymn.geoinvestigate.common.annotation.CheckUserForAddRecord;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.pojo.*;
 import com.oymn.geoinvestigate.handler.UserSupport;
@@ -90,7 +91,8 @@ public class RecordController {
      */
     @ApiOperation("添加一条空的病害样本采集表记录")
     @PostMapping("disease-sam-coll-record")
-    public Result<Long> addDiseaseSamCollRecord(@ApiParam("主记录的id") Long mainRecordId) {
+    @CheckUserForAddRecord
+    public Result<Long> addDiseaseSamCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         DiseaseSamCollRecord diseaseSamCollRecord = new DiseaseSamCollRecord();
         diseaseSamCollRecord.setRecordId(mainRecordId);
         Long id = recordService.addDiseaseSamCollRecord(diseaseSamCollRecord);
@@ -113,7 +115,8 @@ public class RecordController {
 
     @ApiOperation("添加一条空的病害系统调查表记录")
     @PostMapping("disease-sys-survey-record")
-    public Result<Long> addDiseaseSysSurveyRecord(@ApiParam("主记录的id") Long mainRecordId) {
+    @CheckUserForAddRecord
+    public Result<Long> addDiseaseSysSurveyRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         DiseaseSysSurveyRecord diseaseSysSurveyRecord = new DiseaseSysSurveyRecord();
         diseaseSysSurveyRecord.setRecordId(mainRecordId);
         Long id = recordService.addDiseaseSysSurveyRecord(diseaseSysSurveyRecord);
@@ -130,7 +133,8 @@ public class RecordController {
 
     @ApiOperation("添加一条空的机-地病害数据采集表记录")
     @PostMapping("disease-data-coll-uav-record")
-    public Result<Long> addDiseaseDataCollUAVRecord(@ApiParam("主记录的id") Long mainRecordId) {
+    @CheckUserForAddRecord
+    public Result<Long> addDiseaseDataCollUAVRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         DiseaseDataCollUAVRecord diseaseDataCollUAVRecord = new DiseaseDataCollUAVRecord();
         diseaseDataCollUAVRecord.setRecordId(mainRecordId);
         Long id = recordService.addDiseaseDataCollUAVRecord(diseaseDataCollUAVRecord);
@@ -148,7 +152,8 @@ public class RecordController {
     // TODO: 这里得想好表和图片的关系
     @ApiOperation("添加一条空的虫害采集表")
     @PostMapping("pest-coll-record")
-    public Result<Long> addPestCollRecord(@ApiParam("主记录的id") Long mainRecordId) {
+    @CheckUserForAddRecord
+    public Result<Long> addPestCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         PestCollRecord pestCollRecord = new PestCollRecord();
         pestCollRecord.setRecordId(mainRecordId);
         Long id = recordService.addPestCollRecord(pestCollRecord);
@@ -171,7 +176,7 @@ public class RecordController {
     @ApiOperation("删除虫害叶片照片")
     @DeleteMapping("pest-img-record")
     // TODO: 可以尝试将删除这段用户判断也弄成一个注解
-    public Result deletePestImgRecord(@ApiParam("虫害叶片照片记录的id") Long pestImgRecordId) {
+    public Result deletePestImgRecord(@ApiParam("虫害叶片照片记录的id") @RequestParam Long pestImgRecordId) {
         Long currentUserId = userSupport.getCurrentUserId();
         Long userId = recordService.getUserIdByPestImgRecordId(pestImgRecordId);
         if (currentUserId != userId) {
@@ -193,7 +198,8 @@ public class RecordController {
 
     @ApiOperation("添加一条空的机-地虫害调查表记录")
     @PostMapping("pest-survey-uav-record")
-    public Result<Long> addPestSurveyUAVRecord(@ApiParam("主记录的id") Long mainRecordId) {
+    @CheckUserForAddRecord
+    public Result<Long> addPestSurveyUAVRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         PestSurveyUAVRecord pestSurveyUAVRecord = new PestSurveyUAVRecord();
         pestSurveyUAVRecord.setRecordId(mainRecordId);
         Long id = recordService.addPestSurveyUAVRecord(pestSurveyUAVRecord);
@@ -217,7 +223,7 @@ public class RecordController {
 
     @ApiOperation("删除机-地虫害叶片照片表记录")
     @DeleteMapping("pest-uav-img-record")
-    public Result deletePestUAVImgRecord(@ApiParam("机-地虫害叶片照片表记录的id") Long pestUAVImgRecordId) {
+    public Result deletePestUAVImgRecord(@ApiParam("机-地虫害叶片照片表记录的id") @RequestParam Long pestUAVImgRecordId) {
         Long currentUserId = userSupport.getCurrentUserId();
         Long userId = recordService.getUserIdByPestUAVImgRecordId(pestUAVImgRecordId);
         if (currentUserId != userId) {
@@ -229,15 +235,22 @@ public class RecordController {
 
     @ApiOperation("添加一条空的环境要素")
     @PostMapping("environment-factor")
-    public Result addEnvironmentFactor(@ApiParam("主记录的id") Long mainRecordId) {
+    @CheckUserForAddRecord
+    public Result addEnvironmentFactor(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         EnvironmentFactorRecord environmentFactorRecord = new EnvironmentFactorRecord();
         environmentFactorRecord.setRecordId(mainRecordId);
         Long id = recordService.addEnvironmentFactor(environmentFactorRecord);
         return Result.success(id);
     }
     
+    @ApiOperation("更新环境要素")
+    @PutMapping("environment-factor")
+    @CheckUser
+    public Result updateEnvironmentFactor(@ApiParam("环境要素的实体类") @RequestBody EnvironmentFactorRecord environmentFactorRecord){
+        recordService.updateEnvironmentFactor(environmentFactorRecord);
+        return Result.success();
+    }
     
-
 
     /**
      * 查询记录
@@ -270,7 +283,7 @@ public class RecordController {
      */
     @ApiOperation("删除记录")
     @DeleteMapping("invest-record")
-    public Result deleteRecord(@ApiParam("记录id") Long recordId) {
+    public Result deleteRecord(@ApiParam("记录id") @RequestParam Long recordId) {
         Long currentUserId = userSupport.getCurrentUserId();
         recordService.deleteRecord(currentUserId, recordId);
         return Result.success();
@@ -278,7 +291,7 @@ public class RecordController {
     
     @ApiOperation("根据id查询记录")
     @GetMapping("invest-record")
-    public Result<RecordVo> getRecord(@ApiParam("记录的id") Long recordId){
+    public Result<RecordVo> getRecord(@ApiParam("记录的id") @RequestParam Long recordId){
         RecordVo recordVo = recordService.getRecordVoById(recordId);
         return Result.success(recordVo);
     }

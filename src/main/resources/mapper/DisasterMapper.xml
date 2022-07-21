@@ -14,7 +14,7 @@
         insert into t_disaster_attribute_value(disaster_attr_id, value_chs, value_en, create_time, update_time)
         values
         <foreach collection="attrValues" item="attrValue" separator=",">
-            (#{attrValues.disasterAttributeId}, #{attrValue.valueChs},#{attrValue.valueEn}, NOW(), NOW())
+            (#{attrValue.disasterAttributeId}, #{attrValue.valueChs},#{attrValue.valueEn}, NOW(), NOW())
         </foreach>
     </insert>
     <update id="updateDisasterType">
@@ -80,12 +80,12 @@
         FROM t_disaster_type
     </select>
     <select id="getDisasterAttribute" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        select id, disaster_type_id, name_chs, name_en, unit, required, create_time, update_time
+        select id, disaster_type_id disasterTypeId, name_chs nameChs, name_en nameEn, unit, required, create_time createTime, update_time updateTime
         from t_disaster_attribute
         where disaster_type_id = #{disasterTypeId}
     </select>
     <select id="getAttributeValue" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttributeValue">
-        select id, disaster_attr_id, value_chs, value_en, create_time, update_time
+        select id, disaster_attr_id disasterAttributeId, value_chs valueChs, value_en valueEn, create_time createTime, update_time updateTime
         from t_disaster_attribute_value
         where disaster_attr_id = #{attributeId}
     </select>
@@ -100,17 +100,17 @@
         where id = #{disasterTypeId}
     </select>
     <select id="getAttrByNameAndTypeId" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        select id, disaster_type_id, name_chs, name_en, unit, required, create_time, update_time
+        select id, disaster_type_id disasterTypeId, name_chs nameChs, name_en nameEn, unit, required, create_time createTime, update_time updateTime
         from t_disaster_attribute
         where disaster_type_id = #{disasterTypeId} and name_chs = #{nameChs} and name_en = #{nameEn}
     </select>
     <select id="getAttrByName" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        select id, name_chs, name_en, unit, required, create_time, update_time
+        select id, name_chs nameChs, name_en nameEn,  unit, required, create_time createTime, update_time updateTime
         from t_disaster_attribute
         where name_chs = #{param1} and name_en = #{param2}
     </select>
     <select id="getAttrById" resultType="com.oymn.geoinvestigate.dao.pojo.DisasterAttribute">
-        select id, disaster_type_id, name_chs, name_en, unit, required, create_time, update_time
+        select id, disaster_type_id disasterTypeId, name_chs nameChs, name_en nameEn, unit, required, create_time createTime, update_time updateTime
         from t_disaster_attribute
         where id = #{disasterAttrId}
     </select>

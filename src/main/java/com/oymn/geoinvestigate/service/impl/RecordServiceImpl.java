@@ -127,7 +127,18 @@ public class RecordServiceImpl implements RecordService {
 
     @Override
     public Long addEnvironmentFactor(EnvironmentFactorRecord environmentFactorRecord) {
-        return recordDao.addEnvironmentFactor(environmentFactorRecord);
+        recordDao.addEnvironmentFactor(environmentFactorRecord);
+        return environmentFactorRecord.getId();
+    }
+
+    @Override
+    public void updateEnvironmentFactor(EnvironmentFactorRecord environmentFactorRecord) {
+        recordDao.updateEnvironmentFactor(environmentFactorRecord);
+    }
+
+    @Override
+    public EnvironmentFactorRecord getEnvironmentFactorRecordById(Long id) {
+        return recordDao.getEnvironmentFactorRecordById(id);
     }
 
     @Override
@@ -152,7 +163,30 @@ public class RecordServiceImpl implements RecordService {
         return new PageResult<>(count, recordList);
     }
 
+    @Override
+    public DiseaseSamCollRecord getDiseaseSamCollRecordById(Long id) {
+        return recordDao.getDiseaseSamCollRecordById(id);
+    }
 
+    @Override
+    public DiseaseSysSurveyRecord getDiseaseSysSurveyRecordById(Long id) {
+        return recordDao.getDiseaseSysSurveyRecordById(id);
+    }
+
+    @Override
+    public DiseaseDataCollUAVRecord getDiseaseDataCollUAVRecordById(Long id) {
+        return recordDao.getDiseaseDataCollUAVRecordById(id);
+    }
+
+    @Override
+    public PestCollRecord getPestCollRecordById(Long id) {
+        return recordDao.getPestCollRecordById(id);
+    }
+
+    @Override
+    public PestSurveyUAVRecord getPestSurveyUAVRecordById(Long id) {
+        return recordDao.getPestSurveyUAVRecordById(id);
+    }
 
     @Override
     public void deleteRecord(Long currentUserId, Long recordId) {
