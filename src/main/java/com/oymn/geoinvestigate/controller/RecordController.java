@@ -1,7 +1,8 @@
 package com.oymn.geoinvestigate.controller;
 
-import com.oymn.geoinvestigate.common.annotation.CheckUser;
+import com.oymn.geoinvestigate.common.annotation.CheckUserForUpdateRecord;
 import com.oymn.geoinvestigate.common.annotation.CheckUserForAddRecord;
+import com.oymn.geoinvestigate.common.annotation.CheckUserForDeleteRecord;
 import com.oymn.geoinvestigate.dao.exception.ConditionException;
 import com.oymn.geoinvestigate.dao.pojo.*;
 import com.oymn.geoinvestigate.handler.UserSupport;
@@ -13,11 +14,8 @@ import io.swagger.annotations.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import sun.applet.Main;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.HashSet;
-import java.util.Set;
 
 /**
  * 记录的相关接口
@@ -45,8 +43,8 @@ public class RecordController {
     @ApiOperation("上传图片的方法")
     @PostMapping("img")
     @ApiImplicitParams({
-            @ApiImplicitParam(name = "uploadImg", paramType="form", value = "uploadImg", dataType="file", required = true),
-            @ApiImplicitParam(name="dir", value="dir", dataTypeClass = String.class, required = true)
+            @ApiImplicitParam(name = "uploadImg", paramType = "form", value = "uploadImg", dataType = "file", required = true),
+            @ApiImplicitParam(name = "dir", value = "dir", dataTypeClass = String.class, required = true)
     })
     public Result uploadFile(@RequestPart("file") @RequestParam(value = "file", required = true) MultipartFile uploadImg,
                              String dir,
@@ -78,11 +76,12 @@ public class RecordController {
      */
     @ApiOperation("修改主记录")
     @PutMapping("invest-record")
-    @CheckUser
+    @CheckUserForUpdateRecord
     public Result updateMainRecord(@ApiParam("记录类") @RequestBody Record record) {
         recordService.updateMainRecord(record);
         return Result.success();
     }
+
 
     /**
      * 添加一条空的病害样本采集表记录
@@ -107,9 +106,17 @@ public class RecordController {
      */
     @ApiOperation("更新病害样本采集表记录")
     @PutMapping("disease-sam-coll-record")
-    @CheckUser
+    @CheckUserForUpdateRecord
     public Result updateDiseaseSamCollRecord(@ApiParam("病害样本采集表的实体类") @RequestBody DiseaseSamCollRecord diseaseSamCollRecord) {
         recordService.updateDiseaseSamCollRecord(diseaseSamCollRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除病害样本采集表记录")
+    @DeleteMapping("disease-sam-coll-record")
+    @CheckUserForDeleteRecord
+    public Result deleteDiseaseSamCollRecord(@ApiParam("病害样本采集表记录的id") @RequestParam Long id) {
+        recordService.deleteDiseaseSamCollRecordById(id);
         return Result.success();
     }
 
@@ -125,9 +132,17 @@ public class RecordController {
 
     @ApiOperation("更新病害系统调查表记录")
     @PutMapping("disease-sys-survey-record")
-    @CheckUser
+    @CheckUserForUpdateRecord
     public Result updateDiseaseSysSurveyRecord(@ApiParam("病害系统调查表的实体类") @RequestBody DiseaseSysSurveyRecord diseaseSysSurveyRecord) {
         recordService.updateDiseaseSysSurveyRecord(diseaseSysSurveyRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除病害系统调查表记录")
+    @DeleteMapping("disease-sys-survey-record")
+    @CheckUserForDeleteRecord
+    public Result deleteDiseaseSysSurveyRecord(@ApiParam("病害系统调查表记录的id") @RequestParam Long id) {
+        recordService.deleteDiseaseSysSurveyRecordById(id);
         return Result.success();
     }
 
@@ -143,9 +158,17 @@ public class RecordController {
 
     @ApiOperation("更新机-地病害数据采集表记录")
     @PutMapping("disease-data-coll-uav-record")
-    @CheckUser
+    @CheckUserForUpdateRecord
     public Result updateDiseaseDataCollUAVRecord(@ApiParam("机-地病害数据采集表的实体类") @RequestBody DiseaseDataCollUAVRecord diseaseDataCollUAVRecord) {
         recordService.updateDiseaseDataCollUAVRecord(diseaseDataCollUAVRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除机-地病害数据采集表记录")
+    @DeleteMapping("disease-data-coll-uav-record")
+    @CheckUserForDeleteRecord
+    public Result deleteDiseaseDataCollUAVRecord(@ApiParam("机-地病害数据采集表的id") @RequestParam Long id) {
+        recordService.deleteDiseaseDataCollUAVRecordById(id);
         return Result.success();
     }
 
@@ -190,9 +213,17 @@ public class RecordController {
 
     @ApiOperation("更新虫害采集表记录")
     @PutMapping("pest-coll-record")
-    @CheckUser
+    @CheckUserForUpdateRecord
     public Result updatePestCollRecord(@ApiParam("虫害采集表记录的实体") @RequestBody PestCollRecord pestCollRecord) {
         recordService.updatePestCollRecord(pestCollRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除虫害采集表记录")
+    @DeleteMapping("pest-coll-record")
+    @CheckUserForDeleteRecord
+    public Result deletePestCollRecord(@ApiParam("虫害采集表记录的id") @RequestParam Long id) {
+        recordService.deletePestCollRecordById(id);
         return Result.success();
     }
 
@@ -208,9 +239,17 @@ public class RecordController {
 
     @ApiOperation("更新机-地虫害调查表记录")
     @PutMapping("pest-survey-uav-record")
-    @CheckUser
+    @CheckUserForUpdateRecord
     public Result updatePestSurveyUAVRecord(@ApiParam("机-地虫害调查表记录的实体") @RequestBody PestSurveyUAVRecord pestSurveyUAVRecord) {
         recordService.updatePestSurveyUAVRecord(pestSurveyUAVRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除机-地虫害调查表记录")
+    @DeleteMapping("pest-survey-uav-record")
+    @CheckUserForDeleteRecord
+    public Result deletePestSurveyUAVRecord(@ApiParam("机-地虫害调查表记录的id") @RequestParam Long id) {
+        recordService.deletePestSurveyUAVRecordById(id);
         return Result.success();
     }
 
@@ -234,23 +273,84 @@ public class RecordController {
     }
 
     @ApiOperation("添加一条空的环境要素")
-    @PostMapping("environment-factor")
+    @PostMapping("environment-factor-record")
     @CheckUserForAddRecord
-    public Result addEnvironmentFactor(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
+    public Result<Long> addEnvironmentFactor(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         EnvironmentFactorRecord environmentFactorRecord = new EnvironmentFactorRecord();
         environmentFactorRecord.setRecordId(mainRecordId);
         Long id = recordService.addEnvironmentFactor(environmentFactorRecord);
         return Result.success(id);
     }
-    
+
     @ApiOperation("更新环境要素")
-    @PutMapping("environment-factor")
-    @CheckUser
-    public Result updateEnvironmentFactor(@ApiParam("环境要素的实体类") @RequestBody EnvironmentFactorRecord environmentFactorRecord){
+    @PutMapping("environment-factor-record")
+    @CheckUserForUpdateRecord
+    public Result updateEnvironmentFactor(@ApiParam("环境要素的实体类") @RequestBody EnvironmentFactorRecord environmentFactorRecord) {
         recordService.updateEnvironmentFactor(environmentFactorRecord);
         return Result.success();
     }
-    
+
+    @ApiOperation("删除环境因素")
+    @DeleteMapping("environment-factor-record")
+    @CheckUserForDeleteRecord
+    public Result deleteEnvironmentFactor(@ApiParam("环境因素的id") @RequestParam Long id) {
+        recordService.deleteEnvironmentFactorById(id);
+        return Result.success();
+    }
+
+    @ApiOperation("添加一条空的土壤湿度采集表")
+    @PostMapping("soil-moisture-coll-record")
+    @CheckUserForAddRecord
+    public Result<Long> addSoilMoistureCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId, @ApiParam("样点号") @RequestParam Long siteId) {
+        SoilMoistureCollRecord soilMoistureCollRecord = new SoilMoistureCollRecord();
+        soilMoistureCollRecord.setRecordId(mainRecordId);
+        soilMoistureCollRecord.setSiteId(siteId);
+        Long id = recordService.addSoilMoistureCollRecord(soilMoistureCollRecord);
+        return Result.success(id);
+    }
+
+    @ApiOperation("更新土壤湿度采集表")
+    @PutMapping("soil-moisture-coll-record")
+    @CheckUserForUpdateRecord
+    public Result updateSoilMoistureCollRecord(@ApiParam("土壤湿度采集表的实体类") @RequestBody SoilMoistureCollRecord soilMoistureCollRecord) {
+        recordService.updateSoilMoistureCollRecord(soilMoistureCollRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除土壤湿度采集表")
+    @DeleteMapping("soil-moisture-coll-record")
+    @CheckUserForDeleteRecord
+    public Result deleteSoilMoistureCollRecord(@ApiParam("土壤湿度采集表记录的id") @RequestParam Long id) {
+        recordService.deleteSoilMoistureCollRecordById(id);
+        return Result.success();
+    }
+
+    @ApiOperation("添加一条空的小麦产量表记录")
+    @PostMapping("wheat-yield-coll-record")
+    @CheckUserForAddRecord
+    public Result<Long> addWheatYieldCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId, @ApiParam("样点号") @RequestParam Long siteId) {
+        WheatYieldCollRecord wheatYieldCollRecord = new WheatYieldCollRecord();
+        wheatYieldCollRecord.setRecordId(mainRecordId);
+        wheatYieldCollRecord.setSiteId(siteId);
+        Long id = recordService.addWheatYieldCollRecord(wheatYieldCollRecord);
+        return Result.success(id);
+    }
+
+    @ApiOperation("更新小麦产量表记录")
+    @PutMapping("wheat-yield-coll-record")
+    @CheckUserForUpdateRecord
+    public Result updateWheatYieldCollRecord(@ApiParam("小麦产量表记录的实体类") @RequestBody WheatYieldCollRecord wheatYieldCollRecord ) {
+        recordService.updateWheatYieldCollRecord(wheatYieldCollRecord);
+        return Result.success();
+    }
+
+    @ApiOperation("删除小麦产量表记录")
+    @DeleteMapping("wheat-yield-coll-record")
+    @CheckUserForDeleteRecord
+    public Result deleteWheatYieldCollRecord(@ApiParam("小麦产量表记录的id")@RequestParam Long id){
+        recordService.deleteWheatYieldCollRecordById(id);
+        return Result.success();
+    }
 
     /**
      * 查询记录
@@ -266,12 +366,11 @@ public class RecordController {
             @ApiImplicitParam(name = "pageNo", value = "第几页", required = true)
     })
     public Result<PageResult<Record>> pageRecords(@RequestParam Integer pageSize,
-                                                 @RequestParam Integer pageNo) {
+                                                  @RequestParam Integer pageNo) {
         Long userId = userSupport.getCurrentUserId();
         PageResult<Record> recordList = recordService.getRecords(userId, pageNo, pageSize);
 
         return Result.success(recordList);
-
     }
 
 
@@ -283,15 +382,15 @@ public class RecordController {
      */
     @ApiOperation("删除记录")
     @DeleteMapping("invest-record")
+    @CheckUserForDeleteRecord
     public Result deleteRecord(@ApiParam("记录id") @RequestParam Long recordId) {
-        Long currentUserId = userSupport.getCurrentUserId();
-        recordService.deleteRecord(currentUserId, recordId);
+        recordService.deleteRecord(recordId);
         return Result.success();
     }
-    
+
     @ApiOperation("根据id查询记录")
     @GetMapping("invest-record")
-    public Result<RecordVo> getRecord(@ApiParam("记录的id") @RequestParam Long recordId){
+    public Result<RecordVo> getRecord(@ApiParam("记录的id") @RequestParam Long recordId) {
         RecordVo recordVo = recordService.getRecordVoById(recordId);
         return Result.success(recordVo);
     }

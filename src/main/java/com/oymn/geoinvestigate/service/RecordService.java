@@ -28,10 +28,9 @@ public interface RecordService {
     
     /**
      * 删除记录
-     * @param currentUserId
      * @param recordId
      */
-    void deleteRecord(Long currentUserId, Long recordId);
+    void deleteRecord(Long recordId);
 
     /**
      * 添加一条病害样本采集记录
@@ -200,4 +199,103 @@ public interface RecordService {
      * @return
      */
     EnvironmentFactorRecord getEnvironmentFactorRecordById(Long id);
+
+    /**
+     * 根据id删除灾害样本采集表记录
+     * @param id
+     */
+    void deleteDiseaseSamCollRecordById(Long id);
+
+    /**
+     * 根据id删除病害系统调查表记录
+     * @param id
+     */
+    void deleteDiseaseSysSurveyRecordById(Long id);
+
+    /**
+     * 根据id删除机-地病害数据采集表
+     * @param id
+     */
+    void deleteDiseaseDataCollUAVRecordById(Long id);
+
+    /**
+     * 根据id删除虫害采集表记录
+     * @param id
+     */
+    void deletePestCollRecordById(Long id);
+
+    /**
+     * 根据id删除机-地虫害调查表
+     * @param id
+     */
+    void deletePestSurveyUAVRecordById(Long id);
+
+    /**
+     * 根据id删除环境因素
+     * @param id
+     */
+    void deleteEnvironmentFactorById(Long id);
+
+    /**
+     * 添加土壤湿度采集表记录
+     * @param soilMoistureCollRecord
+     * @return
+     */
+    Long addSoilMoistureCollRecord(SoilMoistureCollRecord soilMoistureCollRecord);
+
+    /**
+     * 更新土壤湿度采集表记录
+     * @param soilMoistureCollRecord
+     */
+    void updateSoilMoistureCollRecord(SoilMoistureCollRecord soilMoistureCollRecord);
+
+    /**
+     * 通过id删除土壤湿度采集表
+     * @param id
+     */
+    void deleteSoilMoistureCollRecordById(Long id);
+
+    /**
+     * 根据主记录id删除所有相关的虫害采集表记录
+     * @param recordId
+     */
+    void deletePestCollRecordByRecordId(Long recordId);
+
+    /**
+     * 根据主记录id删除所有相关的机-地虫害调查表记录
+     */
+    void deletePestSurveyUAVRecordByRecordId(Long recordId);
+
+    /**
+     * 根据id查询土壤湿度采集表记录
+     * @param id
+     * @return
+     */
+    SoilMoistureCollRecord getSoilMoistureCollRecordById(Long id);
+
+    /**
+     * 添加一条小麦产量表记录
+     * @param wheatYieldCollRecord
+     * @return
+     */
+    Long addWheatYieldCollRecord(WheatYieldCollRecord wheatYieldCollRecord);
+
+    /**
+     * 更新小麦产量采集表记录
+     * @param wheatYieldCollRecord
+     */
+    void updateWheatYieldCollRecord(WheatYieldCollRecord wheatYieldCollRecord);
+
+    /**
+     * 根据id删除小麦产量采集表记录
+     * @param id
+     */
+    void deleteWheatYieldCollRecordById(Long id);
+
+    /**
+     * 查询小麦常量记录
+     * @param recordId
+     * @return
+     */
+    WheatYieldCollRecord getWheatYieldCollRecordById(Long id);
 }

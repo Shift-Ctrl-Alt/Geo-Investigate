@@ -57,21 +57,21 @@ public interface RecordDao {
 
     Long addEnvironmentFactor(EnvironmentFactorRecord environmentFactorRecord);
 
-    DiseaseSamCollRecord getDiseaseSamCollRecordByRecordId(Long recordId);
+    List<DiseaseSamCollRecord> getDiseaseSamCollRecordByRecordId(Long recordId);
 
-    DiseaseSysSurveyRecord getDiseaseSysSurveyRecordByRecordId(Long recordId);
+    List<DiseaseSysSurveyRecord> getDiseaseSysSurveyRecordByRecordId(Long recordId);
 
-    DiseaseDataCollUAVRecord getDiseaseDataCollUAVRecordByRecordId(Long recordId);
+    List<DiseaseDataCollUAVRecord> getDiseaseDataCollUAVRecordByRecordId(Long recordId);
 
-    PestCollRecord getPestCollRecordByRecordId(Long recordId);
+    List<PestCollRecord> getPestCollRecordByRecordId(Long recordId);
 
     List<String> getPestLeavesImgsByPestCollRecordId(Long pestCollRecordId);
 
-    PestSurveyUAVRecord getPestSurveyUAVRecordByRecordId(Long recordId);
+    List<PestSurveyUAVRecord> getPestSurveyUAVRecordByRecordId(Long recordId);
 
     List<String> getPestLeavesImgsUAVByPestSurveyRecordId(Long pestSurveyUAVRecordId);
 
-    EnvironmentFactorRecord getEnvirongmentFactorByRecordId(Long recordId);
+    List<EnvironmentFactorRecord> getEnvirongmentFactorByRecordId(Long recordId);
 
     List<SoilMoistureCollRecord> getSoilMoistureCollRecordsByRecordId(Long recordId);
 
@@ -90,4 +90,53 @@ public interface RecordDao {
     void updateEnvironmentFactor(EnvironmentFactorRecord environmentFactorRecord);
 
     EnvironmentFactorRecord getEnvironmentFactorRecordById(Long id);
+
+    void deleteDiseaseSamCollRecordById(Long id);
+
+    void deleteDiseaseSysSurveyRecordById(Long id);
+
+    void deleteDiseaseDataCollUAVRecordById(Long id);
+
+    void deletePestCollRecordById(Long id);
+
+    void deletePestSurveyUAVRecordById(Long id);
+
+    void deleteEnvironmentFactorById(Long id);
+
+    void addSoilMoistureCollRecord(SoilMoistureCollRecord soilMoistureCollRecord);
+
+    void updateSoilMoistureCollRecord(SoilMoistureCollRecord soilMoistureCollRecord);
+
+    void deleteSoilMoistureCollRecordById(Long id);
+    
+    void deletePestImgRecordByPestCollRecordId(Long pestCollRecordId);
+
+    void deletePestUAVImgRecordByPestSurveyUAVRecordId(Long pestSurveyUAVRecordId);
+
+    void deleteDiseaseSamCollRecordByRecordId(Long recordId);
+
+    void deleteDiseaseSysSurveyRecordByRecordId(Long recordId);
+
+    void deleteDiseaseDataCollUAVRecordByRecordId(Long recordId);
+
+    void deletePestCollRecordByRecordId(Long recordId);
+
+    void deletePestSurveyUAVRecordByRecordId(Long recordId);
+
+    void deleteEnvironmentFactorByRecordId(Long recordId);
+
+    void deleteSoilMoistureCollRecordByRecordId(Long recordId);
+
+    void deleteWheatYieldCollRecordByRecordId(Long recordId);
+
+    SoilMoistureCollRecord getSoilMoistureCollRecordById(Long id);
+
+    void addWheatYieldCollRecord(WheatYieldCollRecord wheatYieldCollRecord);
+
+
+    void updateWheatYieldCollRecord(WheatYieldCollRecord wheatYieldCollRecord);
+
+    void deleteWheatYieldCollRecordById(Long id);
+
+    WheatYieldCollRecord getWheatYieldCollRecordById(Long id);
 }

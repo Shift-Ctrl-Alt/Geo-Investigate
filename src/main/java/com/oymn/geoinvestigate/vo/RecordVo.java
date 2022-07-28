@@ -43,33 +43,33 @@ public class RecordVo {
     private String note;   //备注信息
 
     @ApiModelProperty("病害样本采集表记录")
-    private DiseaseSamCollRecord diseaseSamCollRecord;   //病害样本采集表
+    private List<DiseaseSamCollRecord> diseaseSamCollRecord;   //病害样本采集表
 
     @ApiModelProperty("病害系统调查表记录")
-    private DiseaseSysSurveyRecord diseaseSysSurveyRecord;  //病害系统调查表
+    private List<DiseaseSysSurveyRecord> diseaseSysSurveyRecord;  //病害系统调查表
 
     @ApiModelProperty("机-地病害数据采集表")
-    private DiseaseDataCollUAVRecord diseaseDataCollUAVRecord;  //机-地病害数据采集表
+    private List<DiseaseDataCollUAVRecord> diseaseDataCollUAVRecord;  //机-地病害数据采集表
     
     @ApiModelProperty("虫害采集表")
-    private PestCollRecordVo pestCollRecordVo;
+    private List<PestCollRecordVo> pestCollRecordVo;
     
     @ApiModelProperty("机-地虫害采集表")
-    private PestSurveyUAVRecordVo pestSurveyUAVRecordVo;
+    private List<PestSurveyUAVRecordVo> pestSurveyUAVRecordVo;
     
     @ApiModelProperty("环境要素表")
-    private EnvironmentFactorRecord environmentFactorRecord;
+    private List<EnvironmentFactorRecord> environmentFactorRecord;
     
-    @ApiModelProperty("土壤湿度采集表:5个样点")
-    private List<SoilMoistureCollRecord> soilMoistureCollRecords;    
+    @ApiModelProperty("土壤湿度采集表")
+    private List<SoilMoistureCollRecordVo> soilMoistureCollRecords;    
     
     @ApiModelProperty("小麦产量采集表")
-    private List<WheatYieldCollRecord> wheatYieldCollRecords;
+    private List<WheatYieldCollRecordVo> wheatYieldCollRecords;
 
     public RecordVo() {
     }
 
-    public RecordVo(Long id, Long userId, Double latitude, Double longitude, Date surveyTime, String landMsg, String cropType, String cropVariety, String spCanopyImg, String note, DiseaseSamCollRecord diseaseSamCollRecord, DiseaseSysSurveyRecord diseaseSysSurveyRecord, DiseaseDataCollUAVRecord diseaseDataCollUAVRecord, PestCollRecordVo pestCollRecordVo, PestSurveyUAVRecordVo pestSurveyUAVRecordVo, EnvironmentFactorRecord environmentFactorRecord, List<SoilMoistureCollRecord> soilMoistureCollRecords, List<WheatYieldCollRecord> wheatYieldCollRecords) {
+    public RecordVo(Long id, Long userId, Double latitude, Double longitude, Date surveyTime, String landMsg, String cropType, String cropVariety, String spCanopyImg, String note, List<DiseaseSamCollRecord> diseaseSamCollRecord, List<DiseaseSysSurveyRecord> diseaseSysSurveyRecord, List<DiseaseDataCollUAVRecord> diseaseDataCollUAVRecord, List<PestCollRecordVo> pestCollRecordVo, List<PestSurveyUAVRecordVo> pestSurveyUAVRecordVo, List<EnvironmentFactorRecord> environmentFactorRecord, List<SoilMoistureCollRecordVo> soilMoistureCollRecords, List<WheatYieldCollRecordVo> wheatYieldCollRecords) {
         this.id = id;
         this.userId = userId;
         this.latitude = latitude;
@@ -89,7 +89,7 @@ public class RecordVo {
         this.soilMoistureCollRecords = soilMoistureCollRecords;
         this.wheatYieldCollRecords = wheatYieldCollRecords;
     }
-    
+
     public void setRecord(Record record){
         this.id = record.getId();
         this.userId = record.getUserId();

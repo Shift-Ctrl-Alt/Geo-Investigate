@@ -18,6 +18,12 @@ public class SoilMoistureCollRecord {
     
     @ApiModelProperty("样点的id,前端自动生成")
     private Long siteId;
+
+    @ApiModelProperty("纬度")
+    private Double latitude;   //纬度
+
+    @ApiModelProperty("经度")
+    private Double longitude;  //经度
     
     @ApiModelProperty("土壤类型")
     private String soilType;

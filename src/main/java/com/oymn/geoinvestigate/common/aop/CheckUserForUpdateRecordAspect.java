@@ -22,7 +22,7 @@ import java.lang.reflect.Method;
  */
 @Aspect
 @Component
-public class CheckUserAspect {
+public class CheckUserForUpdateRecordAspect {
 
     @Autowired
     private UserSupport userSupport;
@@ -30,7 +30,7 @@ public class CheckUserAspect {
     @Autowired
     private RecordService recordService;
 
-    @Pointcut("@annotation(com.oymn.geoinvestigate.common.annotation.CheckUser)")
+    @Pointcut("@annotation(com.oymn.geoinvestigate.common.annotation.CheckUserForUpdateRecord)")
     public void check() {
 
     }
@@ -86,9 +86,15 @@ public class CheckUserAspect {
         } else if (parameterValue instanceof PestSurveyUAVRecord) {
             PestSurveyUAVRecord pestSurveyUAVRecord = recordService.getPestSurveyUAVRecordById(id);
             recordId = pestSurveyUAVRecord.getRecordId();
-        } else if(parameterValue instanceof EnvironmentFactorRecord){
+        } else if (parameterValue instanceof EnvironmentFactorRecord) {
             EnvironmentFactorRecord environmentFactorRecord = recordService.getEnvironmentFactorRecordById(id);
             recordId = environmentFactorRecord.getRecordId();
+        } else if (parameterValue instanceof SoilMoistureCollRecord) {
+            SoilMoistureCollRecord soilMoistureCollRecord = recordService.getSoilMoistureCollRecordById(id);
+            recordId = soilMoistureCollRecord.getRecordId();
+        } else if (parameterValue instanceof WheatYieldCollRecord) {
+            WheatYieldCollRecord wheatYieldCollRecord = recordService.getWheatYieldCollRecordById(id);
+            recordId = wheatYieldCollRecord.getRecordId();
         }
 
         if (recordId == null) {

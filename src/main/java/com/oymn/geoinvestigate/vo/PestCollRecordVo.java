@@ -17,6 +17,12 @@ public class PestCollRecordVo {
     
     @ApiModelProperty("主记录的id")
     private Long recordId;
+
+    @ApiModelProperty("纬度")
+    private Double latitude;   //纬度
+
+    @ApiModelProperty("经度")
+    private Double longitude;  //经度
     
     @ApiModelProperty("虫害类型")
     private String pestType;

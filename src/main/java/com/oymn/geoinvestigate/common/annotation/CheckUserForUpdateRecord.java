@@ -8,6 +8,6 @@ import java.lang.annotation.*;
 @Retention(RetentionPolicy.RUNTIME)
 @Documented
 @Component
-public @interface CheckUser {
+public @interface CheckUserForUpdateRecord {
     
 }

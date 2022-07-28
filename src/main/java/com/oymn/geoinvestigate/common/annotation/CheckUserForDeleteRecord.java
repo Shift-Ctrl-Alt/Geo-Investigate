@@ -8,7 +8,7 @@ import java.lang.annotation.*;
 @Target({ElementType.METHOD})
 @Documented
 @Component
-public @interface CheckUserForDelete {
+public @interface CheckUserForDeleteRecord {
     
     
 }

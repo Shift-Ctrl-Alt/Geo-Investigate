@@ -16,6 +16,12 @@ public class EnvironmentFactorRecord {
     @ApiModelProperty("主记录id")
     private Long recordId;
 
+    @ApiModelProperty("纬度")
+    private Double latitude;   //纬度
+
+    @ApiModelProperty("经度")
+    private Double longitude;  //经度
+
     @ApiModelProperty("土壤湿度")
     private String soilMoisture;   //土壤湿度
 

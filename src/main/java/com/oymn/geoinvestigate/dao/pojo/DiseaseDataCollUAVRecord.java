@@ -16,6 +16,12 @@ public class DiseaseDataCollUAVRecord {
     @ApiModelProperty("主记录的id")
     private Long recordId;
 
+    @ApiModelProperty("纬度")
+    private Double latitude;   //纬度
+
+    @ApiModelProperty("经度")
+    private Double longitude;  //经度
+
     @ApiModelProperty("病害类型")
     private String diseaseType;
 

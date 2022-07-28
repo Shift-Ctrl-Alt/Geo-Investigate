@@ -1,5 +1,6 @@
 package com.oymn.geoinvestigate.dao.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.AllArgsConstructor;
@@ -24,7 +25,8 @@ public class Record {
     @ApiModelProperty("经度")
     private Double longitude;  //经度
 
-    @ApiModelProperty("调查时间")
+    @ApiModelProperty("调查时间,格式：yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date surveyTime;   //调查时间
 
     @ApiModelProperty("土地类型信息")

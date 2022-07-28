@@ -19,6 +19,12 @@ public class WheatYieldCollRecord {
     
     @ApiModelProperty("样点的id，前端生成")
     private Long siteId;
+
+    @ApiModelProperty("纬度")
+    private Double latitude;   //纬度
+
+    @ApiModelProperty("经度")
+    private Double longitude;  //经度
     
     @ApiModelProperty("灾害类型")
     private String disasterType;
