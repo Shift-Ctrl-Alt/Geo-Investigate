@@ -13,12 +13,15 @@ public class WebMvcConfig implements WebMvcConfigurer {
     @Value("${IMG_SERVER_PATH}")
     private String IMG_SERVER_PATH;
     
+    @Value("${vueFile}")
+    private String htmlFile;
+    
 
     //配置文件上传的服务目录
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
         //访问http://localhost:8080/img/aaa.jpg  ->   D://aaa.jpg
         registry.addResourceHandler("/img/**").addResourceLocations("file:" + IMG_BASE_PATH);
-        
+        registry.addResourceHandler("/html/**").addResourceLocations("file:" + htmlFile);
     }
 }
