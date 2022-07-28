@@ -26,7 +26,6 @@ public class Record {
     private Double longitude;  //经度
 
     @ApiModelProperty("调查时间,格式：yyyy-MM-dd HH:mm:ss")
-    @JsonFormat(pattern="yyyy-MM-dd HH:mm:ss",timezone = "GMT+8")
     private Date surveyTime;   //调查时间
 
     @ApiModelProperty("土地类型信息")

@@ -7,6 +7,7 @@ import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 @Data
 @ApiModel("用于和前端交互的记录实体类对象")
@@ -60,16 +61,16 @@ public class RecordVo {
     @ApiModelProperty("环境要素表")
     private List<EnvironmentFactorRecord> environmentFactorRecord;
     
-    @ApiModelProperty("土壤湿度采集表")
-    private List<SoilMoistureCollRecordVo> soilMoistureCollRecords;    
+    @ApiModelProperty("土壤湿度采集表,key是样点id,value是每个土壤实体类")
+    private Map<Long, List<SoilMoistureCollRecord>> soilMoistureCollRecords;    
     
-    @ApiModelProperty("小麦产量采集表")
-    private List<WheatYieldCollRecordVo> wheatYieldCollRecords;
+    @ApiModelProperty("小麦产量采集表,key是样点id,value是每个小麦实体类")
+    private Map<Long,List<WheatYieldCollRecord>> wheatYieldCollRecords;
 
     public RecordVo() {
     }
 
-    public RecordVo(Long id, Long userId, Double latitude, Double longitude, Date surveyTime, String landMsg, String cropType, String cropVariety, String spCanopyImg, String note, List<DiseaseSamCollRecord> diseaseSamCollRecord, List<DiseaseSysSurveyRecord> diseaseSysSurveyRecord, List<DiseaseDataCollUAVRecord> diseaseDataCollUAVRecord, List<PestCollRecordVo> pestCollRecordVo, List<PestSurveyUAVRecordVo> pestSurveyUAVRecordVo, List<EnvironmentFactorRecord> environmentFactorRecord, List<SoilMoistureCollRecordVo> soilMoistureCollRecords, List<WheatYieldCollRecordVo> wheatYieldCollRecords) {
+    public RecordVo(Long id, Long userId, Double latitude, Double longitude, Date surveyTime, String landMsg, String cropType, String cropVariety, String spCanopyImg, String note, List<DiseaseSamCollRecord> diseaseSamCollRecord, List<DiseaseSysSurveyRecord> diseaseSysSurveyRecord, List<DiseaseDataCollUAVRecord> diseaseDataCollUAVRecord, List<PestCollRecordVo> pestCollRecordVo, List<PestSurveyUAVRecordVo> pestSurveyUAVRecordVo, List<EnvironmentFactorRecord> environmentFactorRecord) {
         this.id = id;
         this.userId = userId;
         this.latitude = latitude;
@@ -86,8 +87,6 @@ public class RecordVo {
         this.pestCollRecordVo = pestCollRecordVo;
         this.pestSurveyUAVRecordVo = pestSurveyUAVRecordVo;
         this.environmentFactorRecord = environmentFactorRecord;
-        this.soilMoistureCollRecords = soilMoistureCollRecords;
-        this.wheatYieldCollRecords = wheatYieldCollRecords;
     }
 
     public void setRecord(Record record){

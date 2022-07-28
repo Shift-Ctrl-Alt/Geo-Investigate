@@ -14,6 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.event.TransactionalEventListener;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static javafx.scene.input.KeyCode.L;
 
@@ -305,13 +306,15 @@ public class RecordServiceImpl implements RecordService {
         recordVo.setEnvironmentFactorRecord(environmentFactorRecord);
 
         //设置土壤湿度采集表
-        // TODO:这里的样方编号需不需要和每个样方对应上( 待做)
-        //List<SoilMoistureCollRecord> soilMoistureCollRecords = recordDao.getSoilMoistureCollRecordsByRecordId(recordId);
-        recordVo.setSoilMoistureCollRecords(null);
+        // TODO:这里的样方编号需不需要和每个样方对应上(待做)
+        List<SoilMoistureCollRecord> soilMoistureCollRecords = recordDao.getSoilMoistureCollRecordsByRecordId(recordId);
+        Map<Long, List<SoilMoistureCollRecord>> soilMoistureCollRecordsMap = soilMoistureCollRecords.stream().collect(Collectors.groupingBy(SoilMoistureCollRecord::getSiteId));
+        recordVo.setSoilMoistureCollRecords(soilMoistureCollRecordsMap);
 
         //设置小麦产量采集表
-        //List<WheatYieldCollRecord> wheatYieldCollRecords = recordDao.getWheatYieldCollRecordsbyRecordId(recordId);
-        recordVo.setWheatYieldCollRecords(null);
+        List<WheatYieldCollRecord> wheatYieldCollRecords = recordDao.getWheatYieldCollRecordsbyRecordId(recordId);
+        Map<Long, List<WheatYieldCollRecord>> wheatYieldCollRecordsMap = wheatYieldCollRecords.stream().collect(Collectors.groupingBy(WheatYieldCollRecord::getSiteId));
+        recordVo.setWheatYieldCollRecords(wheatYieldCollRecordsMap);
 
         return recordVo;
     }

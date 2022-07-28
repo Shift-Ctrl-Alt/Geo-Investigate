@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.Date;
 
 /**
  * 记录的相关接口
@@ -77,11 +78,16 @@ public class RecordController {
     @ApiOperation("修改主记录")
     @PutMapping("invest-record")
     @CheckUserForUpdateRecord
-    public Result updateMainRecord(@ApiParam("记录类") @RequestBody Record record) {
+    public Result updateMainRecord(@ApiParam("记录类") @RequestBody Record record, @ApiParam("调查时间") @RequestParam Long surveyTime) {
+        record.setSurveyTime(new Date(surveyTime));
+        
         recordService.updateMainRecord(record);
         return Result.success();
     }
 
+    public static void main(String[] args) {
+        System.out.println(System.currentTimeMillis());
+    }
 
     /**
      * 添加一条空的病害样本采集表记录

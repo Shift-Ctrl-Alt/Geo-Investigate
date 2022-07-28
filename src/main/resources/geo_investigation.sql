@@ -11,7 +11,7 @@
  Target Server Version : 80011
  File Encoding         : 65001
 
- Date: 19/07/2022 11:22:59
+ Date: 28/07/2022 15:43:41
 */
 
 SET NAMES utf8mb4;
@@ -31,7 +31,7 @@ CREATE TABLE `t_disaster_attribute`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 13 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 14 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_disaster_attribute
@@ -59,7 +59,7 @@ CREATE TABLE `t_disaster_attribute_value`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_disaster_attribute_value
@@ -80,7 +80,7 @@ CREATE TABLE `t_disaster_type`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = DYNAMIC;
 
 -- ----------------------------
 -- Records of t_disaster_type
@@ -102,13 +102,16 @@ CREATE TABLE `t_disease_data_coll_nav`  (
   `site_canopy_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '样点冠层图片地址',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+  `latitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '纬度',
+  `longitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '经度',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_disease_data_coll_nav
 -- ----------------------------
-INSERT INTO `t_disease_data_coll_nav` VALUES (1, 1, '干旱', 500, 40, NULL, '2022-07-18 15:19:30', '2022-07-18 15:20:38');
+INSERT INTO `t_disease_data_coll_nav` VALUES (1, 1, '干旱', 500, 40, NULL, '2022-07-18 15:19:30', '2022-07-18 15:20:38', NULL, NULL);
+INSERT INTO `t_disease_data_coll_nav` VALUES (2, 1, NULL, NULL, NULL, NULL, '2022-07-21 10:42:42', '2022-07-21 10:42:42', NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_disease_sample_coll
@@ -117,6 +120,8 @@ DROP TABLE IF EXISTS `t_disease_sample_coll`;
 CREATE TABLE `t_disease_sample_coll`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL COMMENT '样地的id',
+  `latitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '纬度',
+  `longitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '经度',
   `disease_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '病害类型',
   `survey_leaves` int(11) NULL DEFAULT NULL COMMENT '调查叶片的数量',
   `diseased_leaves` int(11) NULL DEFAULT NULL COMMENT '病叶数量',
@@ -125,12 +130,13 @@ CREATE TABLE `t_disease_sample_coll`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_disease_sample_coll
 -- ----------------------------
-INSERT INTO `t_disease_sample_coll` VALUES (1, 1, '干旱', 500, 40, NULL, NULL, '2022-07-18 09:58:59', '2022-07-18 15:14:03');
+INSERT INTO `t_disease_sample_coll` VALUES (1, 1, NULL, NULL, 'string', 500, 40, 'string', 'string', '2022-07-18 09:58:59', '2022-07-21 10:59:04');
+INSERT INTO `t_disease_sample_coll` VALUES (2, 4, NULL, NULL, 'string', NULL, 100, 'string', 'string', '2022-07-21 10:51:34', '2022-07-21 11:33:44');
 
 -- ----------------------------
 -- Table structure for t_disease_sys_survey
@@ -139,6 +145,8 @@ DROP TABLE IF EXISTS `t_disease_sys_survey`;
 CREATE TABLE `t_disease_sys_survey`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL,
+  `latitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '纬度',
+  `longitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '经度',
   `disease_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL,
   `survey_leaves` int(11) NULL DEFAULT NULL,
   `diseased_leaves` int(11) NULL DEFAULT NULL,
@@ -147,12 +155,12 @@ CREATE TABLE `t_disease_sys_survey`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_disease_sys_survey
 -- ----------------------------
-INSERT INTO `t_disease_sys_survey` VALUES (1, 1, '干旱', 500, 40, NULL, NULL, '2022-07-18 15:15:18', '2022-07-18 15:18:32');
+INSERT INTO `t_disease_sys_survey` VALUES (1, 1, NULL, NULL, '干旱', 500, 40, NULL, NULL, '2022-07-18 15:15:18', '2022-07-18 15:18:32');
 
 -- ----------------------------
 -- Table structure for t_environment_factor
@@ -161,6 +169,8 @@ DROP TABLE IF EXISTS `t_environment_factor`;
 CREATE TABLE `t_environment_factor`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL,
+  `latitude` decimal(10, 6) NULL DEFAULT NULL,
+  `longitude` decimal(10, 6) NULL DEFAULT NULL,
   `soil_moisture` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '土壤湿度',
   `soil_temp` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '土壤温度',
   `air_moisture` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '空气湿度',
@@ -168,12 +178,14 @@ CREATE TABLE `t_environment_factor`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_environment_factor
 -- ----------------------------
-INSERT INTO `t_environment_factor` VALUES (1, 1, '20', '30', '29', '39', '2022-07-19 11:05:02', '2022-07-19 11:05:02');
+INSERT INTO `t_environment_factor` VALUES (1, 1, NULL, NULL, '20', '30', '29', '39', '2022-07-19 11:05:02', '2022-07-19 11:05:02');
+INSERT INTO `t_environment_factor` VALUES (4, 5, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:37:12', '2022-07-28 15:37:12');
+INSERT INTO `t_environment_factor` VALUES (5, 6, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:42:48', '2022-07-28 15:42:48');
 
 -- ----------------------------
 -- Table structure for t_land_attribute
@@ -189,7 +201,7 @@ CREATE TABLE `t_land_attribute`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_land_attribute
@@ -215,7 +227,7 @@ CREATE TABLE `t_land_attribute_value`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 11 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_land_attribute_value
@@ -226,7 +238,6 @@ INSERT INTO `t_land_attribute_value` VALUES (5, 1, '人工林', 'artificial fore
 INSERT INTO `t_land_attribute_value` VALUES (6, 2, '用材林', 'timber forest', NULL, NULL);
 INSERT INTO `t_land_attribute_value` VALUES (7, 7, '天然林', 'wildwood', NULL, NULL);
 INSERT INTO `t_land_attribute_value` VALUES (8, 7, '次生林', 'secondary forest', NULL, NULL);
-INSERT INTO `t_land_attribute_value` VALUES (9, 7, '人工林', 'artificial forest', NULL, NULL);
 INSERT INTO `t_land_attribute_value` VALUES (10, 2, '薪炭林', 'tallwood', NULL, NULL);
 
 -- ----------------------------
@@ -241,7 +252,7 @@ CREATE TABLE `t_land_type`  (
   `create_time` datetime NULL DEFAULT NULL COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT NULL COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 9 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 10 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_land_type
@@ -266,7 +277,7 @@ CREATE TABLE `t_permission`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_permission
@@ -295,6 +306,7 @@ INSERT INTO `t_permission` VALUES (22, 'updateDisasterAttrValue', '修改灾害�
 INSERT INTO `t_permission` VALUES (23, 'deleteDisasterType', '删除灾害类型', NULL, NULL, NULL);
 INSERT INTO `t_permission` VALUES (24, 'deleteDisasterAttribute', '删除灾害属性', NULL, NULL, NULL);
 INSERT INTO `t_permission` VALUES (25, 'deleteDisasterAttrValue', '删除灾害属性值', NULL, NULL, NULL);
+INSERT INTO `t_permission` VALUES (26, 'addDisasterType', '添加灾害类型', NULL, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_pest_collection
@@ -303,17 +315,19 @@ DROP TABLE IF EXISTS `t_pest_collection`;
 CREATE TABLE `t_pest_collection`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL,
+  `latitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '纬度',
+  `longitude` decimal(10, 6) NULL DEFAULT NULL COMMENT '经度',
   `pest_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '虫害类型',
   `quadrat_canopy_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '样方冠层图片地址',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_pest_collection
 -- ----------------------------
-INSERT INTO `t_pest_collection` VALUES (1, 1, '蚜虫', NULL, '2022-07-18 15:21:43', '2022-07-18 15:23:10');
+INSERT INTO `t_pest_collection` VALUES (1, 6, NULL, NULL, '蚜虫', NULL, '2022-07-18 15:21:43', '2022-07-27 19:14:11');
 
 -- ----------------------------
 -- Table structure for t_pest_img
@@ -326,12 +340,11 @@ CREATE TABLE `t_pest_img`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_pest_img
 -- ----------------------------
-INSERT INTO `t_pest_img` VALUES (1, 1, 'tupiandizhi', '2022-07-18 15:25:35', '2022-07-18 15:25:35');
 
 -- ----------------------------
 -- Table structure for t_pest_survey_uav
@@ -340,17 +353,20 @@ DROP TABLE IF EXISTS `t_pest_survey_uav`;
 CREATE TABLE `t_pest_survey_uav`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL,
+  `latitude` decimal(10, 6) NULL DEFAULT NULL,
+  `longitude` decimal(10, 6) NULL DEFAULT NULL,
   `pest_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '虫害类型',
   `quadrat_canopy_img` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '样方冠层图片地址',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_pest_survey_uav
 -- ----------------------------
-INSERT INTO `t_pest_survey_uav` VALUES (1, 1, '蚜虫', NULL, '2022-07-18 15:26:57', '2022-07-18 15:30:01');
+INSERT INTO `t_pest_survey_uav` VALUES (1, 1, NULL, NULL, '蚜虫', NULL, '2022-07-18 15:26:57', '2022-07-18 15:30:01');
+INSERT INTO `t_pest_survey_uav` VALUES (4, 5, NULL, NULL, NULL, NULL, '2022-07-27 19:16:42', '2022-07-27 19:16:42');
 
 -- ----------------------------
 -- Table structure for t_pest_uav_img
@@ -363,7 +379,7 @@ CREATE TABLE `t_pest_uav_img`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_pest_uav_img
@@ -387,12 +403,16 @@ CREATE TABLE `t_record`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '修改时间',
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_record
 -- ----------------------------
-INSERT INTO `t_record` VALUES (1, 3, 30.000000, 42.500000, NULL, NULL, '小麦', NULL, NULL, NULL, '2022-07-18 09:44:23', '2022-07-18 09:55:20');
+INSERT INTO `t_record` VALUES (1, 3, 259.000000, 42.500000, NULL, 'string', 'string', 'string', 'string', 'string', '2022-07-18 09:44:23', '2022-07-20 12:55:02');
+INSERT INTO `t_record` VALUES (2, 3, 260.000000, NULL, NULL, 'string', 'string', 'string', 'string', 'string', '2022-07-20 10:06:06', '2022-07-20 11:21:58');
+INSERT INTO `t_record` VALUES (4, 6, NULL, NULL, '2022-07-28 10:02:46', 'string', 'string', 'string', 'string', 'string', '2022-07-21 10:41:46', '2022-07-28 10:09:08');
+INSERT INTO `t_record` VALUES (5, 6, NULL, NULL, '2022-07-28 15:30:52', 'string', 'string', 'string', 'string', 'string', '2022-07-21 11:31:03', '2022-07-28 15:33:13');
+INSERT INTO `t_record` VALUES (6, 6, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-21 11:31:33', '2022-07-21 11:31:33');
 
 -- ----------------------------
 -- Table structure for t_role
@@ -424,7 +444,7 @@ CREATE TABLE `t_role_permission`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 26 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 27 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_role_permission
@@ -453,6 +473,7 @@ INSERT INTO `t_role_permission` VALUES (22, 1, 22, NULL, NULL);
 INSERT INTO `t_role_permission` VALUES (23, 1, 23, NULL, NULL);
 INSERT INTO `t_role_permission` VALUES (24, 1, 24, NULL, NULL);
 INSERT INTO `t_role_permission` VALUES (25, 1, 25, NULL, NULL);
+INSERT INTO `t_role_permission` VALUES (26, 1, 26, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_soil_moisture_coll
@@ -461,7 +482,9 @@ DROP TABLE IF EXISTS `t_soil_moisture_coll`;
 CREATE TABLE `t_soil_moisture_coll`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL COMMENT '样地的id',
-  `site_id` bigint(20) NOT NULL COMMENT '样点的id',
+  `site_id` bigint(20) NULL DEFAULT NULL COMMENT '样点的id',
+  `latitude` decimal(10, 6) NULL DEFAULT NULL,
+  `longitude` decimal(10, 6) NULL DEFAULT NULL,
   `soil_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '土壤的类型',
   `depth_10` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '10cm的土壤深度',
   `depth_20` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '20cm的土壤深度',
@@ -471,11 +494,15 @@ CREATE TABLE `t_soil_moisture_coll`  (
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_soil_moisture_coll
 -- ----------------------------
+INSERT INTO `t_soil_moisture_coll` VALUES (2, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-28 10:22:18', '2022-07-28 10:22:18');
+INSERT INTO `t_soil_moisture_coll` VALUES (3, 5, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:37:53', '2022-07-28 15:37:53');
+INSERT INTO `t_soil_moisture_coll` VALUES (4, 6, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:38:13', '2022-07-28 15:38:13');
+INSERT INTO `t_soil_moisture_coll` VALUES (5, 6, 1, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:38:21', '2022-07-28 15:38:21');
 
 -- ----------------------------
 -- Table structure for t_user
@@ -490,13 +517,15 @@ CREATE TABLE `t_user`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 5 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 7 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user
 -- ----------------------------
 INSERT INTO `t_user` VALUES (3, 'chenhongrong', '18144636372', 'chenhongrong@163.com', '$2a$10$6p6B3YUM3/t7JWdS3dRBSuLd3TkBVXxfaIN/xbPJK/BEXMHn0zeWG', '2022-06-30 16:26:01', '2022-06-30 16:26:01');
 INSERT INTO `t_user` VALUES (4, 'hongrong', '18144636372', 'chenhongrong@163.com', '$2a$10$ZpJStVV/Uy8MLFwRYXXu7eFi5ctMuwDxz7QvjCSG5KpLyyhJprVWO', '2022-07-06 10:12:20', '2022-07-06 10:12:20');
+INSERT INTO `t_user` VALUES (5, 'hongrongchen', 'string', 'string', '$2a$10$bIAirnKettBlgujPRcgIRuOgm.KfWStYBKZGNooKNg94zIwb/XuM6', '2022-07-20 16:46:16', '2022-07-20 16:46:16');
+INSERT INTO `t_user` VALUES (6, 'string', 'string', 'string', '$2a$10$CvGwwYl3GtZSN9PhUW7JPuv4T/vmdJOnozQycaDRP/HJOL16qGLve', '2022-07-21 10:14:11', '2022-07-21 10:14:11');
 
 -- ----------------------------
 -- Table structure for t_user_role
@@ -509,13 +538,16 @@ CREATE TABLE `t_user_role`  (
   `create_time` datetime NULL DEFAULT NULL,
   `update_time` datetime NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 6 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_user_role
 -- ----------------------------
 INSERT INTO `t_user_role` VALUES (1, 3, 1, NULL, NULL);
 INSERT INTO `t_user_role` VALUES (2, 4, 1, NULL, NULL);
+INSERT INTO `t_user_role` VALUES (3, 5, 2, '2022-07-20 16:46:15', '2022-07-20 16:46:15');
+INSERT INTO `t_user_role` VALUES (4, 6, 2, '2022-07-21 10:14:10', '2022-07-21 10:14:10');
+INSERT INTO `t_user_role` VALUES (5, 6, 1, NULL, NULL);
 
 -- ----------------------------
 -- Table structure for t_wheat_yield_coll
@@ -524,17 +556,21 @@ DROP TABLE IF EXISTS `t_wheat_yield_coll`;
 CREATE TABLE `t_wheat_yield_coll`  (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `record_id` bigint(20) NOT NULL COMMENT '样地的id',
-  `site_id` bigint(20) NOT NULL COMMENT '样点的id',
+  `site_id` bigint(20) NULL DEFAULT NULL COMMENT '样点的id',
+  `latitude` decimal(10, 6) NULL DEFAULT NULL,
+  `longitude` decimal(10, 6) NULL DEFAULT NULL,
   `wheat_seed_weight` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '麦籽的重量',
   `disaster_type` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '灾害类型',
   `solution` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '防治措施',
   `create_time` datetime NULL DEFAULT CURRENT_TIMESTAMP,
   `update_time` datetime NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
   PRIMARY KEY (`id`) USING BTREE
-) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Records of t_wheat_yield_coll
 -- ----------------------------
+INSERT INTO `t_wheat_yield_coll` VALUES (3, 5, 1, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:38:37', '2022-07-28 15:38:37');
+INSERT INTO `t_wheat_yield_coll` VALUES (4, 5, 1, NULL, NULL, NULL, NULL, NULL, '2022-07-28 15:39:40', '2022-07-28 15:39:40');
 
 SET FOREIGN_KEY_CHECKS = 1;
