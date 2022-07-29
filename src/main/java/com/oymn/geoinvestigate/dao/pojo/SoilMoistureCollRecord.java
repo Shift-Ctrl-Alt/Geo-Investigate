@@ -16,8 +16,8 @@ public class SoilMoistureCollRecord {
     @ApiModelProperty("主记录的id")
     private Long recordId;
     
-    @ApiModelProperty("样点的id,前端自动生成")
-    private Long siteId;
+    //@ApiModelProperty("样点的id,前端自动生成")
+    //private Long siteId;
 
     @ApiModelProperty("纬度")
     private Double latitude;   //纬度
@@ -52,10 +52,9 @@ public class SoilMoistureCollRecord {
     public SoilMoistureCollRecord() {
     }
 
-    public SoilMoistureCollRecord(Long id, Long recordId, Long siteId, String soilType, String depth_10, String depth_20, String depth_30, String airTemp, String airMoisture) {
+    public SoilMoistureCollRecord(Long id, Long recordId, String soilType, String depth_10, String depth_20, String depth_30, String airTemp, String airMoisture) {
         this.id = id;
         this.recordId = recordId;
-        this.siteId = siteId;
         this.soilType = soilType;
         this.depth_10 = depth_10;
         this.depth_20 = depth_20;

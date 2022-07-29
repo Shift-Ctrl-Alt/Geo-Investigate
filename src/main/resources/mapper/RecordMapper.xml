@@ -39,12 +39,12 @@
         VALUES(#{recordId}, #{latitude}, #{longitude}, #{soilMoisture}, #{soilTemp}, #{airMoisture}, #{airTemp}) 
     </insert>
     <insert id="addSoilMoistureCollRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_soil_moisture_coll(record_id, site_id, latitude, longitude, soil_type, depth_10, depth_20, depth_30, air_temp, air_moisture) 
-        values (#{recordId}, #{siteId}, #{latitude}, #{longitude}, #{soilType}, #{depth_10}, #{depth_20}, #{depth_30}, #{airTemp}, #{airMoisture})
+        insert into t_soil_moisture_coll(record_id, latitude, longitude, soil_type, depth_10, depth_20, depth_30, air_temp, air_moisture) 
+        values (#{recordId}, #{latitude}, #{longitude}, #{soilType}, #{depth_10}, #{depth_20}, #{depth_30}, #{airTemp}, #{airMoisture})
     </insert>
     <insert id="addWheatYieldCollRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_wheat_yield_coll(record_id, site_id, latitude, longitude, wheat_seed_weight, disaster_type, solution)
-         VALUES(#{recordId}, #{siteId}, #{latitude}, #{longitude}, #{wheatSeedWeight}, #{disasterType}, #{solution}) 
+        insert into t_wheat_yield_coll(record_id, latitude, longitude, wheat_seed_weight, disaster_type, solution)
+         VALUES(#{recordId}, #{latitude}, #{longitude}, #{wheatSeedWeight}, #{disasterType}, #{solution}) 
     </insert>
 
     <update id="updateMainRecord">
@@ -425,13 +425,13 @@
     </select>
     <select id="getSoilMoistureCollRecordsByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.SoilMoistureCollRecord">
-        select id, record_id recordId, latitude, longitude, site_id siteId, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
+        select id, record_id recordId, latitude, longitude, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
         from t_soil_moisture_coll
         where record_id = #{recordId}
     </select>
     <select id="getWheatYieldCollRecordsbyRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.WheatYieldCollRecord">
-        select id, record_id recordId, latitude, longitude, site_id siteId, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
+        select id, record_id recordId, latitude, longitude, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
         from t_wheat_yield_coll
         where record_id = #{recordId}
     </select>
@@ -472,13 +472,13 @@
 
     <select id="getSoilMoistureCollRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.SoilMoistureCollRecord">
-        select id, record_id recordId, latitude, longitude, site_id siteId, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
+        select id, record_id recordId, latitude, longitude, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
         from t_soil_moisture_coll
         where id = #{id}
     </select>
     <select id="getWheatYieldCollRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.WheatYieldCollRecord">
-        select id, record_id recordId, latitude, longitude, site_id siteId, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
+        select id, record_id recordId, latitude, longitude, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
         from t_wheat_yield_coll
         where id = #{id}
     </select>

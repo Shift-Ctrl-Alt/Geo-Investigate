@@ -61,11 +61,17 @@ public class RecordVo {
     @ApiModelProperty("环境要素表")
     private List<EnvironmentFactorRecord> environmentFactorRecord;
     
-    @ApiModelProperty("土壤湿度采集表,key是样点id,value是每个土壤实体类")
-    private Map<Long, List<SoilMoistureCollRecord>> soilMoistureCollRecords;    
-    
-    @ApiModelProperty("小麦产量采集表,key是样点id,value是每个小麦实体类")
-    private Map<Long,List<WheatYieldCollRecord>> wheatYieldCollRecords;
+    //@ApiModelProperty("土壤湿度采集表,key是样点id,value是每个土壤实体类")
+    //private Map<Long, List<SoilMoistureCollRecord>> soilMoistureCollRecords;    
+    //
+    //@ApiModelProperty("小麦产量采集表,key是样点id,value是每个小麦实体类")
+    //private Map<Long,List<WheatYieldCollRecord>> wheatYieldCollRecords;
+
+    @ApiModelProperty("土壤湿度采集表,每一条表示一个样点")
+    private List<SoilMoistureCollRecord> soilMoistureCollRecords;
+
+    @ApiModelProperty("小麦产量采集表,每一条表示一个样点")
+    private List<WheatYieldCollRecord> wheatYieldCollRecords;
 
     public RecordVo() {
     }

@@ -17,8 +17,8 @@ public class WheatYieldCollRecord {
     @ApiModelProperty("主记录的id")
     private Long recordId;
     
-    @ApiModelProperty("样点的id，前端生成")
-    private Long siteId;
+    //@ApiModelProperty("样点的id，前端生成")
+    //private Long siteId;
 
     @ApiModelProperty("纬度")
     private Double latitude;   //纬度
@@ -44,10 +44,9 @@ public class WheatYieldCollRecord {
     public WheatYieldCollRecord() {
     }
 
-    public WheatYieldCollRecord(Long id, Long recordId, Long siteId, String disasterType, String solution, String wheatSeedWeight) {
+    public WheatYieldCollRecord(Long id, Long recordId, String disasterType, String solution, String wheatSeedWeight) {
         this.id = id;
         this.recordId = recordId;
-        this.siteId = siteId;
         this.disasterType = disasterType;
         this.solution = solution;
         this.wheatSeedWeight = wheatSeedWeight;

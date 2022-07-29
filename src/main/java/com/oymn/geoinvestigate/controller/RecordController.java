@@ -307,10 +307,9 @@ public class RecordController {
     @ApiOperation("添加一条空的土壤湿度采集表")
     @PostMapping("soil-moisture-coll-record")
     @CheckUserForAddRecord
-    public Result<Long> addSoilMoistureCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId, @ApiParam("样点号") @RequestParam Long siteId) {
+    public Result<Long> addSoilMoistureCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         SoilMoistureCollRecord soilMoistureCollRecord = new SoilMoistureCollRecord();
         soilMoistureCollRecord.setRecordId(mainRecordId);
-        soilMoistureCollRecord.setSiteId(siteId);
         Long id = recordService.addSoilMoistureCollRecord(soilMoistureCollRecord);
         return Result.success(id);
     }
@@ -334,10 +333,9 @@ public class RecordController {
     @ApiOperation("添加一条空的小麦产量表记录")
     @PostMapping("wheat-yield-coll-record")
     @CheckUserForAddRecord
-    public Result<Long> addWheatYieldCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId, @ApiParam("样点号") @RequestParam Long siteId) {
+    public Result<Long> addWheatYieldCollRecord(@ApiParam("主记录的id") @RequestParam Long mainRecordId) {
         WheatYieldCollRecord wheatYieldCollRecord = new WheatYieldCollRecord();
         wheatYieldCollRecord.setRecordId(mainRecordId);
-        wheatYieldCollRecord.setSiteId(siteId);
         Long id = recordService.addWheatYieldCollRecord(wheatYieldCollRecord);
         return Result.success(id);
     }
