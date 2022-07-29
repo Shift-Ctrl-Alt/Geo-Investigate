@@ -47,6 +47,8 @@ public class PestSurveyUAVRecordVo {
     public void setPestSurveyUAVRecord(PestSurveyUAVRecord pestSurveyUAVRecord){
         this.id = pestSurveyUAVRecord.getId();
         this.recordId = pestSurveyUAVRecord.getRecordId();
+        this.latitude = pestSurveyUAVRecord.getLatitude();
+        this.longitude = pestSurveyUAVRecord.getLongitude();
         this.pestType = pestSurveyUAVRecord.getPestType();
         this.quadratCanopyImg = pestSurveyUAVRecord.getQuadratCanopyImg();
     }

@@ -47,6 +47,8 @@ public class PestCollRecordVo {
     public void setPestCollRecord(PestCollRecord pestCollRecord){
         this.id = pestCollRecord.getId();
         this.recordId = pestCollRecord.getRecordId();
+        this.latitude = pestCollRecord.getLatitude();
+        this.longitude = pestCollRecord.getLongitude();
         this.pestType = pestCollRecord.getPestType();
         this.quadratCanopyImg = pestCollRecord.getQuadratCanopyImg();
     }
