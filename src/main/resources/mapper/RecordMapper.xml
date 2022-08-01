@@ -3,52 +3,63 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.oymn.geoinvestigate.dao.mapper.RecordDao">
     <insert id="addMainRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_record(user_id, latitude, longitude, survey_time, land_msg, crop_type, crop_variety, sp_canopy_img, note) 
-        VALUES(#{userId}, #{latitude}, #{longitude}, #{surveyTime}, #{landMsg}, #{cropType}, #{cropVariety}, #{spCanopyImg}, #{note})
+        insert into t_record(user_id, latitude, longitude, survey_time, land_msg, crop_type, crop_variety,
+                             sp_canopy_img, note)
+        VALUES (#{userId}, #{latitude}, #{longitude}, #{surveyTime}, #{landMsg}, #{cropType}, #{cropVariety},
+                #{spCanopyImg}, #{note})
     </insert>
     <insert id="addDiseaseSamCollRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_disease_sample_coll(record_id, latitude, longitude, disease_type, survey_leaves, diseased_leaves, quadrat_canopy_img, quadrat_leaves_img) 
-        VALUES(#{recordId}, #{latitude}, #{longitude}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves}, #{quadratCanopyImg}, #{quadratLeavesImg}) 
+        insert into t_disease_sample_coll(record_id, latitude, longitude, disease_type, survey_leaves, diseased_leaves,
+                                          quadrat_canopy_img, quadrat_leaves_img)
+        VALUES (#{recordId}, #{latitude}, #{longitude}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves},
+                #{quadratCanopyImg}, #{quadratLeavesImg})
     </insert>
     <insert id="addDiseaseSysSurveyRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_disease_sys_survey(record_id, latitude, longitude, disease_type, survey_leaves, diseased_leaves, quadrat_canopy_img, quadrat_leaves_img) 
-        VALUES (#{recordId}, #{latitude}, #{longitude}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves}, #{quadratCanopyImg}, #{quadratLeavesImg})
+        insert into t_disease_sys_survey(record_id, latitude, longitude, disease_type, survey_leaves, diseased_leaves,
+                                         quadrat_canopy_img, quadrat_leaves_img)
+        VALUES (#{recordId}, #{latitude}, #{longitude}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves},
+                #{quadratCanopyImg}, #{quadratLeavesImg})
     </insert>
     <insert id="addDiseaseDataCollUAVRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_disease_data_coll_nav(record_id, latitude, longitude, disease_type, survey_leaves, diseased_leaves, site_canopy_img) 
-        VALUES (#{recordId}, #{latitude}, #{longitude}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves}, #{siteCanopyImg})
+        insert into t_disease_data_coll_nav(record_id, latitude, longitude, disease_type, survey_leaves,
+                                            diseased_leaves, site_canopy_img)
+        VALUES (#{recordId}, #{latitude}, #{longitude}, #{diseaseType}, #{surveyLeaves}, #{diseasedLeaves},
+                #{siteCanopyImg})
     </insert>
     <insert id="addPestCollRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_pest_collection(record_id, latitude, longitude, pest_type, quadrat_canopy_img) 
-        VALUES (#{recordId}, #{latitude}, #{longitude}, #{pestType}, #{quadratCanopyImg}) 
+        insert into t_pest_collection(record_id, latitude, longitude, pest_type, quadrat_canopy_img)
+        VALUES (#{recordId}, #{latitude}, #{longitude}, #{pestType}, #{quadratCanopyImg})
     </insert>
     <insert id="addPestImgRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_pest_img(pest_coll_record_id, img) 
+        insert into t_pest_img(pest_coll_record_id, img)
         values (#{pestCollRecordId}, #{img})
     </insert>
     <insert id="addPestSurveyUAVRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_pest_survey_uav(record_id, latitude, longitude, pest_type, quadrat_canopy_img) 
+        insert into t_pest_survey_uav(record_id, latitude, longitude, pest_type, quadrat_canopy_img)
         values (#{recordId}, #{latitude}, #{longitude}, #{pestType}, #{quadratCanopyImg})
     </insert>
     <insert id="addPestUAVImgRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_pest_uav_img(pest_survey_uav_record_id, img) 
-        VALUES(#{pestSurveyUAVRecordId}, #{img}) 
+        insert into t_pest_uav_img(pest_survey_uav_record_id, img)
+        VALUES (#{pestSurveyUAVRecordId}, #{img})
     </insert>
     <insert id="addEnvironmentFactor" useGeneratedKeys="true" keyProperty="id">
-        insert into t_environment_factor(record_id, latitude, longitude, soil_moisture, soil_temp, air_moisture, air_temp) 
-        VALUES(#{recordId}, #{latitude}, #{longitude}, #{soilMoisture}, #{soilTemp}, #{airMoisture}, #{airTemp}) 
+        insert into t_environment_factor(record_id, latitude, longitude, soil_moisture, soil_temp, air_moisture,
+                                         air_temp)
+        VALUES (#{recordId}, #{latitude}, #{longitude}, #{soilMoisture}, #{soilTemp}, #{airMoisture}, #{airTemp})
     </insert>
     <insert id="addSoilMoistureCollRecord" useGeneratedKeys="true" keyProperty="id">
-        insert into t_soil_moisture_coll(record_id, latitude, longitude, soil_type, depth_10, depth_20, depth_30, air_temp, air_moisture) 
-        values (#{recordId}, #{latitude}, #{longitude}, #{soilType}, #{depth_10}, #{depth_20}, #{depth_30}, #{airTemp}, #{airMoisture})
+        insert into t_soil_moisture_coll(record_id, latitude, longitude, soil_type, depth_10, depth_20, depth_30,
+                                         air_temp, air_moisture)
+        values (#{recordId}, #{latitude}, #{longitude}, #{soilType}, #{depth_10}, #{depth_20}, #{depth_30}, #{airTemp},
+                #{airMoisture})
     </insert>
     <insert id="addWheatYieldCollRecord" useGeneratedKeys="true" keyProperty="id">
         insert into t_wheat_yield_coll(record_id, latitude, longitude, wheat_seed_weight, disaster_type, solution)
-         VALUES(#{recordId}, #{latitude}, #{longitude}, #{wheatSeedWeight}, #{disasterType}, #{solution}) 
+        VALUES (#{recordId}, #{latitude}, #{longitude}, #{wheatSeedWeight}, #{disasterType}, #{solution})
     </insert>
 
     <update id="updateMainRecord">
-        update t_record 
+        update t_record
         <set>
             <if test="latitude != null and latitude != ''">
                 latitude = #{latitude},
@@ -105,7 +116,7 @@
             </if>
         </set>
         <where>
-              id = #{id}  
+            id = #{id}
         </where>
     </update>
     <update id="updateDiseaseSysSurveyRecord">
@@ -283,59 +294,95 @@
     </update>
 
     <delete id="deleteRecord">
-        delete from t_record where id = #{recordId}
+        delete
+        from t_record
+        where id = #{recordId}
     </delete>
     <delete id="deletePestImgRecordById">
-        delete from t_pest_img where id = #{pestImgRecordId}
+        delete
+        from t_pest_img
+        where id = #{pestImgRecordId}
     </delete>
     <delete id="deletePestUAVImgRecordById">
-        delete from t_pest_uav_img where id = #{pestUAVImgId}
+        delete
+        from t_pest_uav_img
+        where id = #{pestUAVImgId}
     </delete>
     <delete id="deleteDiseaseSamCollRecordById">
-        delete from t_disease_sample_coll where id = #{id}
+        delete
+        from t_disease_sample_coll
+        where id = #{id}
     </delete>
     <delete id="deleteDiseaseSysSurveyRecordById">
-        delete from t_disease_sys_survey where id = #{id}
+        delete
+        from t_disease_sys_survey
+        where id = #{id}
     </delete>
     <delete id="deleteDiseaseDataCollUAVRecordById">
-        delete from t_disease_data_coll_nav where id = #{id}
+        delete
+        from t_disease_data_coll_nav
+        where id = #{id}
     </delete>
     <delete id="deletePestCollRecordById">
-        delete from t_pest_collection where id = #{id}
+        delete
+        from t_pest_collection
+        where id = #{id}
     </delete>
     <delete id="deletePestSurveyUAVRecordById">
-        delete from t_pest_survey_uav where id = #{id}
+        delete
+        from t_pest_survey_uav
+        where id = #{id}
     </delete>
     <delete id="deleteEnvironmentFactorById">
-        delete from t_environment_factor where id = #{id}
+        delete
+        from t_environment_factor
+        where id = #{id}
     </delete>
     <delete id="deleteSoilMoistureCollRecordById">
-        delete from t_soil_moisture_coll where id = #{id}
+        delete
+        from t_soil_moisture_coll
+        where id = #{id}
     </delete>
 
     <delete id="deletePestImgRecordByPestCollRecordId">
-        delete from t_pest_img where pest_coll_record_id = #{pestCollRecordId}
+        delete
+        from t_pest_img
+        where pest_coll_record_id = #{pestCollRecordId}
     </delete>
     <delete id="deletePestUAVImgRecordByPestSurveyUAVRecordId">
-        delete from t_pest_uav_img where pest_survey_uav_record_id = #{pestSurveyUAVRecordId}
+        delete
+        from t_pest_uav_img
+        where pest_survey_uav_record_id = #{pestSurveyUAVRecordId}
     </delete>
     <delete id="deleteDiseaseSamCollRecordByRecordId">
-        delete from t_disease_sample_coll where record_id = #{recordId}
+        delete
+        from t_disease_sample_coll
+        where record_id = #{recordId}
     </delete>
     <delete id="deleteDiseaseSysSurveyRecordByRecordId">
-        delete from t_disease_sys_survey where record_id = #{recordId}
+        delete
+        from t_disease_sys_survey
+        where record_id = #{recordId}
     </delete>
     <delete id="deleteDiseaseDataCollUAVRecordByRecordId">
-        delete from t_disease_data_coll_nav where record_id = #{recordId}
+        delete
+        from t_disease_data_coll_nav
+        where record_id = #{recordId}
     </delete>
     <delete id="deletePestCollRecordByRecordId">
-        delete from t_pest_collection where record_id = #{recordId}
+        delete
+        from t_pest_collection
+        where record_id = #{recordId}
     </delete>
     <delete id="deletePestSurveyUAVRecordByRecordId">
-        delete from t_pest_survey_uav where record_id = #{recordId}
+        delete
+        from t_pest_survey_uav
+        where record_id = #{recordId}
     </delete>
     <delete id="deleteEnvironmentFactorByRecordId">
-        delete from t_environment_factor where record_id = #{recordId}
+        delete
+        from t_environment_factor
+        where record_id = #{recordId}
     </delete>
     <delete id="deleteSoilMoistureCollRecordByRecordId">
         delete
@@ -343,56 +390,122 @@
         where record_id = #{recordId};
     </delete>
     <delete id="deleteWheatYieldCollRecordByRecordId">
-        delete from t_wheat_yield_coll where record_id = #{recordId}
+        delete
+        from t_wheat_yield_coll
+        where record_id = #{recordId}
     </delete>
     <delete id="deleteWheatYieldCollRecordById">
-        delete from t_wheat_yield_coll where id = #{id}
+        delete
+        from t_wheat_yield_coll
+        where id = #{id}
     </delete>
 
 
     <select id="getRecords" parameterType="java.util.Map" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
-        select id, user_id userId, latitude, longitude, survey_time surveyTime, land_msg landMsg, crop_type cropType, crop_variety cropVariety, sp_canopy_img spCanopyImg, note, create_time createTime, update_time updateTime
+        select id,
+               user_id       userId,
+               latitude,
+               longitude,
+               survey_time   surveyTime,
+               land_msg      landMsg,
+               crop_type     cropType,
+               crop_variety  cropVariety,
+               sp_canopy_img spCanopyImg,
+               note,
+               create_time   createTime,
+               update_time   updateTime
         from t_record
         where user_id = #{userId}
         limit #{start}, #{pageSize}
     </select>
     <select id="getRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
-        select id, user_id userId, latitude, longitude, survey_time surveyTime, land_msg landMsg, crop_type cropType, crop_variety cropVariety, sp_canopy_img spCanopyImg, note, create_time createTime, update_time updateTime
+        select id,
+               user_id       userId,
+               latitude,
+               longitude,
+               survey_time   surveyTime,
+               land_msg      landMsg,
+               crop_type     cropType,
+               crop_variety  cropVariety,
+               sp_canopy_img spCanopyImg,
+               note,
+               create_time   createTime,
+               update_time   updateTime
         from t_record
         where id = #{recordId}
     </select>
     <select id="getUserIdByPestImgRecordId" resultType="java.lang.Long">
         select tr.user_id
-        from t_record tr  join t_pest_collection tpc join t_pest_img tpi
-        on tr.id = tpc.record_id and tpc.id = tpi.pest_coll_record_id
+        from t_record tr
+                 join t_pest_collection tpc
+                 join t_pest_img tpi
+                      on tr.id = tpc.record_id and tpc.id = tpi.pest_coll_record_id
         where tpi.id = #{pestImgRecordId}
     </select>
     <select id="getUserIdByPestUAVImgRecordId" resultType="java.lang.Long">
         select tr.user_id
-        from t_record tr join t_pest_survey_uav tpsu join t_pest_uav_img tpui
-        on tr.id = tpsu.record_id and tpsu.id = tpui.pest_survey_uav_record_id 
+        from t_record tr
+                 join t_pest_survey_uav tpsu
+                 join t_pest_uav_img tpui
+                      on tr.id = tpsu.record_id and tpsu.id = tpui.pest_survey_uav_record_id
         where tpui.id = #{pestUAVImgRecordId}
     </select>
     <select id="getDiseaseSamCollRecordByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSamCollRecord">
-        select id, record_id recordId, latitude, longitude, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratleavesImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               disease_type       diseaseType,
+               survey_leaves      surveyLeaves,
+               diseased_leaves    diseasedLeaves,
+               quadrat_canopy_img quadratCanopyImg,
+               quadrat_leaves_img quadratleavesImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_disease_sample_coll
         where record_id = #{recordId}
     </select>
     <select id="getDiseaseSysSurveyRecordByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSysSurveyRecord">
-        select id, record_id recordId, latitude, longitude, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratLeavesImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               disease_type       diseaseType,
+               survey_leaves      surveyLeaves,
+               diseased_leaves    diseasedLeaves,
+               quadrat_canopy_img quadratCanopyImg,
+               quadrat_leaves_img quadratLeavesImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_disease_sys_survey
         where record_id = #{recordId}
     </select>
     <select id="getDiseaseDataCollUAVRecordByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseDataCollUAVRecord">
-        select id, record_id recordId, latitude, longitude, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, site_canopy_img siteCanopyImg, create_time createTime, update_time updateTime
+        select id,
+               record_id       recordId,
+               latitude,
+               longitude,
+               disease_type    diseaseType,
+               survey_leaves   surveyLeaves,
+               diseased_leaves diseasedLeaves,
+               site_canopy_img siteCanopyImg,
+               create_time     createTime,
+               update_time     updateTime
         from t_disease_data_coll_nav
         where record_id = #{recordId}
     </select>
     <select id="getPestCollRecordByRecordId" resultType="com.oymn.geoinvestigate.dao.pojo.PestCollRecord">
-        select id, record_id recordId, latitude, longitude, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               pest_type          pestType,
+               quadrat_canopy_img quadratCanopyImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_pest_collection
         where record_id = #{recordId}
     </select>
@@ -403,7 +516,14 @@
     </select>
     <select id="getPestSurveyUAVRecordByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.PestSurveyUAVRecord">
-        select id, record_id recordId, latitude, longitude, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               pest_type          pestType,
+               quadrat_canopy_img quadratCanopyImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_pest_survey_uav
         where record_id = #{recordId}
     </select>
@@ -414,74 +534,171 @@
     </select>
     <select id="getEnvirongmentFactorByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.EnvironmentFactorRecord">
-        select id, record_id recordId, latitude, longitude, soil_moisture soilMoisture, soil_temp soilTemp, air_moisture airMoisture, air_temp airTemp, create_time createTime, update_time updateTime
+        select id,
+               record_id     recordId,
+               latitude,
+               longitude,
+               soil_moisture soilMoisture,
+               soil_temp     soilTemp,
+               air_moisture  airMoisture,
+               air_temp      airTemp,
+               create_time   createTime,
+               update_time   updateTime
         from t_environment_factor
         where record_id = #{recordId}
     </select>
     <select id="getSoilMoistureCollRecordsByRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.SoilMoistureCollRecord">
-        select id, record_id recordId, latitude, longitude, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
+        select id,
+               record_id    recordId,
+               latitude,
+               longitude,
+               soil_type    soilType,
+               depth_10,
+               depth_20,
+               depth_30,
+               air_temp     airTemp,
+               air_moisture airMoisture,
+               create_time  createTime,
+               update_time  updateTime
         from t_soil_moisture_coll
         where record_id = #{recordId}
     </select>
     <select id="getWheatYieldCollRecordsbyRecordId"
             resultType="com.oymn.geoinvestigate.dao.pojo.WheatYieldCollRecord">
-        select id, record_id recordId, latitude, longitude, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
+        select id,
+               record_id         recordId,
+               latitude,
+               longitude,
+               wheat_seed_weight wheatSeedWeight,
+               disaster_type     disasterType,
+               solution          solution,
+               create_time       createTime,
+               update_time       updateTime
         from t_wheat_yield_coll
         where record_id = #{recordId}
     </select>
     <select id="getDiseaseSamCollRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSamCollRecord">
-        select id, record_id recordId, latitude, longitude, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratleavesImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               disease_type       diseaseType,
+               survey_leaves      surveyLeaves,
+               diseased_leaves    diseasedLeaves,
+               quadrat_canopy_img quadratCanopyImg,
+               quadrat_leaves_img quadratleavesImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_disease_sample_coll
         where id = #{id}
     </select>
     <select id="getDiseaseSysSurveyRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseSysSurveyRecord">
-        select id, record_id recordId, latitude, longitude, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, quadrat_canopy_img quadratCanopyImg, quadrat_leaves_img quadratLeavesImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               disease_type       diseaseType,
+               survey_leaves      surveyLeaves,
+               diseased_leaves    diseasedLeaves,
+               quadrat_canopy_img quadratCanopyImg,
+               quadrat_leaves_img quadratLeavesImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_disease_sys_survey
         where id = #{id}
     </select>
     <select id="getDiseaseDataCollUAVRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.DiseaseDataCollUAVRecord">
-        select id, record_id recordId, latitude, longitude, disease_type diseaseType, survey_leaves surveyLeaves, diseased_leaves diseasedLeaves, site_canopy_img siteCanopyImg, create_time createTime, update_time updateTime
+        select id,
+               record_id       recordId,
+               latitude,
+               longitude,
+               disease_type    diseaseType,
+               survey_leaves   surveyLeaves,
+               diseased_leaves diseasedLeaves,
+               site_canopy_img siteCanopyImg,
+               create_time     createTime,
+               update_time     updateTime
         from t_disease_data_coll_nav
         where id = #{id}
     </select>
     <select id="getPestCollRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.PestCollRecord">
-        select id, record_id recordId, latitude, longitude, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               pest_type          pestType,
+               quadrat_canopy_img quadratCanopyImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_pest_collection
         where id = #{id}
     </select>
     <select id="getPestSurveyUAVRecordById" resultType="com.oymn.geoinvestigate.dao.pojo.PestSurveyUAVRecord">
-        select id, record_id recordId, latitude, longitude, pest_type pestType, quadrat_canopy_img quadratCanopyImg, create_time createTime, update_time updateTime
+        select id,
+               record_id          recordId,
+               latitude,
+               longitude,
+               pest_type          pestType,
+               quadrat_canopy_img quadratCanopyImg,
+               create_time        createTime,
+               update_time        updateTime
         from t_pest_survey_uav
         where id = #{id}
     </select>
     <select id="getEnvironmentFactorRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.EnvironmentFactorRecord">
-        select id, record_id recordId, latitude, longitude, soil_moisture soilMoisture, soil_temp soilTemp, air_moisture airMoisture, air_temp airTemp, create_time createTime, update_time updateTime
+        select id,
+               record_id     recordId,
+               latitude,
+               longitude,
+               soil_moisture soilMoisture,
+               soil_temp     soilTemp,
+               air_moisture  airMoisture,
+               air_temp      airTemp,
+               create_time   createTime,
+               update_time   updateTime
         from t_environment_factor
         where id = #{id}
     </select>
 
     <select id="getSoilMoistureCollRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.SoilMoistureCollRecord">
-        select id, record_id recordId, latitude, longitude, soil_type soilType, depth_10, depth_20, depth_30, air_temp airTemp, air_moisture airMoisture, create_time createTime, update_time updateTime
+        select id,
+               record_id    recordId,
+               latitude,
+               longitude,
+               soil_type    soilType,
+               depth_10,
+               depth_20,
+               depth_30,
+               air_temp     airTemp,
+               air_moisture airMoisture,
+               create_time  createTime,
+               update_time  updateTime
         from t_soil_moisture_coll
         where id = #{id}
     </select>
     <select id="getWheatYieldCollRecordById"
             resultType="com.oymn.geoinvestigate.dao.pojo.WheatYieldCollRecord">
-        select id, record_id recordId, latitude, longitude, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
+        select id,
+               record_id         recordId,
+               latitude,
+               longitude,
+               wheat_seed_weight wheatSeedWeight,
+               disaster_type     disasterType,
+               solution          solution,
+               create_time       createTime,
+               update_time       updateTime
         from t_wheat_yield_coll
         where id = #{id}
-    </select> 
+    </select>
     <select id="getRecordCount" resultType="java.lang.Integer">
-        select count(*) from
-            (select *
-             from t_record
-             where user_id = #{userId}
-             limit #{start}, #{pageSize}) t
+        select count(1)
+        from t_record
+        where user_id = #{userId}
     </select>
 </mapper>

@@ -156,7 +156,7 @@ public class RecordServiceImpl implements RecordService {
         params.put("start", (pageNo - 1) * pageSize);
         params.put("pageSize", pageSize);
 
-        //获取本次查询到的真实数据条数
+  
         int count = recordDao.getRecordCount(params);
         List<Record> recordList = new ArrayList<>();
         if (count > 0) {
