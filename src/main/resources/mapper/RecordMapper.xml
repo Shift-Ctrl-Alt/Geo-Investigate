@@ -349,12 +349,7 @@
         delete from t_wheat_yield_coll where id = #{id}
     </delete>
 
-    <select id="getRecordCount" parameterType="java.util.Map" resultType="java.lang.Integer">
-        select count(1)
-        from t_record
-        where user_id = #{userId}
-        limit #{start}, #{pageSize}
-    </select>
+
     <select id="getRecords" parameterType="java.util.Map" resultType="com.oymn.geoinvestigate.dao.pojo.Record">
         select id, user_id userId, latitude, longitude, survey_time surveyTime, land_msg landMsg, crop_type cropType, crop_variety cropVariety, sp_canopy_img spCanopyImg, note, create_time createTime, update_time updateTime
         from t_record
@@ -481,5 +476,12 @@
         select id, record_id recordId, latitude, longitude, wheat_seed_weight wheatSeedWeight, disaster_type disasterType, solution solution, create_time createTime, update_time updateTime
         from t_wheat_yield_coll
         where id = #{id}
+    </select> 
+    <select id="getRecordCount" resultType="java.lang.Integer">
+        select count(*) from
+            (select *
+             from t_record
+             where user_id = #{userId}
+             limit #{start}, #{pageSize}) t
     </select>
 </mapper>

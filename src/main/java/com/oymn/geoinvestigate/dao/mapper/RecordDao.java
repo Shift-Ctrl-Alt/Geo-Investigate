@@ -12,7 +12,7 @@ public interface RecordDao {
     
     void addMainRecord(Record record);
 
-    Integer getRecordCount(Map<String, Object> params);
+    int getRecordCount(Map<String, Object> params);
 
     List<Record> getRecords(Map<String, Object> params);
 
